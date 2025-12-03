@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_coinlist_title">Top Coins</string>
+    <string name="feature_coinlist_sort_best">Best</string>
+    <string name="feature_coinlist_sort_worst">Worst</string>
+    <string name="feature_coinlist_updated_at">Updated at %s</string>
+</resources>
