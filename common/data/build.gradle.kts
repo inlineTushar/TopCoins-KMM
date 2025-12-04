@@ -14,9 +14,17 @@ dependencies {
     // Data layer depends on domain layer
     implementation(project(":common:domain"))
 
-    api(libs.retrofit)
-    api(libs.retrofit.kotlinx.serialization)
+    // Ktor - Networking
+    api(libs.ktor.client.core)
+    api(libs.ktor.client.android)
+    api(libs.ktor.client.content.negotiation)
+    api(libs.ktor.serialization.kotlinx.json)
+    api(libs.ktor.client.logging)
+    api(libs.ktor.client.auth)
+
+    // Serialization
     api(libs.kotlinx.serialization.json)
-    api(libs.okhttp)
-    api(libs.okhttp.logging)
+
+    // Testing
+    testImplementation(libs.ktor.client.mock)
 }

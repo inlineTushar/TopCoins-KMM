@@ -3,17 +3,37 @@ package com.tushar.data.datasource.remote.api
 import com.tushar.data.datasource.remote.model.CoinApiDetailResponse
 import com.tushar.data.datasource.remote.model.CoinsApiResponse
 import com.tushar.data.datasource.remote.model.ConversionRateApiResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 
-interface CoinApiService : CoinCoroutinesRemoteService {
+/**
+ * Ktor-based API service for cryptocurrency data.
+ * Replaces Retrofit with Ktor for more idiomatic Kotlin networking.
+ */
+class CoinApiService(
+    private val client: HttpClient,
+    private val baseUrl: String
+) {
 
-    @GET("assets")
-    suspend fun getCoins(): CoinsApiResponse
+    /**
+     * Get list of all coins
+     */
+    suspend fun getCoins(): CoinsApiResponse {
+        return client.get("$baseUrl/assets").body()
+    }
 
-    @GET("assets/{coin_name}")
-    suspend fun getCoin(@Path("coin_name") coinName: String): CoinApiDetailResponse
+    /**
+     * Get details of a specific coin
+     */
+    suspend fun getCoin(coinName: String): CoinApiDetailResponse {
+        return client.get("$baseUrl/assets/$coinName").body()
+    }
 
-    @GET("rates/{currency}")
-    suspend fun getRates(@Path("currency") currency: String): ConversionRateApiResponse
+    /**
+     * Get conversion rates for a specific currency
+     */
+    suspend fun getRates(currency: String): ConversionRateApiResponse {
+        return client.get("$baseUrl/rates/$currency").body()
+    }
 }
