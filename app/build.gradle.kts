@@ -31,11 +31,11 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".topcoin.debug"
+            applicationIdSuffix = ".kmm.debug"
             signingConfig = signingConfigs.getByName("debugSign")
         }
         release {
-            applicationIdSuffix = ".topcoin.release"
+            applicationIdSuffix = ".kmm.release"
             signingConfig = signingConfigs.getByName("releaseSign")
             isMinifyEnabled = true
             proguardFiles(

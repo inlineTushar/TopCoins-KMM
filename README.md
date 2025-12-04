@@ -211,3 +211,128 @@ The app requires signing configurations for both debug and release builds.
 # Release build
 ./gradlew assembleRelease
 ```
+
+---
+
+## 🍎 iOS Support (Kotlin Multiplatform)
+
+The project supports **iOS** through **Kotlin Multiplatform (KMP)**. The `:shared` module acts as an
+umbrella module that contains all multiplatform code and dependencies.
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│          iOS App (SwiftUI)                  │
+│  ┌───────────────────────────────────────┐  │
+│  │   ContentView                         │  │
+│  │   (UIViewControllerRepresentable)     │  │
+│  └───────────────┬───────────────────────┘  │
+└────────────────┼───────────────────────────┘
+                 │
+                 ▼
+┌─────────────────────────────────────────────┐
+│     :shared (Umbrella Module)               │
+│  ┌───────────────────────────────────────┐  │
+│  │  MainViewController()                 │  │
+│  │  Returns ComposeUIViewController      │  │
+│  └───────────────────────────────────────┘  │
+│                                             │
+│  Dependencies (all exported to iOS):       │
+│  • :common:ui                              │
+│  • :common:data                            │
+│  • :common:domain                          │
+│  • :feature:coinlist                       │
+└─────────────────────────────────────────────┘
+```
+
+### iOS Project Setup
+
+The iOS app is located in the `iosApp/` directory. It's a standard SwiftUI app that hosts the
+Compose UI.
+
+**Key Files**:
+
+- `shared/src/iosMain/kotlin/com/tushar/shared/MainViewController.kt` - Kotlin entry point for iOS
+- `iosApp/iosApp/ContentView.swift` - SwiftUI view that wraps the Compose UI
+- `iosApp/iosApp/iOSApp.swift` - iOS app entry point
+
+### Building for iOS
+
+#### Quick Start (Xcode)
+
+1. **Build the shared framework:**
+   ```bash
+   ./build-ios-framework.sh
+   ```
+
+2. **Open in Xcode:**
+   ```bash
+   open iosApp/iosApp.xcodeproj
+   ```
+
+3. **Select a simulator and run** (⌘R)
+
+#### Manual Build
+
+```bash
+# Build the framework
+./gradlew :shared:embedAndSignAppleFrameworkForXcode
+
+# Or build XCFramework
+./gradlew :shared:assembleSharedDebugXCFramework    # Debug
+./gradlew :shared:assembleSharedReleaseXCFramework  # Release
+```
+
+### How It Works
+
+1. **Kotlin Side** (`shared/src/iosMain`):
+   ```kotlin
+   fun MainViewController(): UIViewController {
+       return ComposeUIViewController {
+           AppTheme {
+               CoinListScreen()
+           }
+       }
+   }
+   ```
+
+2. **Swift Side** (`iosApp/ContentView.swift`):
+   ```swift
+   struct ComposeView: UIViewControllerRepresentable {
+       func makeUIViewController(context: Context) -> UIViewController {
+           return MainViewControllerKt.MainViewController()
+       }
+   }
+   ```
+
+3. **Automatic Build**: Xcode project includes a build phase that automatically builds the Kotlin
+   framework before compiling Swift code
+
+### iOS Module Structure
+
+- **:shared** - Umbrella module that exports all multiplatform modules to iOS
+- **:common:ui** - Shared UI components and theme (used by iOS)
+- **:common:data** - Data layer with Ktor for networking (cross-platform)
+- **:common:domain** - Business logic (cross-platform)
+- **:feature:coinlist** - Coin list feature (cross-platform)
+
+**Note**: `:common:navigation` is Android-only and not included in the iOS build.
+
+### Platform Differences
+
+| Component      | Android                    | iOS                                       |
+|----------------|----------------------------|-------------------------------------------|
+| **UI**         | Compose Multiplatform      | Compose Multiplatform (via UIKit wrapper) |
+| **Navigation** | Jetpack Navigation Compose | Planned: Compose Navigation or SwiftUI    |
+| **Networking** | Ktor                       | Ktor                                      |
+| **DI**         | Koin                       | Koin                                      |
+| **ViewModels** | Lifecycle ViewModel        | Lifecycle ViewModel (KMP)                 |
+
+### Detailed iOS Documentation
+
+For comprehensive iOS setup instructions, troubleshooting, and advanced topics, see:
+
+- **[iosApp/README.md](iosApp/README.md)** - Complete iOS setup guide
+
+---
