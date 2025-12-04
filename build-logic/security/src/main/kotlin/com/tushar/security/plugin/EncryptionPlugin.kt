@@ -30,6 +30,7 @@ class EncryptionPlugin : Plugin<Project> {
 
                 if (appExtension != null) {
                     // For application modules, get version from defaultConfig
+                    // Use src/main/res/raw for app modules (not KMM)
                     val resRawDir = target.layout.projectDirectory.dir("src/main/res/raw")
                     val vCode = appExtension.defaultConfig.versionCode ?: 1
                     val vName = appExtension.defaultConfig.versionName ?: "1.0.0"
@@ -62,13 +63,24 @@ class EncryptionPlugin : Plugin<Project> {
                         logger.warn("Encryption [${target.name}]: No app module found. Using default version - versionCode: $versionCodeValue, versionName: $versionNameValue")
                     }
 
-                    val resRawDir = target.layout.projectDirectory.dir("src/main/res/raw")
+                    // Check if this is a KMM module (has kotlin multiplatform plugin)
+                    val isKmmModule = target.plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
+                    val resRawDir = if (isKmmModule) {
+                        // KMM modules: use androidMain/res/raw
+                        target.layout.projectDirectory.dir("src/androidMain/res/raw")
+                    } else {
+                        // Regular Android libraries: use src/main/res/raw
+                        target.layout.projectDirectory.dir("src/main/res/raw")
+                    }
 
                     encryptTask.configure {
                         versionCode.set(versionCodeValue)
                         versionName.set(versionNameValue)
                         outputFile.set(resRawDir.file("key.properties"))
                     }
+
+                    val outputPath = if (isKmmModule) "androidMain/res/raw" else "src/main/res/raw"
+                    logger.lifecycle("Encryption [${target.name}]: Output to $outputPath (KMM: $isKmmModule)")
                 } else {
                     // For non-Android modules
                     logger.warn("Encryption [${target.name}]: Android extension not found. Encryption requires an Android module.")

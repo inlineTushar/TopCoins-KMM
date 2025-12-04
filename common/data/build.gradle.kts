@@ -1,30 +1,75 @@
 plugins {
-    alias(libs.plugins.local.library)
-    alias(libs.plugins.local.library.koin)
-    alias(libs.plugins.local.library.test)
-    alias(libs.plugins.local.encryption)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.local.multiplatform)
+    alias(libs.plugins.local.encryption)  // Keep for Android
+    alias(libs.plugins.buildkonfig)       // For iOS build-time configuration
+    alias(libs.plugins.local.library.koin) // Koin DI (KMM-aware)
+    alias(libs.plugins.local.library.test) // Test dependencies (KMM-aware)
 }
 
 android {
     namespace = "com.tushar.data"
 }
 
-dependencies {
-    // Data layer depends on domain layer
-    implementation(project(":common:domain"))
+buildkonfig {
+    packageName = "com.tushar.data"
 
-    // Ktor - Networking
-    api(libs.ktor.client.core)
-    api(libs.ktor.client.android)
-    api(libs.ktor.client.content.negotiation)
-    api(libs.ktor.serialization.kotlinx.json)
-    api(libs.ktor.client.logging)
-    api(libs.ktor.client.auth)
+    // Default config (used for all platforms unless overridden)
+    defaultConfigs {
+        // Read COIN_AUTH_KEY from secret/key.properties at build time
+        val keyPropsFile = rootProject.file("secret/key.properties")
+        val coinAuthKey = if (keyPropsFile.exists()) {
+            // Read file line by line to extract COIN_AUTH_KEY
+            keyPropsFile.readLines()
+                .firstOrNull { it.startsWith("COIN_AUTH_KEY=") }
+                ?.substringAfter("COIN_AUTH_KEY=")
+                ?.trim()
+                ?: ""
+        } else {
+            // Fallback if secret file doesn't exist
+            ""
+        }
 
-    // Serialization
-    api(libs.kotlinx.serialization.json)
+        buildConfigField(com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING, "COIN_AUTH_KEY", coinAuthKey)
+    }
+}
 
-    // Testing
-    testImplementation(libs.ktor.client.mock)
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            // Domain layer
+            implementation(project(":common:domain"))
+
+            // Ktor - Networking (multiplatform)
+            api(libs.ktor.client.core)
+            api(libs.ktor.client.content.negotiation)
+            api(libs.ktor.serialization.kotlinx.json)
+            api(libs.ktor.client.logging)
+            api(libs.ktor.client.auth)
+
+            // Serialization
+            api(libs.kotlinx.serialization.json)
+
+            // Note: Koin dependencies added by LibraryKoinConventionPlugin
+        }
+
+        androidMain.dependencies {
+            // Android-specific Ktor engine
+            implementation(libs.ktor.client.android)
+
+            // Note: koin-android added by LibraryKoinConventionPlugin
+        }
+
+        iosMain.dependencies {
+            // iOS-specific Ktor engine
+            implementation(libs.ktor.client.darwin)
+        }
+
+        commonTest.dependencies {
+            implementation(libs.ktor.client.mock)
+
+            // Note: All standard test dependencies (kotlin.test, mockk, assertk, etc.) 
+            //       added by LibraryTestConventionPlugin
+            // Note: koin-test added by LibraryKoinConventionPlugin
+        }
+    }
 }
