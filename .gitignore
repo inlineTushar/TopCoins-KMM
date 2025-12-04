@@ -227,6 +227,13 @@ lint/tmp/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# Kotlin metadata (KMM/Multiplatform)
+.kotlin/
+**/.kotlin/
+**/kotlin/metadata/
+.kotlin/sessions/
+.kotlin/errors/
+
 # skip release output
 app/release/**
 

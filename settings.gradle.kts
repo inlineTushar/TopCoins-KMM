@@ -19,6 +19,9 @@ rootProject.name = "Top Coins"
 
 include(":app")
 
+// Shared KMM module
+include(":shared")
+
 // Common modules
 include(":common:data")
 include(":common:domain")

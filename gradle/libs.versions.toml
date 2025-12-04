@@ -120,6 +120,7 @@ okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor",
 # Ktor - Networking (Active)
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -186,3 +187,5 @@ local-application = { id = "android.application" }  # → ApplicationConventionP
 local-lint = { id = "android.lint" }  # → LintConventionPlugin
 # Encryption plugin for encrypting sensitive files during build
 local-encryption = { id = "android.encryption" }  # → EncryptionPlugin
+# Multiplatform conversion plugin for KMM modules
+local-multiplatform = { id = "android.multiplatform.conversion" }  # → MultiplatformConversionPlugin

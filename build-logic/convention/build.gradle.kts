@@ -74,5 +74,9 @@ gradlePlugin {
             id = libs.plugins.local.lint.get().pluginId
             implementationClass = "com.tushar.plugin.LintConventionPlugin"
         }
+        register("multiplatformConversion") {
+            id = libs.plugins.local.multiplatform.get().pluginId
+            implementationClass = "com.tushar.plugin.MultiplatformConversionPlugin"
+        }
     }
 }
