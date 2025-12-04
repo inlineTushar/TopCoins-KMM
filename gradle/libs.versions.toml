@@ -6,6 +6,7 @@ constraintlayout = "2.2.1"
 kotlin = "2.2.21"
 ksp = "2.0.21-1.0.27"
 buildkonfig = "0.15.2"
+compose-multiplatform = "1.7.3"
 
 # AndroidX
 core-ktx = "1.17.0"
@@ -143,6 +144,7 @@ timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "tim
 # Build Logic Dependencies
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+compose-multiplatform-gradlePlugin = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose-multiplatform" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # Testing
@@ -161,6 +163,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 junit5 = { id = "org.junit.platform.gradle.plugin", version = "1.2.0" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

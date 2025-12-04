@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="common_ui_app_name">Top Coins</string>
-    <string name="common_ui_title_appbar">@string/common_ui_app_name</string>
+    <string name="common_ui_title_appbar">Top Coins</string>
     <string name="common_ui_accessibility_back_button">Navigate back</string>
     <string name="common_ui_accessibility_error_occurred">Error occurred</string>
     <string name="common_ui_retry">Retry</string>
-
     <string name="common_ui_error_generic">Something went wrong! Try again later</string>
     <string name="common_ui_error_no_connection">Connection problem. Please try again.</string>
 </resources>
