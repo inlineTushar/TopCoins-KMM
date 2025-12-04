@@ -2,27 +2,19 @@ package com.tushar.data.keyprovider
 
 import android.content.Context
 import android.os.Build
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import java.io.ByteArrayInputStream
 import java.util.Properties
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * The class is used for decrypt the keys during runtime
  * that is encrypted during build time by EncryptFileTask.
  * Using AES-256-GCM encryption with a key derived from app version.
  */
-@Singleton
-class SecureKeyProvider @Inject constructor(
-    @ApplicationContext private val context: Context
+class SecureKeyProvider(
+    private val context: Context
 ) : KeyProvider {
 
     private val properties: Properties by lazy {
@@ -151,12 +143,4 @@ class SecureKeyProvider @Inject constructor(
     companion object Companion {
         const val KEY_COIN_AUTH = "COIN_AUTH_KEY"
     }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class KeyProviderModule {
-    @Binds
-    @Singleton
-    abstract fun bind(real: SecureKeyProvider): KeyProvider
 }

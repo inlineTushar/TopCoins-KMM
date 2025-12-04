@@ -37,7 +37,7 @@ multiple modules.
 
 - **MVVM** for UI architecture (ViewModel + StateFlow)
 - **Unidirectional Data Flow** for predictable state management
-- **Dependency Injection** via Hilt for loose coupling
+- **Dependency Injection** via Koin for loose coupling and simplicity
 - **Result-based error handling** for robust failure scenarios
 
 
@@ -50,21 +50,21 @@ relationships, dependency rules, and data flow:
 graph TB
     subgraph "📱 Presentation Layer - feature:coinlist"
         UI["🖼️ CoinListScreen<br/>(Composable)"]
-        VM["🎭 CoinListViewModel<br/>@HiltViewModel<br/>StateFlow&lt;CoinsUiState&gt;"]
+        VM["🎭 CoinListViewModel<br/>Koin ViewModel<br/>StateFlow&lt;CoinsUiState&gt;"]
         STATE["📊 CoinsUiState<br/>(Sealed Class)<br/>Loading | Content | Error"]
         MODEL["📦 CoinUIModel<br/>"]
     end
 
     subgraph "🎯 Domain Layer - common:domain"
-        UC["⚙️ GetCoinUseCase<br/>@Singleton<br/>Business Logic"]
+        UC["⚙️ GetCoinUseCase<br/>Koin Single<br/>Business Logic"]
         REPO_INT["📋 CoinRepository<br/>⭐ INTERFACE<br/>(Dependency Inversion)"]
         DOMAIN_MODEL["🎲 Domain Models<br/>CoinsDomainModel<br/>CoinDomainModel"]
         ERROR["❌ DomainError<br/>(Sealed Class)<br/>NoConnectivity | Timeout"]
     end
 
     subgraph "💾 Data Layer - common:data"
-        REPO["🗄️ CoinRepositoryImpl<br/>@Singleton<br/>+ In-Memory Cache"]
-        HILT_MODULE["🔧 RepositoryModule<br/>@Module @InstallIn<br/>@Binds CoinRepository"]
+        REPO["🗄️ CoinRepositoryImpl<br/>Koin Single<br/>+ In-Memory Cache"]
+        KOIN_MODULE["🔧 dataModule<br/>Koin Module DSL<br/>Provides Dependencies"]
         API["🌐 CoinApiService<br/>(Retrofit Interface)"]
         INTERCEPTOR["🔐 TokenInterceptor<br/>(Auth Header)"]
         CRYPTO["🔒 SecureKeyProvider<br/>(AES-256-GCM)"]
@@ -80,14 +80,13 @@ graph TB
     UI -->|"1️⃣ User Action<br/>(Pull Refresh)"| VM
     VM -->|"2️⃣ collect()<br/>StateFlow"| STATE
     STATE -->|contains| MODEL
-    VM -->|"3️⃣ @Inject<br/>calls method"| UC
-    UC -->|"4️⃣ @Inject<br/>uses interface"| REPO_INT
-    UC -->|"5️⃣ returns"| DOMAIN_MODEL
-    UC -->|"6️⃣ throws on error"| ERROR
-    
-    %% Data Layer Implementation (Clean Architecture boundary)
-    REPO_INT -.->|"7️⃣ implemented by<br/>(via @Binds)"| REPO
-    HILT_MODULE -.->|"🔧 Provides at runtime<br/>(DI wiring)"| REPO
+    VM -->|"3️⃣ Koin inject<br/>calls method "| UC
+    UC -->|" 4️⃣ Koin inject<br/>uses interface "| REPO_INT
+    UC -->|" 5️⃣ returns "| DOMAIN_MODEL
+    UC -->|" 6️⃣ throws on error "| ERROR
+%% Data Layer Implementation (Clean Architecture boundary)
+    REPO_INT -.->|" 7️⃣ implemented by<br/>(via bind) "| REPO
+    KOIN_MODULE -.->|"🔧 Provides at runtime<br/>(DI wiring)"| REPO
     
     %% Data Flow Inside Data Layer
     REPO -->|"8️⃣ fetch()<br/>with retry"| API
@@ -103,20 +102,18 @@ graph TB
     MODEL -->|"1️⃣8️⃣ emit"| STATE
     STATE -->|"1️⃣9️⃣ render"| UI
 
-    %% Hilt DI Dependency (Gradle classpath only)
-    VM -.->|"⚠️ Gradle dependency<br/>For Hilt DI processor ONLY<br/>(NOT source imports)"| HILT_MODULE
-
-    %% Styling
-    classDef presentation fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    classDef domain fill:#fff9c4,stroke:#f57f17,stroke-width:3px,color:#000
-    classDef data fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
-    classDef hilt fill:#c8e6c9,stroke:#388e3c,stroke-width:4px,color:#000
-    classDef external fill:#ffebee,stroke:#c62828,stroke-width:3px,color:#000
-
-    class UI,VM,STATE,MODEL presentation
-    class UC,REPO_INT,DOMAIN_MODEL,ERROR domain
-    class REPO,API,INTERCEPTOR,CRYPTO,REPO_MODEL,API_MODEL data
-    class HILT_MODULE hilt
+    %% Koin DI Dependency (Runtime DI)
+    VM -.->|" 💉 Koin Runtime DI<br/>(No code generation) "| KOIN_MODULE
+%% Styling
+    classDef presentation fill: #e3f2fd, stroke: #1976d2, stroke-width: 3px, color: #000
+    classDef domain fill: #fff9c4, stroke: #f57f17, stroke-width: 3px, color: #000
+    classDef data fill: #f3e5f5, stroke: #7b1fa2, stroke-width: 3px, color: #000
+    classDef koin fill: #c8e6c9, stroke: #388e3c, stroke-width: 4px, color: #000
+    classDef external fill: #ffebee, stroke: #c62828, stroke-width: 3px, color: #000
+    class UI, VM, STATE, MODEL presentation
+    class UC, REPO_INT, DOMAIN_MODEL, ERROR domain
+    class REPO, API, INTERCEPTOR, CRYPTO, REPO_MODEL, API_MODEL data
+    class KOIN_MODULE koin
     class NETWORK external
 ```
 
@@ -159,11 +156,11 @@ app/                    # Application module (composition root)
 The project uses **custom convention plugins** (`build-logic/`) to standardize build configuration:
 
 - **Consistency**: Unified build configuration across all modules
-- **Reusability**: Common plugins like `library-feature`, `library-composeview`, `library-hilt`
+- **Reusability**: Common plugins like `library-feature`, `library-composeview`, `library-koin`
 - **Maintainability**: Single source of truth for dependency versions and build settings
 - **Encryption Plugin**: Custom plugin for secure API key encryption/decryption at build/runtime
 
-**Example**: The `library-feature` plugin automatically configures Hilt, Compose, testing, and
+**Example**: The `library-feature` plugin automatically configures Koin, Compose, testing, and
 common dependencies for feature modules.
 
 ---

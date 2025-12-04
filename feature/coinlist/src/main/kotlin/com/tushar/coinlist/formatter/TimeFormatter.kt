@@ -4,8 +4,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface TimeFormatter {
     /**
@@ -26,8 +24,7 @@ interface TimeFormatter {
 /**
  * Default implementation of [TimeFormatter].
  */
-@Singleton
-class DefaultTimeFormatter @Inject constructor() : TimeFormatter {
+class DefaultTimeFormatter : TimeFormatter {
 
     override fun format(
         timestamp: Instant,

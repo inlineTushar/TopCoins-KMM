@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.local.library)
-    alias(libs.plugins.local.library.hilt)
+    alias(libs.plugins.local.library.koin)
     alias(libs.plugins.local.library.test)
     alias(libs.plugins.kotlin.serialization)
 }

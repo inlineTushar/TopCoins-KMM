@@ -20,7 +20,7 @@ class LibraryFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "android.library")
-            apply(plugin = "android.library.hilt")
+            apply(plugin = "android.library.koin")
             apply(plugin = "android.library.test")
             apply(plugin = "android.library.uitest")
             apply(plugin = "org.jetbrains.kotlin.plugin.compose")

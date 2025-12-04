@@ -4,8 +4,6 @@ import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface CurrencyFormatter {
     /**
@@ -26,8 +24,7 @@ interface CurrencyFormatter {
 /**
  * Default implementation of [CurrencyFormatter].
  */
-@Singleton
-class DefaultCurrencyFormatter @Inject constructor() : CurrencyFormatter {
+class DefaultCurrencyFormatter : CurrencyFormatter {
 
     override fun format(
         amount: BigDecimal,

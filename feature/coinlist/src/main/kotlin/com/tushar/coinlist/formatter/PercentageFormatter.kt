@@ -1,8 +1,6 @@
 package com.tushar.coinlist.formatter
 
 import java.util.Locale
-import javax.inject.Inject
-import javax.inject.Singleton
 
 interface PercentageFormatter {
     /**
@@ -20,8 +18,7 @@ interface PercentageFormatter {
     ): String
 }
 
-@Singleton
-class DefaultPercentageFormatter @Inject constructor() : PercentageFormatter {
+class DefaultPercentageFormatter : PercentageFormatter {
 
     override fun format(
         percent: Double,

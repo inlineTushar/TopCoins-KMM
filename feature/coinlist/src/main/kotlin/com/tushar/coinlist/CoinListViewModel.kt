@@ -10,17 +10,14 @@ import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
 import com.tushar.ui.R
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class CoinListViewModel @Inject constructor(
+class CoinListViewModel(
     private val useCase: GetCoinUseCase,
     private val currencyFormatter: CurrencyFormatter,
     private val percentageFormatter: PercentageFormatter,

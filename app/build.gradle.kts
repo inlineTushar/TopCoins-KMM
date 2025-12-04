@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.local.application)
     alias(libs.plugins.local.library.composeview)
-    alias(libs.plugins.local.library.hilt)
+    alias(libs.plugins.local.library.koin)
 }
 
 android {
@@ -54,4 +54,6 @@ dependencies {
     // Common modules
     implementation(project(":common:navigation"))
     implementation(project(":common:ui"))
+    implementation(project(":common:data"))
+    implementation(project(":common:domain"))
 }

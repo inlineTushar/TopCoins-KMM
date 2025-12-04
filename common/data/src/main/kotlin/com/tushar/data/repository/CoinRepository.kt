@@ -15,11 +15,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.withTimeout
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class CoinRepositoryImpl @Inject constructor(
+class CoinRepositoryImpl(
     private val remoteService: CoinApiService
 ) : CoinRepository {
     private val coins = MutableStateFlow<CoinsRepoModel?>(null)

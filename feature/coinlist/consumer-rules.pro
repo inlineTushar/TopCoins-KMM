@@ -4,7 +4,7 @@
 # ==============================
 # ViewModels
 # ==============================
-# Keep all ViewModels - required for Hilt injection and reflection
+# Keep all ViewModels - required for Koin injection and reflection
 -keep class com.tushar.coinlist.*ViewModel { *; }
 -keep class com.tushar.coinlist.**.*ViewModel { *; }
 
@@ -48,7 +48,7 @@
 -keep class com.tushar.coinlist.formatter.**Formatter { *; }
 -keep class com.tushar.coinlist.formatter.Default* { *; }
 
-# Keep formatter constructors for Hilt
+# Keep formatter constructors for Koin
 -keepclassmembers class com.tushar.coinlist.formatter.** {
     <init>(...);
 }
@@ -66,14 +66,16 @@
 -keepattributes SourceFile,LineNumberTable
 
 # ==============================
-# Hilt Modules
+# Koin Modules
 # ==============================
-# Keep Hilt modules in this feature
--keep @dagger.Module class com.tushar.coinlist.** { *; }
--keep @dagger.hilt.InstallIn class com.tushar.coinlist.** { *; }
+# Keep Koin modules and definitions in this feature
+-keep class com.tushar.coinlist.di.** { *; }
+-keep class org.koin.** { *; }
 
-# Keep Hilt entry points
--keep @dagger.hilt.android.AndroidEntryPoint class com.tushar.coinlist.** { *; }
+# Keep classes used in Koin modules
+-keepclassmembers class com.tushar.coinlist.** {
+    <init>(...);
+}
 
 # ==============================
 # Kotlinx Immutable Collections

@@ -3,16 +3,14 @@
 # ==============================
 # Application Class
 # ==============================
-# Keep the Application class - required for Hilt
--keep class com.tushar.topcoins.ChallengeApplication { *; }
--keep @dagger.hilt.android.HiltAndroidApp class * { *; }
+# Keep the Application class - required for Koin initialization
+-keep class com.tushar.topcoins.TopCoinsApplication { *; }
 
 # ==============================
 # Activities
 # ==============================
 # Keep all activities - required for Android system
 -keep class com.tushar.topcoins.MainActivity { *; }
--keep @dagger.hilt.android.AndroidEntryPoint class * extends androidx.activity.ComponentActivity { *; }
 
 # Keep activity lifecycle methods
 -keepclassmembers class * extends androidx.activity.ComponentActivity {
@@ -34,19 +32,23 @@
 }
 
 # ==============================
-# Hilt (Application Module)
+# Koin (Application Module)
 # ==============================
-# Keep Hilt generated classes
--keep class dagger.hilt.** { *; }
--keep class javax.inject.** { *; }
--keep class * extends dagger.hilt.android.internal.managers.ApplicationComponentManager { *; }
+# Keep Koin DSL and core classes
+-keep class org.koin.** { *; }
+-keep class org.koin.core.** { *; }
+-keep class org.koin.android.** { *; }
 
-# Keep Hilt entry points
--keep @dagger.hilt.InstallIn class * { *; }
--keep @dagger.Module class * { *; }
+# Keep Koin module definitions
+-keepclassmembers class ** {
+    @org.koin.core.annotation.* *;
+}
 
-# Keep Hilt component interfaces
--keep interface dagger.hilt.android.components.** { *; }
+# Keep all classes used in Koin modules
+-keep class com.tushar.topcoins.di.** { *; }
+-keep class com.tushar.data.di.** { *; }
+-keep class com.tushar.domain.di.** { *; }
+-keep class com.tushar.coinlist.di.** { *; }
 
 # ==============================
 # AndroidX Core

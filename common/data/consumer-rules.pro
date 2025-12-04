@@ -66,9 +66,14 @@
 # Keep custom serializers
 -keep class com.tushar.data.datasource.remote.instrumentation.*Serializer { *; }
 
-# Keep Hilt modules
--keep @dagger.Module class com.tushar.data.** { *; }
--keep @dagger.hilt.InstallIn class com.tushar.data.** { *; }
+# Keep Koin modules
+-keep class com.tushar.data.di.** { *; }
+-keep class org.koin.** { *; }
+
+# Keep classes used in Koin modules  
+-keepclassmembers class com.tushar.data.** {
+    <init>(...);
+}
 
 # ==============================
 # Retrofit

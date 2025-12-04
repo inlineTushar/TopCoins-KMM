@@ -7,15 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Use case for retrieving and sorting cryptocurrency data.
  */
-@Singleton
-class GetCoinUseCase @Inject constructor(
+class GetCoinUseCase(
     private val repository: CoinRepository
 ) {
     /**

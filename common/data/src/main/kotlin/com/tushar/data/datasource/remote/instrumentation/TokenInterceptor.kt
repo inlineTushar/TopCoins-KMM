@@ -6,11 +6,8 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import okio.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class TokenInterceptor @Inject constructor(private val keyProvider: KeyProvider) : Interceptor {
+class TokenInterceptor(private val keyProvider: KeyProvider) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {

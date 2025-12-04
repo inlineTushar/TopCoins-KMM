@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tushar.feature.coinlist.R
 import com.tushar.ui.R.string
@@ -28,11 +27,12 @@ import com.tushar.ui.component.ErrorComposable
 import com.tushar.ui.component.HeaderComposable
 import com.tushar.ui.component.ProgressBarComposable
 import kotlinx.collections.immutable.persistentListOf
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CoinListScreen(
     modifier: Modifier = Modifier,
-    vm: CoinListViewModel = hiltViewModel()
+    vm: CoinListViewModel = koinViewModel()
 ) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
