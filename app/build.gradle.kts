@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.local.application)
-    alias(libs.plugins.local.library.composeview)
-    alias(libs.plugins.local.library.koin)
 }
 
 android {
@@ -30,6 +28,7 @@ android {
                 ?: throw GradleException("COIN_RELEASE_STORE_PASSWORD property not found in gradle.properties")
         }
     }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".topcoin.debug"
@@ -47,13 +46,32 @@ android {
     }
 }
 
-dependencies {
-    // Feature modules
-    implementation(project(":feature:coinlist"))
+compose {
+    resources {
+        packageOfResClass = "com.tushar.topcoins.generated.resources"
+        generateResClass = always
+    }
+}
 
-    // Common modules
-    implementation(project(":common:navigation"))
-    implementation(project(":common:ui"))
-    implementation(project(":common:data"))
-    implementation(project(":common:domain"))
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                // Common modules - these are shared across all platforms
+                implementation(project(":common:ui"))
+                implementation(project(":common:data"))
+                implementation(project(":common:domain"))
+
+                // Feature modules
+                implementation(project(":feature:coinlist"))
+            }
+        }
+
+        androidMain {
+            dependencies {
+                // Android-only common modules
+                implementation(project(":common:navigation"))
+            }
+        }
+    }
 }

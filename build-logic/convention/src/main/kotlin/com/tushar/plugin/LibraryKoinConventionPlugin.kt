@@ -38,6 +38,14 @@ class LibraryKoinConventionPlugin : Plugin<Project> {
                     sourceSets.apply {
                         // Common dependencies
                         getByName("commonMain").dependencies {
+                            // Koin BOM for version management
+                            implementation(
+                                dependencies.platform(
+                                    libs.findLibrary("koin.bom").get()
+                                )
+                            )
+
+                            // Koin Core
                             implementation(libs.findLibrary("koin.core").get())
                         }
 
