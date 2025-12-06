@@ -232,3 +232,11 @@ app/release/**
 
 # Keep templates
 !secret/*.template
+
+### Kotlin Multiplatform ###
+# Kotlin metadata cache (KMM build artifacts)
+.kotlin/
+
+### iOS / KMM (when not on KMM branch) ###
+# Uncomment the line below if not using Kotlin Multiplatform iOS
+iosApp/
