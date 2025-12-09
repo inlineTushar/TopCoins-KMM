@@ -11,7 +11,7 @@ android {
 
 compose {
     resources {
-        packageOfResClass = "com.tushar.ui.resources"
+        packageOfResClass = "com.tushar.common.ui.resources"
         generateResClass = always
     }
 }

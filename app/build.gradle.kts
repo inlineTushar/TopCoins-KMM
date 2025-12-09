@@ -48,7 +48,7 @@ android {
 
 compose {
     resources {
-        packageOfResClass = "com.tushar.topcoins.generated.resources"
+        packageOfResClass = "com.tushar.topcoins.resources"
         generateResClass = always
     }
 }

@@ -11,7 +11,7 @@ android {
 }
 
 buildkonfig {
-    packageName = "com.tushar.data"
+    packageName = "com.tushar.common.data"
 
     // Default config (used for all platforms unless overridden)
     defaultConfigs {

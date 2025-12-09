@@ -1,6 +1,6 @@
 package com.tushar.data.keyprovider
 
-import com.tushar.data.BuildKonfig
+import com.tushar.common.data.BuildKonfig
 
 /**
  * iOS implementation of SecureKeyProvider.

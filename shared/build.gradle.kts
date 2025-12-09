@@ -10,7 +10,7 @@ android {
 
 compose {
     resources {
-        packageOfResClass = "com.tushar.shared.generated.resources"
+        packageOfResClass = "com.tushar.shared.resources"
         generateResClass = always
     }
 }

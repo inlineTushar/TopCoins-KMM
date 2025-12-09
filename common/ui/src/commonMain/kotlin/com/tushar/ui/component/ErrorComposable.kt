@@ -13,9 +13,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.tushar.ui.resources.Res
-import com.tushar.ui.resources.common_ui_accessibility_error_occurred
-import com.tushar.ui.resources.common_ui_retry
+import com.tushar.common.ui.resources.Res
+import com.tushar.common.ui.resources.common_ui_accessibility_error_occurred
+import com.tushar.common.ui.resources.common_ui_retry
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

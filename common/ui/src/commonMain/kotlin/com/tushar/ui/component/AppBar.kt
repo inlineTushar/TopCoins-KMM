@@ -16,9 +16,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import com.tushar.ui.resources.Res
-import com.tushar.ui.resources.common_ui_accessibility_back_button
-import com.tushar.ui.resources.common_ui_title_appbar
+import com.tushar.common.ui.resources.Res
+import com.tushar.common.ui.resources.common_ui_accessibility_back_button
+import com.tushar.common.ui.resources.common_ui_title_appbar
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
