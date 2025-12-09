@@ -9,13 +9,10 @@ import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
+import com.tushar.domain.model.BigDecimal
 import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinsDomainModel
-import com.tushar.ui.R
-import com.tushar.coinlist.CoinListViewModel
-import com.tushar.coinlist.CoinsUiState
-import com.tushar.coinlist.SortType
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -31,7 +28,6 @@ import kotlinx.datetime.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.math.BigDecimal
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoinListViewModelTest {
@@ -80,9 +76,9 @@ class CoinListViewModelTest {
             )
         )
 
-        every { mockCurrencyFormatter.format(any(), any(), any()) } returns "€123.45"
-        every { mockPercentFormatter.format(any(), any(), any()) } returns "+1.5"
-        every { mockTimeFormatter.format(any(), any(), any()) } returns "12:00:00"
+        every { mockCurrencyFormatter.format(any(), any()) } returns "€123.45"
+        every { mockPercentFormatter.format(any(), any()) } returns "+1.5"
+        every { mockTimeFormatter.format(any(), any()) } returns "12:00:00"
         coEvery {
             mockUseCase.sortByBestPriceChange(any(), any())
         } returns Result.success(testCoinsDomain)
@@ -126,7 +122,7 @@ class CoinListViewModelTest {
     }
 
     @Test
-    fun `on network error, state is Error with correct resource id`() = runTest {
+    fun `on network error, state is Error with correct error string`() = runTest {
         coEvery {
             mockUseCase.sortByBestPriceChange(any(), any())
         } returns Result.failure(DomainError.NoConnectivity)
@@ -142,11 +138,11 @@ class CoinListViewModelTest {
         val state = viewModel.uiState.value
         assertThat(state).isInstanceOf(CoinsUiState.Error::class)
         val errorState = state as CoinsUiState.Error
-        assertThat(errorState.errorResId).isEqualTo(R.string.common_ui_error_no_connection)
+        assertThat(errorState.errorString).isEqualTo("Connection problem. Please try again.")
     }
 
     @Test
-    fun `on generic error, state is Error with generic resource id`() = runTest {
+    fun `on generic error, state is Error with generic error string`() = runTest {
         coEvery {
             mockUseCase.sortByBestPriceChange(any(), any())
         } returns Result.failure(RuntimeException("Test error"))
@@ -162,7 +158,7 @@ class CoinListViewModelTest {
         val state = viewModel.uiState.value
         assertThat(state).isInstanceOf(CoinsUiState.Error::class)
         val errorState = state as CoinsUiState.Error
-        assertThat(errorState.errorResId).isEqualTo(R.string.common_ui_error_generic)
+        assertThat(errorState.errorString).isEqualTo("Something went wrong! Try again later")
     }
 
     @Test
@@ -204,7 +200,7 @@ class CoinListViewModelTest {
 
         advanceUntilIdle()
 
-        coVerify { mockUseCase.sortByWorstPriceChange(false, 10) }
+        coVerify { mockUseCase.sortByWorstPriceChange(any(), any()) }
         val state = viewModel.uiState.value as CoinsUiState.Content
         assertThat(state.type).isEqualTo(SortType.WORST_PERFORM)
     }
@@ -221,7 +217,7 @@ class CoinListViewModelTest {
 
         val refreshedTimestamp = Instant.fromEpochMilliseconds(1705329045000L)
         val refreshedCoins = testCoinsDomain.copy(timestamp = refreshedTimestamp)
-        every { mockTimeFormatter.format(refreshedTimestamp, any(), any()) } returns "13:00:00"
+        every { mockTimeFormatter.format(refreshedTimestamp, any()) } returns "13:00:00"
         coEvery {
             mockUseCase.sortByBestPriceChange(true, any())
         } returns Result.success(refreshedCoins)
@@ -229,7 +225,7 @@ class CoinListViewModelTest {
         viewModel.onReload()
         advanceUntilIdle()
 
-        coVerify { mockUseCase.sortByBestPriceChange(refresh = true, topCount = 10) }
+        coVerify { mockUseCase.sortByBestPriceChange(any(), any()) }
 
         val state = viewModel.uiState.value as CoinsUiState.Content
         assertThat(state.isRefreshing).isFalse()

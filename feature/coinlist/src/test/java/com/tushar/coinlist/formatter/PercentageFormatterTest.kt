@@ -1,11 +1,8 @@
 package com.tushar.coinlist.formatter
 
-import com.tushar.coinlist.formatter.DefaultPercentageFormatter
-import com.tushar.coinlist.formatter.PercentageFormatter
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import java.util.Locale
 
 class PercentageFormatterTest {
 
@@ -13,14 +10,13 @@ class PercentageFormatterTest {
 
     @Before
     fun setup() {
-        formatter = DefaultPercentageFormatter()
+        formatter = PercentageFormatter()
     }
 
     @Test
     fun `format positive percentage`() {
         val result = formatter.format(
-            percent = 5.23,
-            locale = Locale.US
+            percent = 5.23
         )
         assertEquals("+5.23", result)
     }
@@ -28,8 +24,7 @@ class PercentageFormatterTest {
     @Test
     fun `format negative percentage`() {
         val result = formatter.format(
-            percent = -2.45,
-            locale = Locale.US
+            percent = -2.45
         )
         assertEquals("-2.45", result)
     }
@@ -37,8 +32,7 @@ class PercentageFormatterTest {
     @Test
     fun `format zero percentage`() {
         val result = formatter.format(
-            percent = 0.0,
-            locale = Locale.US
+            percent = 0.0
         )
         assertEquals("+0.00", result)
     }
@@ -47,8 +41,7 @@ class PercentageFormatterTest {
     fun `format with custom fraction digits`() {
         val result = formatter.format(
             percent = 5.23456,
-            fractionDigits = 3,
-            locale = Locale.US
+            fractionDigits = 3
         )
         assertEquals("+5.235", result)
     }
@@ -57,8 +50,7 @@ class PercentageFormatterTest {
     fun `format with one fraction digit`() {
         val result = formatter.format(
             percent = 5.23,
-            fractionDigits = 1,
-            locale = Locale.US
+            fractionDigits = 1
         )
         assertEquals("+5.2", result)
     }
@@ -67,8 +59,7 @@ class PercentageFormatterTest {
     fun `format rounds correctly`() {
         val result = formatter.format(
             percent = 5.996,
-            fractionDigits = 2,
-            locale = Locale.US
+            fractionDigits = 2
         )
         assertEquals("+6.00", result)
     }
