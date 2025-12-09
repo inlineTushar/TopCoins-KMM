@@ -1,6 +1,7 @@
 package com.tushar.plugin
 
 import com.android.build.gradle.LibraryExtension
+import com.tushar.ext.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -106,45 +107,18 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
         }
     }
 
+    // Define libs accessor for convenience within this scope
+    val libs = project.libs
+
     // Source sets configuration
     sourceSets.apply {
         // Common source set
         getByName("commonMain") {
             dependencies {
                 // Common dependencies will be added via configureDependencies
+                implementation(libs.findLibrary("kotlinx-coroutines-core").get())
             }
         }
-
-        getByName("commonTest") {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        // Android source set
-        getByName("androidMain") {
-            dependencies {
-                // Android-specific dependencies
-            }
-        }
-
-        // iOS source set (common for all iOS targets)
-        val iosMain = create("iosMain") {
-            dependsOn(getByName("commonMain"))
-        }
-
-        val iosTest = create("iosTest") {
-            dependsOn(getByName("commonTest"))
-        }
-
-        // Link iOS target-specific source sets to shared iOS source set
-        getByName("iosX64Main").dependsOn(iosMain)
-        getByName("iosArm64Main").dependsOn(iosMain)
-        getByName("iosSimulatorArm64Main").dependsOn(iosMain)
-
-        getByName("iosX64Test").dependsOn(iosTest)
-        getByName("iosArm64Test").dependsOn(iosTest)
-        getByName("iosSimulatorArm64Test").dependsOn(iosTest)
     }
 }
 

@@ -3,7 +3,7 @@ package com.tushar.domain
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsDomainModel
 import com.tushar.domain.repository.CoinRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
@@ -13,7 +13,8 @@ import kotlin.coroutines.cancellation.CancellationException
  * Use case for retrieving and sorting cryptocurrency data.
  */
 class GetCoinUseCase(
-    private val repository: CoinRepository
+    private val repository: CoinRepository,
+    private val dispatcher: CoroutineDispatcher
 ) {
     /**
      * Gets top coins sorted by best 24-hour price change (descending).
@@ -50,7 +51,7 @@ class GetCoinUseCase(
                     .take(topCount)
                     .asPriceAdjusted(rateData)
             )
-        }.flowOn(Dispatchers.Default)  // Default is available in KMM (IO is Android-specific)
+        }.flowOn(dispatcher)
             .first()
             .let { Result.success(it) }
     } catch (e: Throwable) {

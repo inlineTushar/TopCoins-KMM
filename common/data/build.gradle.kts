@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tushar.data"
+    namespace = "com.tushar.common.data"
 }
 
 buildkonfig {
@@ -36,6 +36,7 @@ buildkonfig {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":common:core"))
             // Domain layer
             implementation(project(":common:domain"))
 

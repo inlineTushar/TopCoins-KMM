@@ -5,27 +5,28 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isSuccess
-import com.tushar.domain.DomainError
-import com.tushar.domain.GetCoinUseCase
+import com.tushar.domain.model.BigDecimal
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
 import com.tushar.domain.model.ConversionRateDomainModel
+import com.tushar.domain.model.RoundingMode
+import com.tushar.domain.model.divide
 import com.tushar.domain.repository.CoinRepository
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import com.tushar.domain.model.BigDecimal
-import com.tushar.domain.model.RoundingMode
-import com.tushar.domain.model.divide
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetCoinUseCaseTest {
+
+    private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var repository: CoinRepository
     private lateinit var useCase: GetCoinUseCase
@@ -36,7 +37,7 @@ class GetCoinUseCaseTest {
     @BeforeTest
     fun setUp() {
         repository = mockk()
-        useCase = GetCoinUseCase(repository)
+        useCase = GetCoinUseCase(repository, testDispatcher)
 
         testCoinsInUsdDomainModel = CoinsInUsdDomainModel(
             timestamp = Instant.fromEpochMilliseconds(1705329045000L),
@@ -75,7 +76,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `sortByBestPriceChange returns coins sorted by best performance`() = runTest {
+    fun `sortByBestPriceChange returns coins sorted by best performance`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
@@ -92,7 +93,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `sortByWorstPriceChange returns coins sorted by worst performance`() = runTest {
+    fun `sortByWorstPriceChange returns coins sorted by worst performance`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
@@ -107,7 +108,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `topCount limits number of returned coins`() = runTest {
+    fun `topCount limits number of returned coins`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
@@ -122,7 +123,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `price is correctly adjusted from USD to EUR`() = runTest {
+    fun `price is correctly adjusted from USD to EUR`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
@@ -146,36 +147,38 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `shouldReload true forces repository refresh`() = runTest {
+    fun `shouldReload true forces repository refresh`() = runTest(testDispatcher) {
         every { repository.getCoins(true) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(true, "euro") } returns flowOf(testRateDomainModel)
 
-        useCase.sortByBestPriceChange(refresh = true, topCount = 10)
+        val result = useCase.sortByBestPriceChange(refresh = true, topCount = 10)
 
         coVerify { repository.getCoins(refresh = true) }
         coVerify { repository.getRate(refresh = true, targetCurrency = "euro") }
+        assertThat(result).isSuccess()
     }
 
     @Test
-    fun `shouldReload false uses cached data`() = runTest {
+    fun `shouldReload false uses cached data`() = runTest(testDispatcher) {
         every { repository.getCoins(false) } returns flowOf(testCoinsInUsdDomainModel)
         every { repository.getRate(false, "euro") } returns flowOf(testRateDomainModel)
 
-        useCase.sortByBestPriceChange(refresh = false, topCount = 10)
+        val result = useCase.sortByBestPriceChange(refresh = false, topCount = 10)
 
         coVerify { repository.getCoins(refresh = false) }
         coVerify { repository.getRate(refresh = false, targetCurrency = "euro") }
+        assertThat(result).isSuccess()
     }
 
     @Test
-    fun `network error returns failure with NoConnectivity`() = runTest {
+    fun `network error returns failure with NoConnectivity`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } returns flowOf(testCoinsInUsdDomainModel)
         every {
             repository.getRate(
                 any(),
                 any()
             )
-        } throws com.tushar.domain.UnknownHostException("No network")
+        } throws UnknownHostException("No network")
 
         val result = useCase.sortByBestPriceChange(refresh = false, topCount = 10)
 
@@ -184,8 +187,8 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `timeout error returns failure with NetworkTimeout`() = runTest {
-        every { repository.getCoins(any()) } throws com.tushar.domain.SocketTimeoutException("Timeout")
+    fun `timeout error returns failure with NetworkTimeout`() = runTest(testDispatcher) {
+        every { repository.getCoins(any()) } throws SocketTimeoutException("Timeout")
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
         val result = useCase.sortByBestPriceChange(refresh = false, topCount = 10)
@@ -195,7 +198,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `generic exception returns failure with UnknownError`() = runTest {
+    fun `generic exception returns failure with UnknownError`() = runTest(testDispatcher) {
         every { repository.getCoins(any()) } throws RuntimeException("Something went wrong")
         every { repository.getRate(any(), any()) } returns flowOf(testRateDomainModel)
 
@@ -206,7 +209,7 @@ class GetCoinUseCaseTest {
     }
 
     @Test
-    fun `empty coin list returns empty result`() = runTest {
+    fun `empty coin list returns empty result`() = runTest(testDispatcher) {
         val emptyCoins = CoinsInUsdDomainModel(
             timestamp = Instant.fromEpochMilliseconds(1705329045000L),
             coins = emptyList()

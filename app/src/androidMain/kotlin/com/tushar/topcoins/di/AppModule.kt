@@ -1,6 +1,7 @@
 package com.tushar.topcoins.di
 
 import com.tushar.coinlist.di.coinListModule
+import com.tushar.core.di.coroutineModule
 import com.tushar.data.di.dataModule
 import com.tushar.data.di.platformDataModule
 import com.tushar.domain.di.domainModule
@@ -14,6 +15,7 @@ val appModule = module {
         platformDataModule,  // Platform-specific (Android SecureKeyProvider)
         dataModule,
         domainModule,
+        coroutineModule,
         coinListModule
     )
 }

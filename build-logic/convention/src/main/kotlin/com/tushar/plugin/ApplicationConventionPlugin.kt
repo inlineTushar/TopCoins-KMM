@@ -8,45 +8,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-/**
- * Convention plugin for application modules with Kotlin Multiplatform support.
- *
- * This plugin provides a complete application setup with KMM support:
- *
- * Structure:
- * - Applies `com.android.application` for Android app configuration
- * - Applies `org.jetbrains.kotlin.multiplatform` for KMM structure
- * - Applies `org.jetbrains.kotlin.plugin.compose` for Compose compiler
- * - Applies `org.jetbrains.compose` for Compose Multiplatform
- * - Applies `android.library.koin` for Koin dependency injection
- * - Applies `android.lint` for code quality checks
- * - Configures Android and iOS targets
- * - Sets up proper build types (debug/release)
- * - Automatically includes common and feature module dependencies
- *
- * Usage:
- * ```kotlin
- * plugins {
- *     alias(libs.plugins.local.application)
- * }
- *
- * android {
- *     namespace = "com.yourcompany.app"
- *     defaultConfig {
- *         versionCode = 1
- *         versionName = "1.0"
- *     }
- * }
- *
- * // Optional: Configure Compose resources
- * compose {
- *     resources {
- *         packageOfResClass = "com.yourcompany.app.generated.resources"
- *         generateResClass = always
- *     }
- * }
- * ```
- */
 class ApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {

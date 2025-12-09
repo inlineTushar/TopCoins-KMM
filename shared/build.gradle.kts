@@ -28,9 +28,11 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
 
                 // Common modules - shared across all platforms
+                api(project(":common:core"))
                 api(project(":common:ui"))
                 api(project(":common:data"))
                 api(project(":common:domain"))
+
 
                 // Feature modules
                 api(project(":feature:coinlist"))

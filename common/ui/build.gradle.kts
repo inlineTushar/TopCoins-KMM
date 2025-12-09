@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tushar.ui"
+    namespace = "com.tushar.common.ui"
 }
 
 compose {

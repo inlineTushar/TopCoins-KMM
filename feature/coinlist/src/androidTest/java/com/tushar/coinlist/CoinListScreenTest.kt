@@ -5,13 +5,14 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.tushar.domain.GetCoinUseCase
-import com.tushar.domain.model.CoinCurrency
-import com.tushar.domain.model.CoinDomainModel
-import com.tushar.domain.model.CoinsDomainModel
 import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
+import com.tushar.domain.GetCoinUseCase
+import com.tushar.domain.model.BigDecimal
+import com.tushar.domain.model.CoinCurrency
+import com.tushar.domain.model.CoinDomainModel
+import com.tushar.domain.model.CoinsDomainModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -20,7 +21,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.math.BigDecimal
 
 /**
  * Android instrumentation tests for CoinListScreen Composables.
@@ -80,9 +80,9 @@ class CoinListScreenTest {
         mockTimeFormatter = mockk()
 
         // Setup default mock responses
-        every { mockCurrencyFormatter.format(any(), any(), any()) } returns "€50,000.00"
-        every { mockPercentFormatter.format(any(), any(), any()) } returns "+5.23%"
-        every { mockTimeFormatter.format(any(), any(), any()) } returns "12:00:00"
+        every { mockCurrencyFormatter.format(any(), any()) } returns "€50,000.00"
+        every { mockPercentFormatter.format(any(), any()) } returns "+5.23%"
+        every { mockTimeFormatter.format(any(), any()) } returns "12:00:00"
 
         coEvery {
             mockUseCase.sortByBestPriceChange(any(), any())
@@ -97,14 +97,14 @@ class CoinListScreenTest {
     fun coinListScreen_contentState_displaysCoinList() {
         // Given - Setup specific formatting for each coin
         every {
-            mockCurrencyFormatter.format(BigDecimal("50000.00"), any(), any())
+            mockCurrencyFormatter.format(BigDecimal("50000.00"), any())
         } returns "€50,000.00"
         every {
-            mockCurrencyFormatter.format(BigDecimal("3000.00"), any(), any())
+            mockCurrencyFormatter.format(BigDecimal("3000.00"), any())
         } returns "€3,000.00"
-        every { mockPercentFormatter.format(5.23, any(), any()) } returns "+5.23%"
-        every { mockPercentFormatter.format(-2.15, any(), any()) } returns "-2.15%"
-        every { mockTimeFormatter.format(any(), any(), any()) } returns "12:00:00"
+        every { mockPercentFormatter.format(5.23, any()) } returns "+5.23%"
+        every { mockPercentFormatter.format(-2.15, any()) } returns "-2.15%"
+        every { mockTimeFormatter.format(any(), any()) } returns "12:00:00"
 
         // When
         val viewModel = CoinListViewModel(
@@ -142,7 +142,7 @@ class CoinListScreenTest {
     fun coinListScreen_contentState_displaysUpdateTime() {
         // Given
         val testTimestamp = Instant.fromEpochMilliseconds(1705329045000L)
-        every { mockTimeFormatter.format(testTimestamp, any(), any()) } returns "14:30:00"
+        every { mockTimeFormatter.format(testTimestamp, any()) } returns "14:30:00"
 
         // When
         val viewModel = CoinListViewModel(

@@ -24,10 +24,11 @@ include(":app")
 include(":shared")
 
 // Common modules
+include(":common:core")
+include(":common:ui")
 include(":common:data")
 include(":common:domain")
 include(":common:navigation")
-include(":common:ui")
 
 // Feature modules
 include(":feature:coinlist")

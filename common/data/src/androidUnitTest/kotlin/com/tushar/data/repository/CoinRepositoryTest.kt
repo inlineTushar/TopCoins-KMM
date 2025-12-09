@@ -6,6 +6,7 @@ import assertk.assertions.isEqualTo
 import com.tushar.data.datasource.remote.api.CoinApiService
 import com.tushar.data.datasource.remote.model.CoinApiModel
 import com.tushar.data.datasource.remote.model.CoinsApiResponse
+import com.tushar.domain.model.BigDecimal
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
 import io.mockk.coEvery
@@ -13,19 +14,20 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import kotlin.test.BeforeTest
-import kotlin.test.Test
 import java.io.IOException
-import com.tushar.domain.model.BigDecimal
-import io.ktor.client.request.invoke
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoinRepositoryTest {
+
+    private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var api: CoinApiService
     private lateinit var repository: CoinRepositoryImpl
@@ -36,7 +38,7 @@ class CoinRepositoryTest {
     @BeforeTest
     fun setup() {
         api = mockk(relaxed = true)
-        repository = CoinRepositoryImpl(api)
+        repository = CoinRepositoryImpl(api, testDispatcher)
 
         testCoinsApiResponse = CoinsApiResponse(
             timestamp = testTimestamp,
@@ -66,7 +68,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `returns cached value when forceRefresh is false`() = runTest {
+    fun `returns cached value when forceRefresh is false`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } returns testCoinsApiResponse
 
         val result1 = repository.getCoins(refresh = true).first()
@@ -81,7 +83,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `calls remote API when forceRefresh is true`() = runTest {
+    fun `calls remote API when forceRefresh is true`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } returns testCoinsApiResponse
 
         repository.getCoins(refresh = true).first()
@@ -91,7 +93,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `returns cached value when initial cache exists and forceRefresh is false`() = runTest {
+    fun `returns cached value when initial cache exists and forceRefresh is false`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } returns testCoinsApiResponse
         val initial = repository.getCoins(refresh = true).first()
         val cached = repository.getCoins(refresh = false).first()
@@ -102,7 +104,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `fetches new data when forceRefresh is true even with cache`() = runTest {
+    fun `fetches new data when forceRefresh is true even with cache`() = runTest(testDispatcher) {
         val initialResponse = testCoinsApiResponse
         val updatedTimestamp = Instant.fromEpochMilliseconds(1805329045000L)
         val updatedResponse = testCoinsApiResponse.copy(
@@ -131,7 +133,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `retries on network IOException and eventually succeeds`() = runTest {
+    fun `retries on network IOException and eventually succeeds`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } throws
                 IOException("Network error 1") andThenThrows
                 IOException("Network error 2") andThen
@@ -145,7 +147,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `retries on SocketTimeoutException and eventually succeeds`() = runTest {
+    fun `retries on SocketTimeoutException and eventually succeeds`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } throws
                 SocketTimeoutException("Exception 1") andThenThrows
                 SocketTimeoutException("Exception 2") andThen
@@ -159,7 +161,7 @@ class CoinRepositoryTest {
     }
 
     @Test
-    fun `retries on UnknownHostException and eventually succeeds`() = runTest {
+    fun `retries on UnknownHostException and eventually succeeds`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } throws
                 UnknownHostException("Unknown host") andThenThrows
                 UnknownHostException("Unknown host 2") andThen
@@ -173,13 +175,13 @@ class CoinRepositoryTest {
     }
 
     @Test(expected = IOException::class)
-    fun `throws exception after max retry attempts`() = runTest {
+    fun `throws exception after max retry attempts`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } throws IOException("Persistent failure")
         repository.getCoins(refresh = true).first()
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `does not retry on non-network exceptions`() = runTest {
+    fun `does not retry on non-network exceptions`() = runTest(testDispatcher) {
         coEvery { api.getCoins() } throws IllegalArgumentException("Bad request")
         repository.getCoins(refresh = true).first()
 

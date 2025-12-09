@@ -6,7 +6,7 @@ import com.tushar.data.repository.model.ConversionRateRepoModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
 import com.tushar.domain.model.ConversionRateDomainModel
 import com.tushar.domain.repository.CoinRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.retryWhen
 import kotlinx.coroutines.withTimeout
 
 class CoinRepositoryImpl(
-    private val remoteService: CoinApiService
+    private val remoteService: CoinApiService,
+    private val dispatcher: CoroutineDispatcher
 ) : CoinRepository {
     private val coins = MutableStateFlow<CoinsRepoModel?>(null)
     private val rate = MutableStateFlow<ConversionRateRepoModel?>(null)
@@ -35,7 +36,7 @@ class CoinRepositoryImpl(
             .retryWhen { cause, attempt -> shouldRetry(cause, attempt, TAG_GET_COINS) }
             .onEach { data -> coins.value = data }
             .collect { data -> emit(data) }
-    }.map { it.asDomainModel() }.flowOn(Dispatchers.Default) // Default is KMM-compatible
+    }.map { it.asDomainModel() }.flowOn(dispatcher)
 
     override fun getRate(
         refresh: Boolean,
@@ -51,7 +52,7 @@ class CoinRepositoryImpl(
             .retryWhen { cause, attempt -> shouldRetry(cause, attempt, TAG_GET_RATE) }
             .onEach { data -> rate.value = data }
             .collect { data -> emit(data) }
-    }.map { it.asDomainModel() }.flowOn(Dispatchers.Default) // Default is KMM-compatible
+    }.map { it.asDomainModel() }.flowOn(dispatcher)
 
     /**
      * Creates a Flow that fetches coin data from remote API.

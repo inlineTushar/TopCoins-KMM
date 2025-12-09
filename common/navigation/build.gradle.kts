@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.tushar.navigation"
+    namespace = "com.tushar.common.navigation"
 }
 
 dependencies {

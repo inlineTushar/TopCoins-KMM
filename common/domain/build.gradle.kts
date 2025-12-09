@@ -6,19 +6,18 @@ plugins {
 }
 
 android {
-    namespace = "com.tushar.domain"
+    namespace = "com.tushar.common.domain"
 }
 
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":common:core"))
             // Multiplatform datetime
             api(libs.kotlinx.datetime)
 
             // Coroutines
             api(libs.kotlinx.coroutines.core)
-
-            // Note: Koin dependencies added by LibraryKoinConventionPlugin
         }
 
         commonTest.dependencies {

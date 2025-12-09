@@ -3,6 +3,7 @@ package com.tushar.shared
 import androidx.compose.ui.window.ComposeUIViewController
 import com.tushar.coinlist.CoinListScreen
 import com.tushar.coinlist.di.coinListModule
+import com.tushar.core.di.coroutineModule
 import com.tushar.data.di.dataModule
 import com.tushar.data.di.platformDataModule
 import com.tushar.domain.di.domainModule
@@ -20,6 +21,7 @@ fun initKoin() {
             platformDataModule,  // iOS-specific implementations
             dataModule,          // Data layer
             domainModule,        // Domain layer
+            coroutineModule,     // Core module
             coinListModule       // Feature modules
         )
     }
