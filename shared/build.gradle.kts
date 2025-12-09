@@ -44,11 +44,7 @@ kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
             // Export all dependencies to make them available to iOS
-            export(project(":common:ui"))
-            export(project(":common:data"))
-            export(project(":common:domain"))
-            export(project(":feature:coinlist"))
+            // Intentionally kept empty for now
         }
     }
 }
-
