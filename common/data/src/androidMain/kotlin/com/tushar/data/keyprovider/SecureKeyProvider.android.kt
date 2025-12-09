@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec
  * Key file location: common/data/src/androidMain/res/raw/key.properties
  * Encryption: Handled by EncryptionPlugin during build
  */
-actual class SecureKeyProvider(
+class SecureKeyProvider(
     private val context: Context
 ) : KeyProvider {
 
@@ -25,7 +25,7 @@ actual class SecureKeyProvider(
         decryptKeyProperties()
     }
 
-    actual override fun get(key: String): String? {
+    override fun get(key: String): String? {
         return try {
             properties.getProperty(key)
         } catch (e: Exception) {

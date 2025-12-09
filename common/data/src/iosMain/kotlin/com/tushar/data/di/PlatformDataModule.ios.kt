@@ -1,7 +1,7 @@
 package com.tushar.data.di
 
+import com.tushar.data.keyprovider.DefaultKeyProvider
 import com.tushar.data.keyprovider.KeyProvider
-import com.tushar.data.keyprovider.SecureKeyProvider
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -11,5 +11,5 @@ import org.koin.dsl.module
  * Provides SecureKeyProvider with plain text keys.
  */
 actual val platformDataModule = module {
-    singleOf(::SecureKeyProvider) { bind<KeyProvider>() }
+    singleOf(::DefaultKeyProvider) { bind<KeyProvider>() }
 }

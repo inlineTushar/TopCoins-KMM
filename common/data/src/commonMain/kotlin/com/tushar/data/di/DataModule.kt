@@ -3,7 +3,6 @@ package com.tushar.data.di
 import com.tushar.data.datasource.remote.api.CoinApiService
 import com.tushar.data.datasource.remote.instrumentation.BigDecimalSerializer
 import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSerializer
-import com.tushar.data.keyprovider.KeyProvider
 import com.tushar.data.repository.CoinRepositoryImpl
 import com.tushar.domain.repository.CoinRepository
 import kotlinx.serialization.json.Json
