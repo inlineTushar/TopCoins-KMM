@@ -1,17 +1,7 @@
-## Objective
+## Top Coins
 
-Develop an Android application that displays a list of the best/worst performing crypto coins in the
+Android application that displays a list of best/worst performing crypto coins in the
 last 24 hours.
-
-## Requirements
-
-* Display a list of the top 10 crypto coins based on price change percentage over the last 24 hours
-* Provide a way to switch between the 10 best and 10 worst performing crypto coins
-* Each list item should contain: Name, Symbol, Change % (format: xx.xx%), Price in Euro
-* Provide an option to refresh the list using fresh data
-* Use Jetpack Compose for the UI implementation
-
-## App Name: Top Coins
 
 ---
 
