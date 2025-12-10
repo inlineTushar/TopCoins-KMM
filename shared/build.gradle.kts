@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.local.multiplatform)
+    alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
 }

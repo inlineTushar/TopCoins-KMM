@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.local.multiplatform)
+    alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.local.library.koin) // Koin DI (KMM-aware)
-    alias(libs.plugins.local.library.test) // Test dependencies (KMM-aware)
+    alias(libs.plugins.convention.library.koin) // Koin DI (KMM-aware)
+    alias(libs.plugins.convention.library.test) // Test dependencies (KMM-aware)
 }
 
 android {

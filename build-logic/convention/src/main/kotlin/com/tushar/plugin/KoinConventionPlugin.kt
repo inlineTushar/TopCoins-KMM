@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * }
  * ```
  */
-class LibraryKoinConventionPlugin : Plugin<Project> {
+class KoinConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // Check if this is a KMM module

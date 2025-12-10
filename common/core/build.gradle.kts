@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.local.multiplatform)
-    alias(libs.plugins.local.library.koin)
+    alias(libs.plugins.convention.multiplatform)
+    alias(libs.plugins.convention.library.koin)
 }
 
 android {

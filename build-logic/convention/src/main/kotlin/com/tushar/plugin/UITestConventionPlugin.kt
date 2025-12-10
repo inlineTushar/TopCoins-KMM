@@ -16,7 +16,7 @@ import org.gradle.kotlin.dsl.dependencies
  * - Hilt Android Testing
  * - Compose UI Test dependencies (when applicable)
  */
-class LibraryUITestConventionPlugin : Plugin<Project> {
+class UITestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             dependencies {

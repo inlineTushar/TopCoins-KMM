@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.local.application)
+    alias(libs.plugins.convention.application)
 }
 
 android {

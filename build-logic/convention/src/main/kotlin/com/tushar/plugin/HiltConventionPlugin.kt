@@ -16,7 +16,7 @@ import org.gradle.kotlin.dsl.dependencies
  * }
  * ```
  */
-class LibraryHiltConventionPlugin : Plugin<Project> {
+class HiltConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

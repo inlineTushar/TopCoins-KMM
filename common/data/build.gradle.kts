@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.local.multiplatform)
-    alias(libs.plugins.local.encryption)  // Keep for Android
+    alias(libs.plugins.convention.multiplatform)
+    alias(libs.plugins.convention.encryption)  // Keep for Android
     alias(libs.plugins.buildkonfig)       // For iOS build-time configuration
-    alias(libs.plugins.local.library.koin) // Koin DI (KMM-aware)
-    alias(libs.plugins.local.library.test) // Test dependencies (KMM-aware)
+    alias(libs.plugins.convention.library.koin) // Koin DI (KMM-aware)
+    alias(libs.plugins.convention.library.test) // Test dependencies (KMM-aware)
 }
 
 android {

@@ -45,7 +45,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * }
  * ```
  */
-class LibraryFeatureConventionPlugin : Plugin<Project> {
+class FeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // Apply multiplatform structure

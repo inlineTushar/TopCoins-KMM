@@ -178,26 +178,26 @@ buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig"
 
 # Convention Plugins
 # Base library plugin with Kotlin & Android setup 
-local-library = { id = "android.library" }  # → LibraryConventionPlugin
+convention-library = { id = "android.library" }  # → LibraryConventionPlugin
 # Compose plugin with Compose setup (works for both libraries and applications)
-local-library-composeview = { id = "android.library.composeview" }  # → LibraryComposeConventionPlugin
+convention-library-compose = { id = "android.library.composeview" }  # → LibraryComposeConventionPlugin
 # Hilt DI plugin with Hilt setup (kapt + dependencies)
-local-library-hilt = { id = "android.library.hilt" }  # → LibraryHiltConventionPlugin
+convention-library-hilt = { id = "android.library.hilt" }  # → LibraryHiltConventionPlugin
 # Koin DI plugin with Koin setup (dependencies only, no annotation processing)
-local-library-koin = { id = "android.library.koin" }  # → LibraryKoinConventionPlugin
+convention-library-koin = { id = "android.library.koin" }  # → LibraryKoinConventionPlugin
 # XML View plugin with ViewBinding + navigation 
-local-library-xmlview = { id = "android.library.xmlview" }  # → LibraryXMLViewConventionPlugin
+convention-library-xmlview = { id = "android.library.xmlview" }  # → LibraryXMLViewConventionPlugin
 # Unit testing plugin (JUnit, MockK, Coroutines Test, Turbine, AssertK) - Apply explicitly
-local-library-test = { id = "android.library.test" }  # → LibraryTestConventionPlugin
+convention-library-test = { id = "android.library.test" }  # → LibraryTestConventionPlugin
 # UI testing plugin (Espresso, Compose UI Test, Hilt Testing) - Apply explicitly
-local-library-uitest = { id = "android.library.uitest" }  # → LibraryUITestConventionPlugin
+convention-library-uitest = { id = "android.library.uitest" }  # → LibraryUITestConventionPlugin
 # Feature plugin combining library + compose + hilt
-local-library-feature = { id = "android.library.feature" }  # → LibraryFeatureConventionPlugin
+convention-library-feature = { id = "android.library.feature" }  # → LibraryFeatureConventionPlugin
 # Application plugin with app-level setup (compileSdk, buildTypes, etc.)
-local-application = { id = "android.application" }  # → ApplicationConventionPlugin
+convention-application = { id = "android.application" }  # → ApplicationConventionPlugin
 # Lint plugin for code quality checks (XML reports, SARIF reports, dependency checks)
-local-lint = { id = "android.lint" }  # → LintConventionPlugin
+convention-lint = { id = "android.lint" }  # → LintConventionPlugin
 # Encryption plugin for encrypting sensitive files during build
-local-encryption = { id = "android.encryption" }  # → EncryptionPlugin
+convention-encryption = { id = "android.encryption" }  # → EncryptionPlugin
 # Multiplatform conversion plugin for KMM modules
-local-multiplatform = { id = "android.multiplatform.conversion" }  # → MultiplatformConversionPlugin
+convention-multiplatform = { id = "android.multiplatform.conversion" }  # → MultiplatformConversionPlugin

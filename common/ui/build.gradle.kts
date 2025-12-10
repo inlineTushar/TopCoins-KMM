@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.local.multiplatform)
-    alias(libs.plugins.local.library.composeview)
-    alias(libs.plugins.local.library.koin)
-    alias(libs.plugins.local.library.test)
+    alias(libs.plugins.convention.multiplatform)
+    alias(libs.plugins.convention.library.compose)
+    alias(libs.plugins.convention.library.koin)
+    alias(libs.plugins.convention.library.test)
 }
 
 android {

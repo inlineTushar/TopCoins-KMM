@@ -36,47 +36,47 @@ tasks {
 gradlePlugin {
     plugins {
         register("application") {
-            id = libs.plugins.local.application.get().pluginId
+            id = libs.plugins.convention.application.get().pluginId
             implementationClass = "com.tushar.plugin.ApplicationConventionPlugin"
         }
         register("library") {
-            id = libs.plugins.local.library.asProvider().get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryConventionPlugin"
+            id = libs.plugins.convention.library.asProvider().get().pluginId
+            implementationClass = "com.tushar.plugin.BaseConventionPlugin"
         }
         register("libraryXMLView") {
-            id = libs.plugins.local.library.xmlview.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryXMLViewConventionPlugin"
+            id = libs.plugins.convention.library.xmlview.get().pluginId
+            implementationClass = "com.tushar.plugin.XMLViewConventionPlugin"
         }
         register("libraryComposeView") {
-            id = libs.plugins.local.library.composeview.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryComposeConventionPlugin"
+            id = libs.plugins.convention.library.compose.get().pluginId
+            implementationClass = "com.tushar.plugin.ComposeConventionPlugin"
         }
         register("libraryHilt") {
-            id = libs.plugins.local.library.hilt.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryHiltConventionPlugin"
+            id = libs.plugins.convention.library.hilt.get().pluginId
+            implementationClass = "com.tushar.plugin.HiltConventionPlugin"
         }
         register("libraryKoin") {
-            id = libs.plugins.local.library.koin.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryKoinConventionPlugin"
+            id = libs.plugins.convention.library.koin.get().pluginId
+            implementationClass = "com.tushar.plugin.KoinConventionPlugin"
         }
         register("libraryFeature") {
-            id = libs.plugins.local.library.feature.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryFeatureConventionPlugin"
+            id = libs.plugins.convention.library.feature.get().pluginId
+            implementationClass = "com.tushar.plugin.FeatureConventionPlugin"
         }
         register("libraryTest") {
-            id = libs.plugins.local.library.test.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryTestConventionPlugin"
+            id = libs.plugins.convention.library.test.get().pluginId
+            implementationClass = "com.tushar.plugin.TestConventionPlugin"
         }
         register("libraryUITest") {
-            id = libs.plugins.local.library.uitest.get().pluginId
-            implementationClass = "com.tushar.plugin.LibraryUITestConventionPlugin"
+            id = libs.plugins.convention.library.uitest.get().pluginId
+            implementationClass = "com.tushar.plugin.UITestConventionPlugin"
         }
         register("lint") {
-            id = libs.plugins.local.lint.get().pluginId
+            id = libs.plugins.convention.lint.get().pluginId
             implementationClass = "com.tushar.plugin.LintConventionPlugin"
         }
         register("multiplatformConversion") {
-            id = libs.plugins.local.multiplatform.get().pluginId
+            id = libs.plugins.convention.multiplatform.get().pluginId
             implementationClass = "com.tushar.plugin.MultiplatformConversionPlugin"
         }
     }

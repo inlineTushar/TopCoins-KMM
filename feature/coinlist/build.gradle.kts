@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.local.library.feature)
+    alias(libs.plugins.convention.library.feature)
 }
 
 android {

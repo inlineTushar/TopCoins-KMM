@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * - Turbine (for Flow testing)
  * - AssertK
  */
-class LibraryTestConventionPlugin : Plugin<Project> {
+class TestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // Check if this is a KMM module

@@ -34,7 +34,7 @@ tasks {
 gradlePlugin {
     plugins {
         register("encryption") {
-            id = libs.plugins.local.encryption.get().pluginId
+            id = libs.plugins.convention.encryption.get().pluginId
             implementationClass = "com.tushar.security.plugin.EncryptionPlugin"
         }
     }

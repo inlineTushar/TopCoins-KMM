@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * }
  * ```
  */
-class LibraryComposeConventionPlugin : Plugin<Project> {
+class ComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // Always apply Compose compiler plugin
