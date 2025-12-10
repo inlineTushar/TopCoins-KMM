@@ -1,338 +1,79 @@
-## Objective
+# Top Coins — Kotlin Multiplatform (KMM)
 
-Develop an Android application that displays a list of the best/worst performing crypto coins in the
-last 24 hours.
-
-## Requirements
-
-* Display a list of the top 10 crypto coins based on price change percentage over the last 24 hours
-* Provide a way to switch between the 10 best and 10 worst performing crypto coins
-* Each list item should contain: Name, Symbol, Change % (format: xx.xx%), Price in Euro
-* Provide an option to refresh the list using fresh data
-* Use Jetpack Compose for the UI implementation
-
-## App Name: Top Coins
+**Top Coins** is a cross-platform (Android & iOS) crypto analytics app, refactored to KMM from an
+original Android-only
+architecture ([switch to Android-only](https://github.com/inlineTushar/TopCoins/tree/master)).
 
 ---
 
 ## Preview
 
-![Preview](preview/preview1.png)
+| Android                                         | iOS                                     |
+|-------------------------------------------------|-----------------------------------------|
+| ![Android Preview](preview/preview_android.png) | ![iOS Preview](preview/preview_ios.png) |
 
 ---
 
-## Architecture Overview
+## Modularization Structure (KMM)
 
-The application follows **Clean Architecture** principles with clear separation of concerns across
-multiple modules.
-
-### Architecture Layers
-
-- **Presentation Layer**: Jetpack Compose UI with `ViewModel` for state management
-- **Domain Layer**: Contains use cases and business logic, independent of frameworks
-- **Data Layer**: Repository pattern with Retrofit for API communication, handles data fetching and
-  caching
-
-**Key Patterns**:
-
-- **MVVM** for UI architecture (ViewModel + StateFlow)
-- **Unidirectional Data Flow** for predictable state management
-- **Dependency Injection** via Koin for loose coupling and simplicity
-- **Result-based error handling** for robust failure scenarios
-
-
-### Clean Architecture: Modules, Layers & Data Flow
-
-This diagram shows the complete architecture combining Clean Architecture layers, module
-relationships, dependency rules, and data flow:
-
-```mermaid
-graph TB
-    subgraph "📱 Presentation Layer - feature:coinlist"
-        UI["🖼️ CoinListScreen<br/>(Composable)"]
-        VM["🎭 CoinListViewModel<br/>Koin ViewModel<br/>StateFlow&lt;CoinsUiState&gt;"]
-        STATE["📊 CoinsUiState<br/>(Sealed Class)<br/>Loading | Content | Error"]
-        MODEL["📦 CoinUIModel<br/>"]
-    end
-
-    subgraph "🎯 Domain Layer - common:domain"
-        UC["⚙️ GetCoinUseCase<br/>Koin Single<br/>Business Logic"]
-        REPO_INT["📋 CoinRepository<br/>⭐ INTERFACE<br/>(Dependency Inversion)"]
-        DOMAIN_MODEL["🎲 Domain Models<br/>CoinsDomainModel<br/>CoinDomainModel"]
-        ERROR["❌ DomainError<br/>(Sealed Class)<br/>NoConnectivity | Timeout"]
-    end
-
-    subgraph "💾 Data Layer - common:data"
-        REPO["🗄️ CoinRepositoryImpl<br/>Koin Single<br/>+ In-Memory Cache"]
-        KOIN_MODULE["🔧 dataModule<br/>Koin Module DSL<br/>Provides Dependencies"]
-        API["🌐 CoinApiService<br/>(Retrofit Interface)"]
-        INTERCEPTOR["🔐 TokenInterceptor<br/>(Auth Header)"]
-        CRYPTO["🔒 SecureKeyProvider<br/>(AES-256-GCM)"]
-        REPO_MODEL["📝 Repo Models<br/>CoinsRepoModel"]
-        API_MODEL["📡 API Models<br/>CoinsApiResponse"]
-    end
-
-    subgraph "🌍 External"
-        NETWORK["☁️ CoinCap API<br/>REST Endpoint"]
-    end
-
-    %% Data Flow - Solid Lines (source code dependencies)
-    UI -->|"1️⃣ User Action<br/>(Pull Refresh)"| VM
-    VM -->|"2️⃣ collect()<br/>StateFlow"| STATE
-    STATE -->|contains| MODEL
-    VM -->|"3️⃣ Koin inject<br/>calls method "| UC
-    UC -->|" 4️⃣ Koin inject<br/>uses interface "| REPO_INT
-    UC -->|" 5️⃣ returns "| DOMAIN_MODEL
-    UC -->|" 6️⃣ throws on error "| ERROR
-%% Data Layer Implementation (Clean Architecture boundary)
-    REPO_INT -.->|" 7️⃣ implemented by<br/>(via bind) "| REPO
-    KOIN_MODULE -.->|"🔧 Provides at runtime<br/>(DI wiring)"| REPO
-    
-    %% Data Flow Inside Data Layer
-    REPO -->|"8️⃣ fetch()<br/>with retry"| API
-    API -->|"9️⃣ adds header"| INTERCEPTOR
-    INTERCEPTOR -->|"🔟 gets token"| CRYPTO
-    API -->|"1️⃣1️⃣ HTTP GET"| NETWORK
-    NETWORK -->|"1️⃣2️⃣ JSON Response"| API
-    API -->|"1️⃣3️⃣ deserialize"| API_MODEL
-    API_MODEL -->|"1️⃣4️⃣ map to"| REPO_MODEL
-    REPO_MODEL -->|"1️⃣5️⃣ map to"| DOMAIN_MODEL
-    DOMAIN_MODEL -->|"1️⃣6️⃣ back to"| UC
-    UC -->|"1️⃣7️⃣ map to"| MODEL
-    MODEL -->|"1️⃣8️⃣ emit"| STATE
-    STATE -->|"1️⃣9️⃣ render"| UI
-
-    %% Koin DI Dependency (Runtime DI)
-    VM -.->|" 💉 Koin Runtime DI<br/>(No code generation) "| KOIN_MODULE
-%% Styling
-    classDef presentation fill: #e3f2fd, stroke: #1976d2, stroke-width: 3px, color: #000
-    classDef domain fill: #fff9c4, stroke: #f57f17, stroke-width: 3px, color: #000
-    classDef data fill: #f3e5f5, stroke: #7b1fa2, stroke-width: 3px, color: #000
-    classDef koin fill: #c8e6c9, stroke: #388e3c, stroke-width: 4px, color: #000
-    classDef external fill: #ffebee, stroke: #c62828, stroke-width: 3px, color: #000
-    class UI, VM, STATE, MODEL presentation
-    class UC, REPO_INT, DOMAIN_MODEL, ERROR domain
-    class REPO, API, INTERCEPTOR, CRYPTO, REPO_MODEL, API_MODEL data
-    class KOIN_MODULE koin
-    class NETWORK external
+```text
+app/                    # Android app
+iosApp/                 # iOS (SwiftUI) app hosting Compose
+shared/                 # KMM umbrella module (exports everything cross-platform)
+  └── common/
+        core/           # Core types/utilities
+        data/           # Repositories, Ktor/Retrofit
+        domain/         # Use cases, models
+        ui/             # UI theme/components
+        navigation/     # (Android only)
+  └── feature/
+        coinlist/       # Feature: coin list for both platforms
 ```
 
-## Testing
-
-The application includes comprehensive test coverage:
-
-- **Unit Tests**: Test business logic, ViewModels, use cases, and data layer components in isolation
-- **UI Tests**: Compose UI tests to verify user interactions and screen behavior
-
-Run tests using:
-
-```bash
-# Run all unit tests
-./gradlew test
-
-# Run all instrumentation (UI) tests
-./gradlew connectedAndroidTest
-```
+- The `shared` umbrella module gathers all shared (common/feature) modules for Android & iOS.
+- Platform launchers (`app`, `iosApp`) are thin and only host the shared code/UI.
 
 ---
 
-## Modularization & Multi-Module Structure
+## KMM Architecture & Principles
 
-The project uses a **feature-based modularization** strategy:
-
-```
-app/                    # Application module (composition root)
-├── feature/
-│   └── coinlist/      # Feature module (self-contained)
-└── common/
-    ├── data/          # Data layer (repositories, network)
-    ├── domain/        # Domain layer (use cases, models)
-    ├── ui/            # Shared UI components & theme
-    └── navigation/    # Navigation definitions
-```
-
-### Custom Gradle Plugin Benefits
-
-The project uses **custom convention plugins** (`build-logic/`) to standardize build configuration:
-
-- **Consistency**: Unified build configuration across all modules
-- **Reusability**: Common plugins like `library-feature`, `library-composeview`, `library-koin`
-- **Maintainability**: Single source of truth for dependency versions and build settings
-- **Encryption Plugin**: Custom plugin for secure API key encryption/decryption at build/runtime
-
-**Example**: The `library-feature` plugin automatically configures Koin, Compose, testing, and
-common dependencies for feature modules.
+- **MVVM** with multiplatform ViewModel (StateFlow), Compose Multiplatform UI on all platforms
+- **Clean Architecture**: distinct domain, data, UI modules
+- **DI:** Koin multiplatform
+- **Modular**: Feature modules, core/domain/data split
+- **Tests**: Unit tests in all major modules
 
 ---
 
-## Build Instructions
+## Clean Code Practices
 
-### 1. API Key Configuration
+| Principle                  | How It's Done                                                      |
+|----------------------------|--------------------------------------------------------------------|
+| **Separation of Concerns** | Layered Clean Architecture, per-domain modules                     |
+| **Testability**            | Unit & UI Tests, DI with Koin                                      |
+| **Modularity**             | Feature & domain modules, Compose resource encapsulation           |
+| **Build Hygiene**          | Custom Gradle convention plugins                                   |
+| **KMM Best-Practices**     | Platform-specific logic in respective sourceSets, umbrella sharing |
 
-The project uses **encrypted API keys** for security. Keys are encrypted at build time and decrypted
-at runtime.
+---
 
-**Steps**:
+## API Key Setup
 
-1. Navigate to the `secret/` directory
-2. Open `key.properties` (or create it from `key.properties.template`)
-3. Add your CoinCap TOKEN key:
+This app requires a personal API key (AUTH_KEY) from [CoinCap](https://coincap.io/).
+
+1. Register at [CoinCap API portal](https://coincap.io/api) to get your API token.
+2. Open (or create) `secret/key.properties` in your project (the file is ignored by git).
+3. Add your key in the following format (see `key.properties.template` for an example!):
+
    ```properties
-   COIN_AUTH_KEY=your_coincap_token_key_here
+   COIN_AUTH_KEY=<your coincide API token here>
    ```
-4. The encryption plugin will automatically encrypt this file during build and place it in
-   `common/data/src/main/res/raw/`
-
-### 2. Keystore Configuration
-
-The app requires signing configurations for both debug and release builds.
-
-**Debug Build**:
-
-- Debug keystore is included: `keystore/debug.keystore.jks`
-- No additional configuration needed
-
-**Release Build**:
-1. Release keystore is included: `keystore/release.keystore.jks`
-2. Obtain the release signing credentials from the developer
-3. Add credentials to your **global gradle.properties** (`~/.gradle/gradle.properties`):
-   ```properties
-   COIN_RELEASE_KEY_ALIAS=your_key_alias
-   COIN_RELEASE_KEY_PASSWORD=your_key_password
-   COIN_RELEASE_STORE_PASSWORD=your_store_password
-   ```
-
-### 3. Build the Project
-
-```bash
-# Debug build
-./gradlew assembleDebug
-
-# Release build
-./gradlew assembleRelease
-```
+4. Never commit this file. It is already gitignored for safety!
 
 ---
 
-## 🍎 iOS Support (Kotlin Multiplatform)
+## Switch to Android-only
 
-The project supports **iOS** through **Kotlin Multiplatform (KMP)**. The `:shared` module acts as an
-umbrella module that contains all multiplatform code and dependencies.
+This is the `KMM` multiplatform branch. For the pure Android
+app, [checkout here](https://github.com/inlineTushar/TopCoins/tree/master).
 
-### Architecture
-
-```
-┌─────────────────────────────────────────────┐
-│          iOS App (SwiftUI)                  │
-│  ┌───────────────────────────────────────┐  │
-│  │   ContentView                         │  │
-│  │   (UIViewControllerRepresentable)     │  │
-│  └───────────────┬───────────────────────┘  │
-└────────────────┼───────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────────┐
-│     :shared (Umbrella Module)               │
-│  ┌───────────────────────────────────────┐  │
-│  │  MainViewController()                 │  │
-│  │  Returns ComposeUIViewController      │  │
-│  └───────────────────────────────────────┘  │
-│                                             │
-│  Dependencies (all exported to iOS):       │
-│  • :common:ui                              │
-│  • :common:data                            │
-│  • :common:domain                          │
-│  • :feature:coinlist                       │
-└─────────────────────────────────────────────┘
-```
-
-### iOS Project Setup
-
-The iOS app is located in the `iosApp/` directory. It's a standard SwiftUI app that hosts the
-Compose UI.
-
-**Key Files**:
-
-- `shared/src/iosMain/kotlin/com/tushar/shared/MainViewController.kt` - Kotlin entry point for iOS
-- `iosApp/iosApp/ContentView.swift` - SwiftUI view that wraps the Compose UI
-- `iosApp/iosApp/iOSApp.swift` - iOS app entry point
-
-### Building for iOS
-
-#### Quick Start (Xcode)
-
-1. **Build the shared framework:**
-   ```bash
-   ./build-ios-framework.sh
-   ```
-
-2. **Open in Xcode:**
-   ```bash
-   open iosApp/iosApp.xcodeproj
-   ```
-
-3. **Select a simulator and run** (⌘R)
-
-#### Manual Build
-
-```bash
-# Build the framework
-./gradlew :shared:embedAndSignAppleFrameworkForXcode
-
-# Or build XCFramework
-./gradlew :shared:assembleSharedDebugXCFramework    # Debug
-./gradlew :shared:assembleSharedReleaseXCFramework  # Release
-```
-
-### How It Works
-
-1. **Kotlin Side** (`shared/src/iosMain`):
-   ```kotlin
-   fun MainViewController(): UIViewController {
-       return ComposeUIViewController {
-           AppTheme {
-               CoinListScreen()
-           }
-       }
-   }
-   ```
-
-2. **Swift Side** (`iosApp/ContentView.swift`):
-   ```swift
-   struct ComposeView: UIViewControllerRepresentable {
-       func makeUIViewController(context: Context) -> UIViewController {
-           return MainViewControllerKt.MainViewController()
-       }
-   }
-   ```
-
-3. **Automatic Build**: Xcode project includes a build phase that automatically builds the Kotlin
-   framework before compiling Swift code
-
-### iOS Module Structure
-
-- **:shared** - Umbrella module that exports all multiplatform modules to iOS
-- **:common:ui** - Shared UI components and theme (used by iOS)
-- **:common:data** - Data layer with Ktor for networking (cross-platform)
-- **:common:domain** - Business logic (cross-platform)
-- **:feature:coinlist** - Coin list feature (cross-platform)
-
-**Note**: `:common:navigation` is Android-only and not included in the iOS build.
-
-### Platform Differences
-
-| Component      | Android                    | iOS                                       |
-|----------------|----------------------------|-------------------------------------------|
-| **UI**         | Compose Multiplatform      | Compose Multiplatform (via UIKit wrapper) |
-| **Navigation** | Jetpack Navigation Compose | Planned: Compose Navigation or SwiftUI    |
-| **Networking** | Ktor                       | Ktor                                      |
-| **DI**         | Koin                       | Koin                                      |
-| **ViewModels** | Lifecycle ViewModel        | Lifecycle ViewModel (KMP)                 |
-
-### Detailed iOS Documentation
-
-For comprehensive iOS setup instructions, troubleshooting, and advanced topics, see:
-
-- **[iosApp/README.md](iosApp/README.md)** - Complete iOS setup guide
-
----
