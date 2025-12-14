@@ -4,8 +4,7 @@ import shared
 @main
 struct iOSApp: App {
     init() {
-        // Initialize Koin for dependency injection
-        MainViewControllerKt.doInitKoin()
+        KoinKt.startKoin()
     }
 
     var body: some Scene {
