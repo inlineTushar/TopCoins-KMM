@@ -122,11 +122,6 @@ class FeatureConventionPlugin : Plugin<Project> {
 
                 // ViewModel support in common code (KMP)
                 implementation(project.libs.findLibrary("androidx-lifecycle-viewmodel").get())
-                implementation(
-                    project.libs.findLibrary("androidx-lifecycle-runtime-compose-multiplatform")
-                        .get()
-                )
-                implementation(project.libs.findLibrary("androidx-lifecycle-viewmodel-compose-multiplatform").get())
 
                 // Koin BOM for version management and Compose dependencies
                 implementation(

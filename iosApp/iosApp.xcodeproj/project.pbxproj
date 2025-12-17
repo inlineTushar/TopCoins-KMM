@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7555FF84242A565900829871 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF7F242A565900829871 /* iOSApp.swift */; };
+		CF823DEE2EF2CDE700E9467E /* SwiftCoinListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */; };
+		CF823DF02EF2D4D000E9467E /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DEF2EF2D4D000E9467E /* ComposeView.swift */; };
+		CF823DF22EF2D56100E9467E /* CoinListScreenUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */; };
+		CF823DF62EF2D70A00E9467E /* ProgressBarUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DF52EF2D70A00E9467E /* ProgressBarUi.swift */; };
+		CF823DF82EF2D75C00E9467E /* ErrorUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DF72EF2D75C00E9467E /* ErrorUi.swift */; };
+		CF823DFA2EF2DA1000E9467E /* HeaderUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DF92EF2DA1000E9467E /* HeaderUi.swift */; };
+		CF823DFC2EF2DAF500E9467E /* CoinItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */; };
+		CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */; };
+		CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */; };
+		CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +26,16 @@
 		7555FF7F242A565900829871 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCoinListViewModel.swift; sourceTree = "<group>"; };
+		CF823DEF2EF2D4D000E9467E /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
+		CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListScreenUi.swift; sourceTree = "<group>"; };
+		CF823DF52EF2D70A00E9467E /* ProgressBarUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarUi.swift; sourceTree = "<group>"; };
+		CF823DF72EF2D75C00E9467E /* ErrorUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorUi.swift; sourceTree = "<group>"; };
+		CF823DF92EF2DA1000E9467E /* HeaderUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderUi.swift; sourceTree = "<group>"; };
+		CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinItemUi.swift; sourceTree = "<group>"; };
+		CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdateTimeStampUi.swift; sourceTree = "<group>"; };
+		CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingItemUi.swift; sourceTree = "<group>"; };
+		CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedViewModelStoreOwner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +68,16 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */,
+				CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */,
+				CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */,
+				CF823DF92EF2DA1000E9467E /* HeaderUi.swift */,
+				CF823DF72EF2D75C00E9467E /* ErrorUi.swift */,
+				CF823DF52EF2D70A00E9467E /* ProgressBarUi.swift */,
+				CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */,
+				CF823DEF2EF2D4D000E9467E /* ComposeView.swift */,
+				CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */,
+				CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */,
 				7555FF7F242A565900829871 /* iOSApp.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -145,7 +175,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF823DF02EF2D4D000E9467E /* ComposeView.swift in Sources */,
+				CF823DFA2EF2DA1000E9467E /* HeaderUi.swift in Sources */,
+				CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */,
+				CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */,
+				CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */,
+				CF823DEE2EF2CDE700E9467E /* SwiftCoinListViewModel.swift in Sources */,
+				CF823DF22EF2D56100E9467E /* CoinListScreenUi.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				CF823DFC2EF2DAF500E9467E /* CoinItemUi.swift in Sources */,
+				CF823DF62EF2D70A00E9467E /* ProgressBarUi.swift in Sources */,
+				CF823DF82EF2D75C00E9467E /* ErrorUi.swift in Sources */,
 				7555FF84242A565900829871 /* iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

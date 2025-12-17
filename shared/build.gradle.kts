@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.touchlab.skie)
 }
 
 android {
@@ -33,9 +34,9 @@ kotlin {
                 api(project(":common:data"))
                 api(project(":common:domain"))
 
-
                 // Feature modules
                 api(project(":feature:coinlist"))
+                implementation(libs.touchlab.skie.annotations)
             }
         }
     }
@@ -44,7 +45,24 @@ kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
         binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
             // Export all dependencies to make them available to iOS
-            // Intentionally kept empty for now
+            export(project(":feature:coinlist"))
+            export(project(":common:core"))
+            export(project(":common:ui"))
+            export(project(":common:data"))
+            export(project(":common:domain"))
         }
     }
+
+    task("testClasses")
+}
+
+android {
+    dependencies {
+        implementation(libs.androidx.core.ktx)
+        implementation(libs.koin.android)
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }

@@ -99,16 +99,17 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
         iosSimulatorArm64()
     )
 
+    // Define libs accessor for convenience within this scope
+    val libs = project.libs
+
     // Configure iOS frameworks
     iosTargets.forEach { target ->
         target.binaries.framework {
+            export(libs.findLibrary("androidx-lifecycle-viewmodel").get())
             baseName = project.name
-            isStatic = true
+//            isStatic = true
         }
     }
-
-    // Define libs accessor for convenience within this scope
-    val libs = project.libs
 
     // Source sets configuration
     sourceSets.apply {

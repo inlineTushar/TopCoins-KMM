@@ -7,6 +7,7 @@ kotlin = "2.2.21"
 ksp = "2.0.21-1.0.27"
 buildkonfig = "0.15.2"
 compose-multiplatform = "1.7.3"
+skie = "0.10.8"
 
 # AndroidX
 core-ktx = "1.17.0"
@@ -78,9 +79,9 @@ androidx-lifecycle-viewmodel-savedstate = { group = "androidx.lifecycle", name =
 androidx-lifecycle-viewmodel-testing = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-testing", version.ref = "lifecycle-runtime-ktx" }
 
 # AndroidX Lifecycle (KMP - Kotlin Multiplatform)
-androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
-androidx-lifecycle-runtime-compose-multiplatform = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel-compose-multiplatform = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
+
+touchlab-skie-annotations = { module = "co.touchlab.skie:configuration-annotations", version.ref = "skie" }
 
 # Compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -175,6 +176,7 @@ junit5 = { id = "org.junit.platform.gradle.plugin", version = "1.2.0" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Convention Plugins
 # Base library plugin with Kotlin & Android setup 
