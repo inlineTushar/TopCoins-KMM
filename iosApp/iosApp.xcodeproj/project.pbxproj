@@ -18,6 +18,7 @@
 		CF823DFC2EF2DAF500E9467E /* CoinItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */; };
 		CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */; };
 		CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */; };
+		CF823E062EF5729600E9467E /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823E052EF5728F00E9467E /* Bundle.swift */; };
 		CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinItemUi.swift; sourceTree = "<group>"; };
 		CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdateTimeStampUi.swift; sourceTree = "<group>"; };
 		CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingItemUi.swift; sourceTree = "<group>"; };
+		CF823E052EF5728F00E9467E /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedViewModelStoreOwner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +70,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF823E052EF5728F00E9467E /* Bundle.swift */,
 				CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */,
 				CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */,
 				CF823DFB2EF2DAF500E9467E /* CoinItemUi.swift */,
@@ -176,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF823DF02EF2D4D000E9467E /* ComposeView.swift in Sources */,
+				CF823E062EF5729600E9467E /* Bundle.swift in Sources */,
 				CF823DFA2EF2DA1000E9467E /* HeaderUi.swift in Sources */,
 				CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */,
 				CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */,

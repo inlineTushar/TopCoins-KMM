@@ -42,7 +42,6 @@ struct SortingItemUi: View {
         switch type {
         case .bestPerform: return "Best"
         case .worstPerform: return "Worst"
-        default: return "Sort"
         }
     }
 }

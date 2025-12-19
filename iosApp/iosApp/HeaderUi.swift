@@ -17,7 +17,6 @@ struct HeaderUi<Top: View, Bottom: View>: View {
             bottom
         }
         .frame(maxWidth: .infinity)
-        .background(Color.accentColor)
         .padding(12)
     }
 }

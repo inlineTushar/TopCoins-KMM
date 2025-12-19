@@ -33,7 +33,7 @@ struct CoinItemUi: View {
                     .accessibilityLabel("Price: \(coinPrice)")
             }
         }
-        .padding(16)
+        .padding(8)
         .frame(maxWidth: .infinity)
         .accessibilityLabel("Coin item: \(coinName) (\(coinSymbol)), price \(coinPrice), change in last 24 hours \(coinChange)")
     }

@@ -38,5 +38,8 @@ class SwiftCoinListViewModel: ObservableObject {
     func onRetry() {
         viewModel.onRetry()
     }
+    
+    func onReload() {
+        viewModel.onReload()
+    }
 }
-
