@@ -11,14 +11,15 @@ struct CoinListScreenUi: View {
         if #available(iOS 16.0, *) {
             NavigationStack {
                 VStack {
-                    if vm.uiState is CoinsUiState.Loading {
+                    switch vm.uiState {
+                    case is CoinsUiState.Loading:
                         ProgressBarUi()
-                    } else if let errorState = vm.uiState as? CoinsUiState.Error {
+                    case let errorState as CoinsUiState.Error:
                         ErrorUi(
                             errorText: errorState.errorString,
                             onRetry: vm.onRetry
                         )
-                    } else if let contentState = vm.uiState as? CoinsUiState.Content {
+                    case let contentState as CoinsUiState.Content:
                         VStack {
                             HeaderUi {
                                 SortingItemUi(
@@ -41,6 +42,8 @@ struct CoinListScreenUi: View {
                                 }
                             }
                         }.refreshable { vm.onReload() }
+                    default:
+                        EmptyView()
                     }
                 }
                 .navigationTitle(Bundle.main.appName)

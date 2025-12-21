@@ -11,3 +11,7 @@ plugins {
 tasks.register<Delete>("clean") {
     delete(layout.buildDirectory)
 }
+
+tasks.register<Exec>("openXcode") {
+    commandLine("open", "iosApp/iosApp.xcodeproj")
+}
