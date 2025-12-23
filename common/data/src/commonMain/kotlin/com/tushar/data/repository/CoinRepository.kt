@@ -1,6 +1,6 @@
 package com.tushar.data.repository
 
-import com.tushar.data.datasource.remote.api.CoinApiService
+import com.tushar.data.datasource.remote.api.coin.CoinApiService
 import com.tushar.data.repository.model.CoinsRepoModel
 import com.tushar.data.repository.model.ConversionRateRepoModel
 import com.tushar.domain.model.CoinsInUsdDomainModel

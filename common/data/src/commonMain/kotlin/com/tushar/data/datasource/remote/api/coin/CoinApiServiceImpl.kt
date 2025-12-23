@@ -1,4 +1,4 @@
-package com.tushar.data.datasource.remote.api
+package com.tushar.data.datasource.remote.api.coin
 
 import com.tushar.data.datasource.remote.model.CoinApiDetailResponse
 import com.tushar.data.datasource.remote.model.CoinsApiResponse
