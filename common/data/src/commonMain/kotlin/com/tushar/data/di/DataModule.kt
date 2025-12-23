@@ -1,6 +1,7 @@
 package com.tushar.data.di
 
 import com.tushar.data.datasource.remote.api.CoinApiService
+import com.tushar.data.datasource.remote.api.CoinApiServiceImpl
 import com.tushar.data.datasource.remote.instrumentation.BigDecimalSerializer
 import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSerializer
 import com.tushar.data.repository.CoinRepositoryImpl
@@ -45,8 +46,8 @@ val dataModule = module {
     }
 
     // Coin API Service
-    single {
-        CoinApiService(
+    single<CoinApiService> {
+        CoinApiServiceImpl(
             client = get(),
             baseUrl = COIN_API
         )
