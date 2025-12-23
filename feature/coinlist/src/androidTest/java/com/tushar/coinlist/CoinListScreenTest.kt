@@ -122,7 +122,6 @@ class CoinListScreenTest {
         composeTestRule.waitForIdle()
 
         // Give time for flow collection and state updates
-        Thread.sleep(500)
         composeTestRule.waitForIdle()
 
         // Then - Verify Bitcoin is displayed
@@ -155,10 +154,6 @@ class CoinListScreenTest {
         composeTestRule.setContent {
             CoinListScreen(vm = viewModel)
         }
-
-        // Wait for state to load
-        composeTestRule.waitForIdle()
-        Thread.sleep(500)
         composeTestRule.waitForIdle()
 
         // Then - Update time should be visible
