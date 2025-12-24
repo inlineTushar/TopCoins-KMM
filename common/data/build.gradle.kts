@@ -46,6 +46,7 @@ kotlin {
             api(libs.ktor.serialization.kotlinx.json)
             api(libs.ktor.client.logging)
             api(libs.ktor.client.auth)
+            api(libs.ktor.client.websocket)
 
             // Serialization
             api(libs.kotlinx.serialization.json)
@@ -55,7 +56,7 @@ kotlin {
 
         androidMain.dependencies {
             // Android-specific Ktor engine
-            implementation(libs.ktor.client.android)
+            implementation(libs.ktor.client.okhttp)
 
             // Note: koin-android added by LibraryKoinConventionPlugin
         }

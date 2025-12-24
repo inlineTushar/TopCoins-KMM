@@ -3,7 +3,7 @@ package com.tushar.data.repository
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import com.tushar.data.datasource.remote.api.coin.CoinApiService
+import com.tushar.data.datasource.remote.api.http.CoinApiService
 import com.tushar.data.datasource.remote.model.CoinApiModel
 import com.tushar.data.datasource.remote.model.CoinsApiResponse
 import com.tushar.domain.model.BigDecimal
