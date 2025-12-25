@@ -6,14 +6,15 @@ import com.tushar.data.datasource.remote.api.realtime.RealtimePriceUpdateService
 import com.tushar.data.datasource.remote.api.realtime.SocketPriceUpdateServiceImpl
 import com.tushar.data.datasource.remote.instrumentation.BigDecimalSerializer
 import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSerializer
+import com.tushar.data.keyprovider.KeyProvider
+import com.tushar.data.keyprovider.KeyProvider.Companion.KEY_12DATA
 import com.tushar.data.repository.CoinRepositoryImpl
 import com.tushar.domain.repository.CoinRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.pingInterval
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
@@ -24,8 +25,7 @@ import org.koin.dsl.module
 import kotlin.time.Duration.Companion.seconds
 
 private const val COIN_API = "https://rest.coincap.io/v3"
-private const val PRICE_UPDATE_LIVE_API =
-    "wss://ws.twelvedata.com/v1/quotes/price?apikey="
+private const val PRICE_UPDATE_LIVE_API = "wss://ws.twelvedata.com/v1/quotes/price"
 
 val dataModule = module {
     single {
@@ -71,10 +71,14 @@ val dataModule = module {
     }
 
     single<RealtimePriceUpdateService> {
+        val keyProvider = get<KeyProvider>()
+        val apiKey = keyProvider[KEY_12DATA]
+        val dispatcher = get<CoroutineDispatcher>()
+        val scope = CoroutineScope(dispatcher)
         SocketPriceUpdateServiceImpl(
             socketClient = get(named("WS")),
-            priceUpdateUrl = PRICE_UPDATE_LIVE_API,
-            scope = CoroutineScope(Dispatchers.IO)
+            priceUpdateUrl = PRICE_UPDATE_LIVE_API.plus("?apikey=$apiKey"),
+            scope = scope
         )
     }
 

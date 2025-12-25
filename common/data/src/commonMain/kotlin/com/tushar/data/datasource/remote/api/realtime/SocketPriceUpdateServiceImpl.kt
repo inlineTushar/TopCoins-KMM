@@ -8,7 +8,6 @@ import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlin.coroutines.cancellation.CancellationException
 
 class SocketPriceUpdateServiceImpl(
@@ -36,37 +34,33 @@ class SocketPriceUpdateServiceImpl(
 
     init {
         update
-            .onEach { s -> println("sss $s") }
+            .onEach { s -> println(s) }
             .launchIn(scope)
     }
 
     override suspend fun connect(symbol: String) {
         if (socketSession != null) return
         socketSession = socketClient.webSocketSession(priceUpdateUrl)
-
-        job = scope.launch {
-            try {
-                socketSession?.incoming
-                    ?.consumeAsFlow()
-                    ?.filterIsInstance<Frame.Text>()
-                    ?.collect { frame ->
-                        _update.emit(frame.readText())
-                    }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Throwable) {
-            }
-        }
-
-        delay(2000)
+        activateStream()
         send(
             """
-                        {
-                          "action": "subscribe",
-                          "params": { "symbols": "BTC/USD" }
-                        }
-                        """.trimIndent()
+                {
+                  "action": "subscribe",
+                  "params": { "symbols": "BTC/USD" }
+                }
+                """.trimIndent()
         )
+    }
+
+    private fun activateStream() {
+        runCatching {
+            job = socketSession
+                ?.incoming
+                ?.consumeAsFlow()
+                ?.filterIsInstance<Frame.Text>()
+                ?.onEach { frame -> _update.emit(frame.readText()) }
+                ?.launchIn(scope)
+        }.onFailure { e -> if (e is CancellationException) throw e else print(e) }
     }
 
     override suspend fun send(message: String) {

@@ -27,7 +27,8 @@ val coinListModule = module {
             useCase = get(),
             currencyFormatter = get(),
             percentageFormatter = get(),
-            timeFormatter = get()
+            timeFormatter = get(),
+            realtimePriceUpdateService = get()
         )
     }
 }

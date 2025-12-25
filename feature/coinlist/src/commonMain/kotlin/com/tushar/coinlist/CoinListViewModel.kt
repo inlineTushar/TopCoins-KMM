@@ -6,6 +6,7 @@ import com.tushar.coinlist.CoinsUiState.Loading
 import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
+import com.tushar.data.datasource.remote.api.realtime.RealtimePriceUpdateService
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
@@ -20,7 +21,8 @@ class CoinListViewModel(
     private val useCase: GetCoinUseCase,
     private val currencyFormatter: CurrencyFormatter,
     private val percentageFormatter: PercentageFormatter,
-    private val timeFormatter: TimeFormatter
+    private val timeFormatter: TimeFormatter,
+    private val realtimePriceUpdateService: RealtimePriceUpdateService
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CoinsUiState>(Loading)
@@ -33,6 +35,7 @@ class CoinListViewModel(
     private fun loadInitialCoins() {
         viewModelScope.launch {
             loadCoins(DEFAULT_SORT_TYPE)
+            realtimePriceUpdateService.connect("EUR")
         }
     }
 

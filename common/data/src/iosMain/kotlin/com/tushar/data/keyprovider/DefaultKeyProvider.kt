@@ -11,10 +11,9 @@ import com.tushar.common.data.BuildKonfig
  * Note: In production, consider using iOS Keychain for runtime security.
  */
 class DefaultKeyProvider : KeyProvider {
-    override fun get(key: String): String? {
-        return when (key) {
-            KeyProvider.KEY_COIN_AUTH -> BuildKonfig.COIN_AUTH_KEY
-            else -> null
-        }
+    override fun get(key: String): String? = when (key) {
+        KeyProvider.KEY_COIN_AUTH -> BuildKonfig.KEY_COIN_AUTH
+        KeyProvider.KEY_12DATA -> BuildKonfig.KEY_12DATA
+        else -> null
     }
 }

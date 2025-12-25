@@ -66,7 +66,7 @@ This app requires a personal API key (AUTH_KEY) from [CoinCap](https://coincap.i
 3. Add your key in the following format (see `key.properties.template` for an example!):
 
    ```properties
-   COIN_AUTH_KEY=<your coincide API token here>
+   KEY_COIN_AUTH=<your coincide API token here>
    ```
 4. Never commit this file. It is already gitignored for safety!
 

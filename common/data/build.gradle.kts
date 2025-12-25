@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.convention.multiplatform)
     alias(libs.plugins.convention.encryption)  // Keep for Android
@@ -13,23 +15,20 @@ android {
 buildkonfig {
     packageName = "com.tushar.common.data"
 
-    // Default config (used for all platforms unless overridden)
     defaultConfigs {
-        // Read COIN_AUTH_KEY from secret/key.properties at build time
         val keyPropsFile = rootProject.file("secret/key.properties")
-        val coinAuthKey = if (keyPropsFile.exists()) {
-            // Read file line by line to extract COIN_AUTH_KEY
-            keyPropsFile.readLines()
-                .firstOrNull { it.startsWith("COIN_AUTH_KEY=") }
-                ?.substringAfter("COIN_AUTH_KEY=")
-                ?.trim()
-                ?: ""
-        } else {
-            // Fallback if secret file doesn't exist
-            ""
+        if (keyPropsFile.exists()) {
+            val properties = Properties()
+            keyPropsFile.inputStream().use { properties.load(it) }
+            properties.forEach { (key, value) ->
+                val cleanValue = value.toString().removeSurrounding("\"")
+                buildConfigField(
+                    com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+                    key.toString(),
+                    cleanValue
+                )
+            }
         }
-
-        buildConfigField(com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING, "COIN_AUTH_KEY", coinAuthKey)
     }
 }
 
@@ -46,7 +45,6 @@ kotlin {
             api(libs.ktor.serialization.kotlinx.json)
             api(libs.ktor.client.logging)
             api(libs.ktor.client.auth)
-            api(libs.ktor.client.websocket)
 
             // Serialization
             api(libs.kotlinx.serialization.json)
