@@ -1,4 +1,4 @@
-package com.tushar.data.datasource.remote.model
+package com.tushar.data.datasource.remote.api.http.model
 
 import com.tushar.domain.model.BigDecimal
 import kotlinx.datetime.Instant

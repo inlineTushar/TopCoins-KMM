@@ -1,11 +1,11 @@
 package com.tushar.data.datasource.remote.api.realtime
 
 import com.tushar.data.datasource.remote.api.RemoteService
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest
 import kotlinx.coroutines.flow.Flow
 
 interface RealtimePriceUpdateService : RemoteService {
-    suspend fun connect(symbol: String)
+    suspend fun connect(request: PriceUpdateRequest)
     suspend fun disconnect()
-    suspend fun send(message: String)
     val update: Flow<String>
 }

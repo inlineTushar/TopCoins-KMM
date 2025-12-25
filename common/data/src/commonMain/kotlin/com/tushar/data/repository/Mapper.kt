@@ -1,7 +1,7 @@
 package com.tushar.data.repository
 
-import com.tushar.data.datasource.remote.model.CoinsApiResponse
-import com.tushar.data.datasource.remote.model.ConversionRateApiResponse
+import com.tushar.data.datasource.remote.api.http.model.CoinsApiResponse
+import com.tushar.data.datasource.remote.api.http.model.ConversionRateApiResponse
 import com.tushar.data.repository.model.CoinRepoModel
 import com.tushar.data.repository.model.CoinsRepoModel
 import com.tushar.data.repository.model.ConversionRateRepoModel

@@ -7,6 +7,9 @@ import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
 import com.tushar.data.datasource.remote.api.realtime.RealtimePriceUpdateService
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.SocketPayload
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.Subscribe
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.Symbol
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
@@ -35,7 +38,13 @@ class CoinListViewModel(
     private fun loadInitialCoins() {
         viewModelScope.launch {
             loadCoins(DEFAULT_SORT_TYPE)
-            realtimePriceUpdateService.connect("EUR")
+            realtimePriceUpdateService.connect(
+                Subscribe(
+                    payload = SocketPayload(
+                        symbols = listOf(Symbol("BTC/USD"))
+                    )
+                )
+            )
         }
     }
 

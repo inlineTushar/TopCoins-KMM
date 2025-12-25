@@ -1,8 +1,8 @@
 package com.tushar.data.datasource.remote.api.http
 
-import com.tushar.data.datasource.remote.model.CoinApiDetailResponse
-import com.tushar.data.datasource.remote.model.CoinsApiResponse
-import com.tushar.data.datasource.remote.model.ConversionRateApiResponse
+import com.tushar.data.datasource.remote.api.http.model.CoinApiDetailResponse
+import com.tushar.data.datasource.remote.api.http.model.CoinsApiResponse
+import com.tushar.data.datasource.remote.api.http.model.ConversionRateApiResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

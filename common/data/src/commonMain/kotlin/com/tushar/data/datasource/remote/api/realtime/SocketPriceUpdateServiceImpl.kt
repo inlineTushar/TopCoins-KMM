@@ -1,5 +1,7 @@
 package com.tushar.data.datasource.remote.api.realtime
 
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest
+import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequestSerializer
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.webSocketSession
 import io.ktor.websocket.Frame
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.serialization.json.Json
 import kotlin.coroutines.cancellation.CancellationException
 
 class SocketPriceUpdateServiceImpl(
@@ -38,17 +41,12 @@ class SocketPriceUpdateServiceImpl(
             .launchIn(scope)
     }
 
-    override suspend fun connect(symbol: String) {
+    override suspend fun connect(request: PriceUpdateRequest) {
         if (socketSession != null) return
         socketSession = socketClient.webSocketSession(priceUpdateUrl)
         activateStream()
         send(
-            """
-                {
-                  "action": "subscribe",
-                  "params": { "symbols": "BTC/USD" }
-                }
-                """.trimIndent()
+            Json.encodeToString(PriceUpdateRequestSerializer, request)
         )
     }
 
@@ -63,7 +61,7 @@ class SocketPriceUpdateServiceImpl(
         }.onFailure { e -> if (e is CancellationException) throw e else print(e) }
     }
 
-    override suspend fun send(message: String) {
+    private suspend fun send(message: String) {
         socketSession?.send(Frame.Text(message))
             ?: error("WebSocket is not connected")
     }
