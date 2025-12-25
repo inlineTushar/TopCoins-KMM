@@ -9,12 +9,12 @@ import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSeria
 import com.tushar.data.keyprovider.KeyProvider
 import com.tushar.data.keyprovider.KeyProvider.Companion.KEY_12DATA
 import com.tushar.data.repository.CoinRepositoryImpl
+import com.tushar.data.repository.RealtimePriceUpdateRepository
+import com.tushar.data.repository.RealtimePriceUpdateRepositoryImpl
 import com.tushar.domain.repository.CoinRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.pingInterval
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
@@ -73,15 +73,14 @@ val dataModule = module {
     single<RealtimePriceUpdateService> {
         val keyProvider = get<KeyProvider>()
         val apiKey = keyProvider[KEY_12DATA]
-        val dispatcher = get<CoroutineDispatcher>()
-        val scope = CoroutineScope(dispatcher)
         SocketPriceUpdateServiceImpl(
+            json = get(),
             socketClient = get(named("WS")),
             priceUpdateUrl = PRICE_UPDATE_LIVE_API.plus("?apikey=$apiKey"),
-            scope = scope
         )
     }
 
     // Repository
     singleOf(::CoinRepositoryImpl) { bind<CoinRepository>() }
+    singleOf(::RealtimePriceUpdateRepositoryImpl) { bind<RealtimePriceUpdateRepository>() }
 }

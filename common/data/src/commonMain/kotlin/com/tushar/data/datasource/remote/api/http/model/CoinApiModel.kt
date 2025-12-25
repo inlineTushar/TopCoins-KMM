@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 @OptIn(InternalSerializationApi::class)
 @Serializable
 data class CoinApiDetailResponse(
+    @Contextual
     val timestamp: Instant,
     @SerialName("data")
     val coin: CoinApiModel
