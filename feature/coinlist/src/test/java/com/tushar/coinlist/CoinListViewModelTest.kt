@@ -4,12 +4,12 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isInstanceOf
-import com.tushar.coinlist.formatter.CurrencyFormatter
-import com.tushar.coinlist.formatter.PercentageFormatter
-import com.tushar.coinlist.formatter.TimeFormatter
+import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.core.formatter.PercentageFormatter
+import com.tushar.core.formatter.TimeFormatter
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinsDomainModel
@@ -138,7 +138,7 @@ class CoinListViewModelTest {
         val state = viewModel.uiState.value
         assertThat(state).isInstanceOf(CoinsUiState.Error::class)
         val errorState = state as CoinsUiState.Error
-        assertThat(errorState.errorString).isEqualTo("Connection problem. Please try again.")
+        assertThat(errorState.error).isEqualTo("Connection problem. Please try again.")
     }
 
     @Test
@@ -158,7 +158,7 @@ class CoinListViewModelTest {
         val state = viewModel.uiState.value
         assertThat(state).isInstanceOf(CoinsUiState.Error::class)
         val errorState = state as CoinsUiState.Error
-        assertThat(errorState.errorString).isEqualTo("Something went wrong! Try again later")
+        assertThat(errorState.error).isEqualTo("Something went wrong! Try again later")
     }
 
     @Test

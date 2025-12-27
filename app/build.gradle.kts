@@ -65,6 +65,7 @@ kotlin {
 
                 // Feature modules
                 implementation(project(":feature:coinlist"))
+                implementation(project(":feature:priceupdate"))
             }
         }
 

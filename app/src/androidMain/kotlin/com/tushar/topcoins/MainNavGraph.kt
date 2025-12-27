@@ -8,12 +8,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.tushar.coinlist.CoinListScreen
 import com.tushar.navigation.Route
+import com.tushar.priceupdate.PriceLiveUpdateScreen
 import com.tushar.ui.theme.AppTheme
 
 @Composable
 internal fun MainNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: Route = Route.CoinList,
+    startDestination: Route = Route.PriceLiveUpdate,
 ) {
     NavHost(
         navController = navController,
@@ -21,6 +22,9 @@ internal fun MainNavGraph(
     ) {
         composable(route = Route.CoinList.value) {
             CoinListScreen()
+        }
+        composable(route = Route.PriceLiveUpdate.value) {
+            PriceLiveUpdateScreen()
         }
     }
 }

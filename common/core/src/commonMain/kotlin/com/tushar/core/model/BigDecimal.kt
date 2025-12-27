@@ -1,4 +1,4 @@
-package com.tushar.domain.model
+package com.tushar.core.model
 
 /**
  * Expect declaration for BigDecimal to support multiplatform.

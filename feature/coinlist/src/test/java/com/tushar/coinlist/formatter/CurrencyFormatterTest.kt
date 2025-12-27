@@ -2,7 +2,8 @@ package com.tushar.coinlist.formatter
 
 import assertk.assertThat
 import assertk.assertions.isNotEmpty
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.core.model.BigDecimal
 import org.junit.Before
 import org.junit.Test
 

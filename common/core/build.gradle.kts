@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.tushar.common.core"
 }
+
+dependencies {
+    api(libs.kotlinx.datetime)
+}

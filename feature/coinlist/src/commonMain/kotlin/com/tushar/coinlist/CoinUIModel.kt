@@ -23,7 +23,7 @@ enum class SortType(val stringResource: StringResource) {
 sealed class CoinsUiState {
     data object Loading : CoinsUiState()
 
-    data class Error(val errorString: String) : CoinsUiState()
+    data class Error(val error: String) : CoinsUiState()
 
     data class Content(
         val type: SortType,

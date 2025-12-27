@@ -77,7 +77,7 @@ internal fun CoinListComposable(
             when (viewState) {
                 CoinsUiState.Loading -> ProgressBarComposable()
                 is CoinsUiState.Error -> ErrorComposable(
-                    errorText = viewState.errorString,
+                    errorText = viewState.error,
                     onRetry = onRetry
                 )
 

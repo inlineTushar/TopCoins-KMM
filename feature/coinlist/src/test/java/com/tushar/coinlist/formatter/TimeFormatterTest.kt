@@ -1,5 +1,6 @@
 package com.tushar.coinlist.formatter
 
+import com.tushar.core.formatter.TimeFormatter
 import kotlinx.datetime.Instant
 import org.junit.Assert.assertTrue
 import org.junit.Before

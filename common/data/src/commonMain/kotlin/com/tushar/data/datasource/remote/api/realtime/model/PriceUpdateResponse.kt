@@ -3,7 +3,7 @@ package com.tushar.data.datasource.remote.api.realtime.model
 import com.tushar.data.datasource.remote.api.realtime.instrumentation.PriceUpdateResponseSerializer
 import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSerializer
 import com.tushar.data.datasource.remote.instrumentation.LongToBigDecimalSerializer
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

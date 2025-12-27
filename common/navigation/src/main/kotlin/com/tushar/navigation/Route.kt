@@ -7,7 +7,5 @@ sealed class Route(val value: String) {
     @Serializable
     data object CoinList : Route("coin/list")
     @Serializable
-    data object CoinDetails : Route("coin/details/{coinId}") {
-        fun create(coinId: String) = "coin/details/$coinId"
-    }
+    data object PriceLiveUpdate : Route("price/live")
 }

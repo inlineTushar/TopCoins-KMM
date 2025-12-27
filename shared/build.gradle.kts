@@ -36,6 +36,7 @@ kotlin {
 
                 // Feature modules
                 api(project(":feature:coinlist"))
+                api(project(":feature:priceupdate"))
                 implementation(libs.touchlab.skie.annotations)
             }
         }
@@ -46,6 +47,7 @@ kotlin {
         binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
             // Export all dependencies to make them available to iOS
             export(project(":feature:coinlist"))
+            export(project(":feature:priceupdate"))
             export(project(":common:core"))
             export(project(":common:ui"))
             export(project(":common:data"))

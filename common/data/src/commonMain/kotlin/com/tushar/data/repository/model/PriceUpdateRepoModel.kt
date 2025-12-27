@@ -1,6 +1,6 @@
 package com.tushar.data.repository.model
 
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import kotlinx.datetime.Instant
 
 sealed interface PriceUpdateRepoModel {
@@ -29,3 +29,5 @@ data class PriceUpdateTickRepoModel(
     val currencyBase: String,
     val timestamp: Instant
 ) : PriceUpdateRepoModel
+
+fun PriceUpdateTickRepoModel.compareTo(another: PriceUpdateTickRepoModel): Int = price.compareTo(another.price)

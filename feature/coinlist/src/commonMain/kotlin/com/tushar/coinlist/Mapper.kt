@@ -1,8 +1,8 @@
 package com.tushar.coinlist
 
-import com.tushar.domain.model.CoinDomainModel
-import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
+import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.domain.model.CoinDomainModel
 
 fun List<CoinDomainModel>.asUiModel(
     currencyFormatter: CurrencyFormatter,

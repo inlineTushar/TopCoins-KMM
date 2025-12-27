@@ -1,14 +1,10 @@
 package com.tushar.coinlist
 
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.collections.immutable.persistentListOf
-import org.koin.androidx.compose.koinViewModel
 
 @Preview(showBackground = true)
 @Composable
@@ -62,7 +58,7 @@ private fun CoinListComposableLoadingPreview() {
 @Composable
 private fun CoinListComposableErrorPreview() {
     CoinListComposable(
-        viewState = CoinsUiState.Error(errorString = "Something went wrong"),
+        viewState = CoinsUiState.Error(error = "Something went wrong"),
         listState = LazyListState(),
         onClickSort = {},
         onRefresh = {},

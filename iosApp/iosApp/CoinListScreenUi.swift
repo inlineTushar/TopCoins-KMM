@@ -16,7 +16,7 @@ struct CoinListScreenUi: View {
                         ProgressBarUi()
                     case let errorState as CoinsUiState.Error:
                         ErrorUi(
-                            errorText: errorState.errorString,
+                            errorText: errorState.error,
                             onRetry: vm.onRetry
                         )
                     case let contentState as CoinsUiState.Content:

@@ -1,6 +1,6 @@
-package com.tushar.coinlist.formatter
+package com.tushar.core.formatter
 
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterCurrencyStyle

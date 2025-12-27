@@ -2,9 +2,11 @@ package com.tushar.topcoins.di
 
 import com.tushar.coinlist.di.coinListModule
 import com.tushar.core.di.coroutineModule
+import com.tushar.core.di.formatterModule
 import com.tushar.data.di.dataModule
 import com.tushar.data.di.platformDataModule
 import com.tushar.domain.di.domainModule
+import com.tushar.priceupdate.di.priceUpdateModule
 import org.koin.dsl.module
 
 /**
@@ -16,6 +18,8 @@ val appModule = module {
         dataModule,
         domainModule,
         coroutineModule,
-        coinListModule
+        formatterModule,
+        coinListModule,
+        priceUpdateModule
     )
 }

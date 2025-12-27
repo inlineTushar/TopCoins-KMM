@@ -4,8 +4,8 @@ import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.ConversionRateDomainModel
-import com.tushar.domain.model.RoundingMode
-import com.tushar.domain.model.divide
+import com.tushar.core.model.RoundingMode
+import com.tushar.core.model.divide
 
 /**
  * Converts a list of coins with USD prices to coins with adjusted prices based on conversion rate.

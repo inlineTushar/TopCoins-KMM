@@ -1,4 +1,4 @@
-package com.tushar.domain.model
+package com.tushar.core.model
 
 import platform.Foundation.NSDecimalNumber
 

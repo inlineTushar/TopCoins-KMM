@@ -1,7 +1,6 @@
 package com.tushar.coinlist.di
 
 import com.tushar.coinlist.CoinListViewModel
-import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
 import org.koin.core.module.dsl.singleOf
@@ -17,7 +16,6 @@ import org.koin.dsl.module
 val coinListModule = module {
 
     // Formatters - platform-specific implementations
-    singleOf(::CurrencyFormatter)
     singleOf(::PercentageFormatter)
     singleOf(::TimeFormatter)
 
@@ -27,8 +25,7 @@ val coinListModule = module {
             useCase = get(),
             currencyFormatter = get(),
             percentageFormatter = get(),
-            timeFormatter = get(),
-            realtimePriceUpdateService = get()
+            timeFormatter = get()
         )
     }
 }

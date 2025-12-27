@@ -1,9 +1,9 @@
-package com.tushar.coinlist.formatter
+package com.tushar.core.formatter
 
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
-import com.tushar.domain.model.BigDecimal as KmmBigDecimal
+import com.tushar.core.model.BigDecimal as KmmBigDecimal
 import java.math.BigDecimal as JavaBigDecimal
 
 /**

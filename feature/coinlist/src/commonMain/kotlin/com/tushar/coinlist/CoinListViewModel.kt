@@ -3,13 +3,9 @@ package com.tushar.coinlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tushar.coinlist.CoinsUiState.Loading
-import com.tushar.coinlist.formatter.CurrencyFormatter
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
-import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.Symbol
-import com.tushar.data.repository.RealtimePriceUpdateRepository
-import com.tushar.data.repository.model.PriceUpdateTickRepoModel
-import com.tushar.data.repository.model.SubscribeStatusRepoModel
+import com.tushar.core.formatter.CurrencyFormatter
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
@@ -25,7 +21,6 @@ class CoinListViewModel(
     private val currencyFormatter: CurrencyFormatter,
     private val percentageFormatter: PercentageFormatter,
     private val timeFormatter: TimeFormatter,
-    private val realtimePriceUpdateService: RealtimePriceUpdateRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CoinsUiState>(Loading)
@@ -38,14 +33,6 @@ class CoinListViewModel(
     private fun loadInitialCoins() {
         viewModelScope.launch {
             loadCoins(DEFAULT_SORT_TYPE)
-            realtimePriceUpdateService.connect(symbols = listOf(Symbol("BTC/USD")))
-            realtimePriceUpdateService.priceUpdate
-                .collect { update ->
-                    when (update) {
-                        is PriceUpdateTickRepoModel -> println(update.price)
-                        is SubscribeStatusRepoModel -> println(update.status)
-                    }
-                }
         }
     }
 
@@ -109,11 +96,6 @@ class CoinListViewModel(
 
         DomainError.UnknownError -> "Something went wrong! Try again later"
         else -> "Something went wrong! Try again later"
-    }
-
-    override fun onCleared() {
-        viewModelScope.launch { realtimePriceUpdateService.disconnect() }
-        super.onCleared()
     }
 
     companion object {

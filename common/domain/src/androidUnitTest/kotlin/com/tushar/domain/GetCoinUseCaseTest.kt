@@ -5,12 +5,12 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isSuccess
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
 import com.tushar.domain.model.ConversionRateDomainModel
-import com.tushar.domain.model.RoundingMode
-import com.tushar.domain.model.divide
+import com.tushar.core.model.RoundingMode
+import com.tushar.core.model.divide
 import com.tushar.domain.repository.CoinRepository
 import io.mockk.coVerify
 import io.mockk.every

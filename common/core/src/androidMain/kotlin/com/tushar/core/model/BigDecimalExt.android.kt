@@ -1,4 +1,4 @@
-package com.tushar.domain.model
+package com.tushar.core.model
 
 import java.math.RoundingMode as JavaRoundingMode
 

@@ -32,3 +32,4 @@ include(":common:navigation")
 
 // Feature modules
 include(":feature:coinlist")
+include(":feature:priceupdate")

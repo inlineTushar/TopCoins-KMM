@@ -1,4 +1,4 @@
-package com.tushar.domain.model
+package com.tushar.core.model
 
 /**
  * Division with scale and rounding mode (expect/actual for platform-specific implementation)

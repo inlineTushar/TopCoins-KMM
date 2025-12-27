@@ -1,7 +1,7 @@
 package com.tushar.data.datasource.remote.instrumentation
 
-import com.tushar.domain.model.BigDecimal
-import com.tushar.domain.model.toBigDecimal
+import com.tushar.core.model.BigDecimal
+import com.tushar.core.model.toBigDecimal
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

@@ -1,6 +1,6 @@
 package com.tushar.data.repository.model
 
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 
 data class ConversionRateRepoModel(
     val symbol: String,

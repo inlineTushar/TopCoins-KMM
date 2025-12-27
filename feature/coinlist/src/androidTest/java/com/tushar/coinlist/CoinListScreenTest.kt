@@ -5,11 +5,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.tushar.coinlist.formatter.CurrencyFormatter
-import com.tushar.coinlist.formatter.PercentageFormatter
-import com.tushar.coinlist.formatter.TimeFormatter
+import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.core.formatter.PercentageFormatter
+import com.tushar.core.formatter.TimeFormatter
 import com.tushar.domain.GetCoinUseCase
-import com.tushar.domain.model.BigDecimal
+import com.tushar.core.model.BigDecimal
 import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinsDomainModel

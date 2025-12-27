@@ -1,5 +1,6 @@
 package com.tushar.domain.model
 
+import com.tushar.core.model.BigDecimal
 import kotlinx.datetime.Instant
 
 data class CoinsInUsdDomainModel(
