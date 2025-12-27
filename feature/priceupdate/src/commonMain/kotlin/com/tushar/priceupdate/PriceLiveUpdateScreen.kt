@@ -99,54 +99,63 @@ internal fun PriceComposable(
     priceWithCurrency: String,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Column(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column {
-            Text(
-                text = symbol,
-                fontFamily = FontFamily.Monospace,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineLarge
-                    .copy(fontSize = 28.sp, fontWeight = FontWeight.Thin)
-            )
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(modifier = modifier) {
+            Column {
                 Text(
-                    text = priceWithCurrency,
+                    text = symbol,
                     fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineLarge
-                        .copy(
-                            fontSize = 48.sp,
-                            brush = Brush.linearGradient(
-                                colors = remember {
-                                    listOf(
-                                        Color(
-                                            Random.nextInt(256),
-                                            Random.nextInt(256),
-                                            Random.nextInt(256)
-                                        ),
-                                        Color(
-                                            Random.nextInt(256),
-                                            Random.nextInt(256),
-                                            Random.nextInt(256)
-                                        )
-                                    )
-                                },
-                                tileMode = TileMode.Repeated
-                            )
-                        )
+                        .copy(fontSize = 28.sp, fontWeight = FontWeight.Thin)
                 )
 
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(start = 4.dp)
-                ) {
-                    PriceHikeIndicator(isHiked == true)
-                    PriceDownIndicator(isHiked == false)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = priceWithCurrency,
+                        fontFamily = FontFamily.Monospace,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineLarge
+                            .copy(
+                                fontSize = 48.sp,
+                                brush = Brush.linearGradient(
+                                    colors = remember {
+                                        listOf(
+                                            Color(
+                                                Random.nextInt(256),
+                                                Random.nextInt(256),
+                                                Random.nextInt(256)
+                                            ),
+                                            Color(
+                                                Random.nextInt(256),
+                                                Random.nextInt(256),
+                                                Random.nextInt(256)
+                                            )
+                                        )
+                                    },
+                                    tileMode = TileMode.Repeated
+                                )
+                            )
+                    )
+
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(start = 4.dp)
+                    ) {
+                        PriceHikeIndicator(
+                            visible = isHiked == true,
+                            key = priceWithCurrency
+                        )
+                        PriceDownIndicator(
+                            visible = isHiked == false,
+                            key = priceWithCurrency
+                        )
+                    }
                 }
             }
         }
@@ -156,17 +165,20 @@ internal fun PriceComposable(
 @Composable
 fun PriceHikeIndicator(
     visible: Boolean,
+    key: String,
     modifier: Modifier = Modifier
 ) {
-    val alpha  = remember { Animatable(0f) }
-    LaunchedEffect(visible) {
+    val alpha = remember { Animatable(0f) }
+    LaunchedEffect(key) {
         if (visible) {
             alpha.snapTo(1f)
             alpha.animateTo(
                 targetValue = 0f,
                 animationSpec = tween(durationMillis = 500)
             )
-        } else alpha.snapTo(0f)
+        } else {
+            alpha.snapTo(0f)
+        }
     }
 
     Icon(
@@ -180,17 +192,20 @@ fun PriceHikeIndicator(
 @Composable
 fun PriceDownIndicator(
     visible: Boolean,
+    key: String,
     modifier: Modifier = Modifier
 ) {
-    val alpha  = remember { Animatable(0f) }
-    LaunchedEffect(visible) {
+    val alpha = remember { Animatable(0f) }
+    LaunchedEffect(key) {
         if (visible) {
             alpha.snapTo(1f)
             alpha.animateTo(
                 targetValue = 0f,
                 animationSpec = tween(durationMillis = 500)
             )
-        } else alpha.snapTo(0f)
+        } else {
+            alpha.snapTo(0f)
+        }
     }
 
     Icon(

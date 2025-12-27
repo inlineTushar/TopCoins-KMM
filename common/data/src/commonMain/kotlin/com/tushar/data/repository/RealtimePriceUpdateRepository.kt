@@ -24,10 +24,7 @@ class RealtimePriceUpdateRepositoryImpl(
     private val dispatcher: CoroutineDispatcher
 ) : RealtimePriceUpdateRepository {
 
-    private val _priceUpdate = MutableSharedFlow<PriceUpdateRepoModel>(
-        replay = 0,
-        extraBufferCapacity = 64
-    )
+    private val _priceUpdate = MutableSharedFlow<PriceUpdateRepoModel>(replay = 1)
     override val priceUpdate: Flow<PriceUpdateRepoModel> = _priceUpdate.asSharedFlow()
 
     override suspend fun connect(symbols: List<Symbol>) {

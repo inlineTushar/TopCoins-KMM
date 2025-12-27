@@ -1,10 +1,10 @@
 package com.tushar.core.formatter
 
 import com.tushar.core.model.BigDecimal
+import platform.Foundation.NSLocale
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterCurrencyStyle
-import platform.Foundation.NSLocale
 import platform.Foundation.currentLocale
 
 /**
@@ -18,6 +18,8 @@ actual class CurrencyFormatter {
             locale = NSLocale.currentLocale
             maximumFractionDigits = 2u
             minimumFractionDigits = 2u
+            positiveFormat = "¤#,##0.00"
+            negativeFormat = "-¤#,##0.00"
         }
 
         // Convert BigDecimal to Double for NSNumber
