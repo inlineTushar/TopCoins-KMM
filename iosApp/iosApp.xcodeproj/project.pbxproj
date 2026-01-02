@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		7555FF84242A565900829871 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF7F242A565900829871 /* iOSApp.swift */; };
+		CF77A72F2F0864DD00881F23 /* SwiftPriceLiveUpdateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF77A72E2F0864CA00881F23 /* SwiftPriceLiveUpdateViewModel.swift */; };
+		CF77A7312F086F2600881F23 /* PriceLiveUpdateScreenUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF77A7302F086F2000881F23 /* PriceLiveUpdateScreenUi.swift */; };
 		CF823DEE2EF2CDE700E9467E /* SwiftCoinListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */; };
 		CF823DF02EF2D4D000E9467E /* ComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DEF2EF2D4D000E9467E /* ComposeView.swift */; };
 		CF823DF22EF2D56100E9467E /* CoinListScreenUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */; };
@@ -27,6 +29,8 @@
 		7555FF7F242A565900829871 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF77A72E2F0864CA00881F23 /* SwiftPriceLiveUpdateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPriceLiveUpdateViewModel.swift; sourceTree = "<group>"; };
+		CF77A7302F086F2000881F23 /* PriceLiveUpdateScreenUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceLiveUpdateScreenUi.swift; sourceTree = "<group>"; };
 		CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCoinListViewModel.swift; sourceTree = "<group>"; };
 		CF823DEF2EF2D4D000E9467E /* ComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeView.swift; sourceTree = "<group>"; };
 		CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinListScreenUi.swift; sourceTree = "<group>"; };
@@ -70,6 +74,9 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF77A7302F086F2000881F23 /* PriceLiveUpdateScreenUi.swift */,
+				CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */,
+				CF77A72E2F0864CA00881F23 /* SwiftPriceLiveUpdateViewModel.swift */,
 				CF823E052EF5728F00E9467E /* Bundle.swift */,
 				CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */,
 				CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */,
@@ -77,7 +84,6 @@
 				CF823DF92EF2DA1000E9467E /* HeaderUi.swift */,
 				CF823DF72EF2D75C00E9467E /* ErrorUi.swift */,
 				CF823DF52EF2D70A00E9467E /* ProgressBarUi.swift */,
-				CF823DF12EF2D56100E9467E /* CoinListScreenUi.swift */,
 				CF823DEF2EF2D4D000E9467E /* ComposeView.swift */,
 				CF823DED2EF2CDE700E9467E /* SwiftCoinListViewModel.swift */,
 				CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */,
@@ -182,10 +188,12 @@
 				CF823E062EF5729600E9467E /* Bundle.swift in Sources */,
 				CF823DFA2EF2DA1000E9467E /* HeaderUi.swift in Sources */,
 				CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */,
+				CF77A7312F086F2600881F23 /* PriceLiveUpdateScreenUi.swift in Sources */,
 				CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */,
 				CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */,
 				CF823DEE2EF2CDE700E9467E /* SwiftCoinListViewModel.swift in Sources */,
 				CF823DF22EF2D56100E9467E /* CoinListScreenUi.swift in Sources */,
+				CF77A72F2F0864DD00881F23 /* SwiftPriceLiveUpdateViewModel.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				CF823DFC2EF2DAF500E9467E /* CoinItemUi.swift in Sources */,
 				CF823DF62EF2D70A00E9467E /* ProgressBarUi.swift in Sources */,
