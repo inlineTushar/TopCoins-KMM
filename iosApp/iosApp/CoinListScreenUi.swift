@@ -14,10 +14,12 @@ struct RefreshableModifier: ViewModifier {
 }
 
 struct CoinListScreenUi: View {
-    
+
     @ObservedObject
     var vm: SwiftCoinListViewModel = SwiftCoinListViewModel()
-    
+
+    @State private var navigateToPriceLiveUpdate = false
+
     @ViewBuilder
     var body: some View {
         VStack {
@@ -58,7 +60,36 @@ struct CoinListScreenUi: View {
         }
         .navigationTitle(Bundle.main.appName)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { vm.onOptionPriceLiveClick() }) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                }
+            }
+        }
+        .background(
+            NavigationLink(
+                destination: PriceLiveUpdateScreenUi(),
+                isActive: $navigateToPriceLiveUpdate
+            ) { EmptyView() }
+        )
+        .onReceive(vm.$navEvent) { event in
+            handleNavEvent(event)
+        }
         .background(Color(UIColor.systemBackground))
+    }
+
+    private func handleNavEvent(_ event: NavEvent?) {
+        guard let event = event else { return }
+
+        switch event {
+        case is NavEventToPriceLiveUpdate:
+            navigateToPriceLiveUpdate = true
+        default:
+            break
+        }
+
+        vm.consumeNavEvent()
     }
 }
 
