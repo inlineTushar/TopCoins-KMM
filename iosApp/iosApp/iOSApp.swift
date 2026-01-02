@@ -9,7 +9,19 @@ struct iOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CoinListScreenUi()
+            NavigationView {
+                VStack(spacing: 20) {
+                    NavigationLink("SwiftUI") {
+                        CoinListScreenUi()
+                            .navigationBarBackButtonHidden(true)
+                    }
+                    NavigationLink("ComposeUI") {
+                        ContentView()
+                            .navigationBarBackButtonHidden(true)
+                    }
+                }
+            }
+            .navigationViewStyle(.stack)
         }
     }
 }
