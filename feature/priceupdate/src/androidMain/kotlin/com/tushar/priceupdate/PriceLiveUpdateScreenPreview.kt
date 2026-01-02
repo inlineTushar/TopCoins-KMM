@@ -14,6 +14,7 @@ fun PriceLiveUpdateScreenPreview(modifier: Modifier = Modifier) {
             currencyName = "BTC/USD",
             isHiked = true
         ),
-        modifier = modifier
+        modifier = modifier,
+        onBack = {}
     )
 }

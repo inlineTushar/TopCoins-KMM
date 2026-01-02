@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
                 MainNavGraph(
                     navController = navController,
                     coinListScreenComposable = { CoinListScreen(navController) },
-                    priceLiveUpdateScreenComposable = { PriceLiveUpdateScreen() }
+                    priceLiveUpdateScreenComposable = { PriceLiveUpdateScreen(navController) }
                 )
             }
         }

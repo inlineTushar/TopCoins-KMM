@@ -27,7 +27,8 @@ koin-android = "4.0.1"
 koin-androidx-compose = "4.0.1"
 
 # Navigation
-navigation = "2.9.1"
+# Note: Must match Compose Multiplatform 1.7.3 compatibility (2.8.0-alpha10)
+navigation = "2.8.0-alpha10"
 navigation-fragment-ktx = "2.9.6"
 navigation-ui-ktx = "2.9.6"
 

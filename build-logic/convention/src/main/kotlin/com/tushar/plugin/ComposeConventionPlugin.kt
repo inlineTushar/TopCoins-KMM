@@ -8,7 +8,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -106,10 +105,12 @@ internal fun Project.configureComposeMultiplatform() {
                 implementation(libs.findLibrary("androidx-activity-compose").get())
                 implementation(libs.findLibrary("androidx-material-icons-extended").get())
 
-                // Navigation Compose (for feature modules and common:ui)
-                if (path.contains(":feature:") || path.contains(":common:ui")) {
-                    implementation(libs.findLibrary("androidx-navigation-compose").get())
-                }
+                // Navigation Compose is removed from here to prevent IrLinkageError on iOS due to
+                // transitive dependency conflicts. It should be added manually to the `androidMain`
+                // sourceSet of specific modules that require it.
+//                if (path.contains(":feature:") || path.contains(":common:ui")) {
+//                    implementation(libs.findLibrary("androidx-navigation-compose").get())
+//                }
             }
 
             // iOS uses dependencies from commonMain - no additional dependencies needed
@@ -138,38 +139,5 @@ internal fun Project.configureCompose(
                 isIncludeAndroidResources = true
             }
         }
-    }
-
-    dependencies {
-        val composeBom = libs.findLibrary("androidx-compose-bom").get()
-
-        // Compose BOM for version management
-        "implementation"(platform(composeBom))
-
-        // Compose UI dependencies
-        "implementation"(libs.findLibrary("androidx-ui").get())
-        "implementation"(libs.findLibrary("androidx-ui-graphics").get())
-        "implementation"(libs.findLibrary("androidx-ui-tooling-preview").get())
-
-        // Material3
-        "implementation"(libs.findLibrary("androidx.material3").get())
-
-        // Activity Compose (useful for both libraries and apps)
-        "implementation"(libs.findLibrary("androidx-activity-compose").get())
-
-        // Navigation Compose (for apps and feature modules)
-        if (isApplication || path.contains(":feature:") || path.contains(":common:navigation")) {
-            "implementation"(libs.findLibrary("androidx-navigation-compose").get())
-        }
-
-        // Material Icons Extended (for full icon support including AutoMirrored icons)
-        "implementation"(libs.findLibrary("androidx-material-icons-extended").get())
-
-        // Kotlinx Collections Immutable for Compose performance optimization
-        "implementation"(libs.findLibrary("kotlinx-collections-immutable").get())
-
-        // Debug tooling
-        "debugImplementation"(libs.findLibrary("androidx-ui-tooling").get())
-        "debugImplementation"(libs.findLibrary("androidx-ui-test-manifest").get())
     }
 }

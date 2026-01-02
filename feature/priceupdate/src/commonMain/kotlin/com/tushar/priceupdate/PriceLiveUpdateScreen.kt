@@ -43,9 +43,11 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.random.Random
+import androidx.navigation.NavHostController
 
 @Composable
 fun PriceLiveUpdateScreen(
+    navController: NavHostController,
     modifier: Modifier = Modifier,
     vm: PriceLiveUpdateViewModel = koinViewModel()
 ) {
@@ -53,6 +55,7 @@ fun PriceLiveUpdateScreen(
 
     PriceUpdateComposable(
         state = state,
+        onBack = { navController.navigateUp() },
         modifier = modifier
     )
 }
@@ -60,6 +63,7 @@ fun PriceLiveUpdateScreen(
 @Composable
 internal fun PriceUpdateComposable(
     state: PriceLiveUpdateUiState,
+    onBack: () -> Unit,
     modifier: Modifier
 ) {
     Scaffold(
@@ -70,7 +74,8 @@ internal fun PriceUpdateComposable(
         topBar = {
             AppBar(
                 title = stringResource(Res.string.feature_priceupdate_title),
-                isBackVisible = false
+                isBackVisible = true,
+                onBack = onBack
             )
         }
     ) { padding ->
