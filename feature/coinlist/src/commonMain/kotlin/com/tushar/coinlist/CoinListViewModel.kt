@@ -10,9 +10,11 @@ import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -22,9 +24,11 @@ class CoinListViewModel(
     private val percentageFormatter: PercentageFormatter,
     private val timeFormatter: TimeFormatter,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<CoinsUiState>(Loading)
     val uiState: StateFlow<CoinsUiState> = _uiState.asStateFlow()
+
+    private val navEventChannel = Channel<NavEvent>(Channel.BUFFERED)
+    val navEvent = navEventChannel.receiveAsFlow()
 
     init {
         loadInitialCoins()
@@ -88,6 +92,12 @@ class CoinListViewModel(
                 )
             }
         }.onFailure { th -> _uiState.update { CoinsUiState.Error(th.asErrorString()) } }
+    }
+
+    fun onOptionPriceLiveClick() {
+        viewModelScope.launch {
+            navEventChannel.send(NavEvent.ToPriceLiveUpdate)
+        }
     }
 
     private fun Throwable.asErrorString(): String = when (this) {

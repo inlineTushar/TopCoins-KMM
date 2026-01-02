@@ -1,5 +1,6 @@
 package com.tushar.ui.component
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +28,7 @@ fun AppBar(
     title: String,
     isBackVisible: Boolean,
     onBack: () -> Unit = {},
+    actionItemComposable: @Composable RowScope.() -> Unit = {},
     label: String = stringResource(Res.string.common_ui_title_appbar),
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary
@@ -53,6 +55,7 @@ fun AppBar(
                 titleContentColor = contentColor,
                 navigationIconContentColor = contentColor
             ),
+            actions = { actionItemComposable() },
             modifier = Modifier.semantics { testTag = label }
         )
     } else {
@@ -68,6 +71,7 @@ fun AppBar(
                 containerColor = backgroundColor,
                 titleContentColor = contentColor
             ),
+            actions = { actionItemComposable() },
             modifier = Modifier.semantics { testTag = label }
         )
     }

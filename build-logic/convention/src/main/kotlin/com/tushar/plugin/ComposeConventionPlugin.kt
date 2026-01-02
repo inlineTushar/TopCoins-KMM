@@ -158,7 +158,7 @@ internal fun Project.configureCompose(
         "implementation"(libs.findLibrary("androidx-activity-compose").get())
 
         // Navigation Compose (for apps and feature modules)
-        if (isApplication || path.contains(":feature:")) {
+        if (isApplication || path.contains(":feature:") || path.contains(":common:navigation")) {
             "implementation"(libs.findLibrary("androidx-navigation-compose").get())
         }
 

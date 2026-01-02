@@ -131,12 +131,11 @@ class FeatureConventionPlugin : Plugin<Project> {
                 )
                 implementation(project.libs.findLibrary("koin-compose").get())
                 implementation(project.libs.findLibrary("koin-compose-viewmodel").get())
+                api(project.project(":common:navigation"))
             }
 
             // Android-specific dependencies
             getByName("androidMain").dependencies {
-                // Android-only common modules
-                implementation(project.project(":common:navigation"))
 
                 // Koin Compose for Android
                 implementation(project.libs.findLibrary("koin-androidx-compose").get())

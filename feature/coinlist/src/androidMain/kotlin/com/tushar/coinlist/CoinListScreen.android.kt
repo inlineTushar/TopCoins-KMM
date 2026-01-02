@@ -34,6 +34,7 @@ private fun CoinListComposableContentPreview() {
             )
         ),
         listState = LazyListState(),
+        onOptionPriceLiveClick = {},
         onClickSort = {},
         onRefresh = {},
         onRetry = {},
@@ -48,6 +49,7 @@ private fun CoinListComposableLoadingPreview() {
         viewState = CoinsUiState.Loading,
         listState = LazyListState(),
         onClickSort = {},
+        onOptionPriceLiveClick = {},
         onRefresh = {},
         onRetry = {},
         modifier = Modifier
@@ -61,6 +63,7 @@ private fun CoinListComposableErrorPreview() {
         viewState = CoinsUiState.Error(error = "Something went wrong"),
         listState = LazyListState(),
         onClickSort = {},
+        onOptionPriceLiveClick = {},
         onRefresh = {},
         onRetry = {},
         modifier = Modifier

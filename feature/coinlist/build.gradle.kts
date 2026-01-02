@@ -22,6 +22,7 @@ kotlin {
                 implementation(project(":common:ui"))
                 implementation(project(":common:data"))
                 implementation(project(":common:domain"))
+                api(libs.androidx.navigation.compose)
             }
         }
     }

@@ -32,3 +32,7 @@ sealed class CoinsUiState {
         val items: ImmutableList<CoinUIModel>
     ) : CoinsUiState()
 }
+
+sealed interface NavEvent {
+    data object ToPriceLiveUpdate : NavEvent
+}
