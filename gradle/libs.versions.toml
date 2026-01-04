@@ -188,15 +188,15 @@ convention-library-compose = { id = "android.library.composeview" }  # → Libra
 # Hilt DI plugin with Hilt setup (kapt + dependencies)
 convention-library-hilt = { id = "android.library.hilt" }  # → LibraryHiltConventionPlugin
 # Koin DI plugin with Koin setup (dependencies only, no annotation processing)
-convention-library-koin = { id = "android.library.koin" }  # → LibraryKoinConventionPlugin
+convention-library-koin = { id = "android.library.koin" }  # → KoinConventionPlugin
 # XML View plugin with ViewBinding + navigation 
-convention-library-xmlview = { id = "android.library.xmlview" }  # → LibraryXMLViewConventionPlugin
+convention-library-xmlview = { id = "android.library.xmlview" }  # → XMLViewConventionPlugin
 # Unit testing plugin (JUnit, MockK, Coroutines Test, Turbine, AssertK) - Apply explicitly
-convention-library-test = { id = "android.library.test" }  # → LibraryTestConventionPlugin
+convention-library-test = { id = "android.library.test" }  # → TestConventionPlugin
 # UI testing plugin (Espresso, Compose UI Test, Hilt Testing) - Apply explicitly
-convention-library-uitest = { id = "android.library.uitest" }  # → LibraryUITestConventionPlugin
+convention-library-uitest = { id = "android.library.uitest" }  # → UITestConventionPlugin
 # Feature plugin combining library + compose + hilt
-convention-library-feature = { id = "android.library.feature" }  # → LibraryFeatureConventionPlugin
+convention-library-feature = { id = "android.library.feature" }  # → FeatureConventionPlugin
 # Application plugin with app-level setup (compileSdk, buildTypes, etc.)
 convention-application = { id = "android.application" }  # → ApplicationConventionPlugin
 # Lint plugin for code quality checks (XML reports, SARIF reports, dependency checks)
