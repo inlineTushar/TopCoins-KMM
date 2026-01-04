@@ -8,8 +8,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.tushar.coinlist.formatter.PercentageFormatter
 import com.tushar.coinlist.formatter.TimeFormatter
 import com.tushar.core.formatter.CurrencyFormatter
-import com.tushar.domain.GetCoinUseCase
 import com.tushar.core.model.BigDecimal
+import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinsDomainModel
@@ -115,7 +115,7 @@ class CoinListScreenTest {
         )
 
         composeTestRule.setContent {
-            CoinListScreen(vm = viewModel)
+            CoinListScreen(navController = mockk(), vm = viewModel)
         }
 
         // Wait for async initialization
@@ -152,7 +152,7 @@ class CoinListScreenTest {
         )
 
         composeTestRule.setContent {
-            CoinListScreen(vm = viewModel)
+            CoinListScreen(navController = mockk(), vm = viewModel)
         }
         composeTestRule.waitForIdle()
 
@@ -172,7 +172,7 @@ class CoinListScreenTest {
         )
 
         composeTestRule.setContent {
-            CoinListScreen(vm = viewModel)
+            CoinListScreen(navController = mockk(), vm = viewModel)
         }
 
         // Then - Title should be visible immediately (app bar is always shown)
