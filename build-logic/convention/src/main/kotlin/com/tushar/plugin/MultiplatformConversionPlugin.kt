@@ -7,7 +7,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
@@ -84,12 +83,9 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
         }
     }
 
-    // Source sets configuration
     sourceSets.apply {
-        // Common source set
         getByName("commonMain") {
             dependencies {
-                // Common dependencies will be added via configureDependencies
                 implementation(libs.findLibrary("kotlinx-coroutines-core").get())
             }
         }
@@ -134,8 +130,5 @@ private fun LibraryExtension.configureAndroidLibrary() {
  * flexible and non-opinionated about what libraries to use.
  */
 private fun Project.configureDependencies() {
-    dependencies {
-        // Only add the absolute minimum - Kotlin test support
-        add("commonTestImplementation", kotlin("test"))
-    }
+    dependencies {}
 }

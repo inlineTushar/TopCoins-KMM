@@ -1,6 +1,5 @@
 package com.tushar.coinlist.formatter
 
-import com.tushar.core.formatter.PercentageFormatter
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
