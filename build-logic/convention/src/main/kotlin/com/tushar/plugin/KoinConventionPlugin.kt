@@ -21,8 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * Usage in module's build.gradle.kts:
  * ```
  * plugins {
- *     alias(libs.plugins.android.library)
- *     alias(libs.plugins.library.koin)
+ *     alias(libs.plugins.convention.library.koin)
  * }
  * ```
  */

@@ -20,7 +20,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.serialization.json)
-            api(libs.androidx.navigation.compose)
+            api(libs.compose.multiplatform.navigation)
         }
     }
 }

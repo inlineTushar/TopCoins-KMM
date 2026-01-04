@@ -11,8 +11,7 @@ import org.gradle.kotlin.dsl.dependencies
  * Usage in module's build.gradle.kts:
  * ```
  * plugins {
- *     alias(libs.plugins.android.library)
- *     alias(libs.plugins.library.hilt)
+ *     alias(libs.plugins.convention.library.hilt)
  * }
  * ```
  */

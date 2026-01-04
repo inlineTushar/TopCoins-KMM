@@ -26,37 +26,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * Usage in module's build.gradle.kts:
  * ```
  * plugins {
- *     alias(libs.plugins.local.multiplatform.conversion)
- * }
- *
- * android {
- *     namespace = "com.yourcompany.yourmodule"
- * }
- *
- * kotlin {
- *     sourceSets {
- *         commonMain.dependencies {
- *             // Declare your module-specific dependencies here
- *             implementation(libs.kotlinx.coroutines.core)
- *             implementation(libs.kotlinx.serialization.json)
- *         }
- *
- *         androidMain.dependencies {
- *             // Android-specific dependencies
- *             implementation(libs.kotlinx.coroutines.android)
- *         }
- *
- *         iosMain.dependencies {
- *             // iOS-specific dependencies
- *         }
- *     }
+ *     alias(libs.plugins.convention.multiplatform)
  * }
  * ```
  */
 class MultiplatformConversionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // Apply required plugins
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.multiplatform")
@@ -83,7 +59,6 @@ class MultiplatformConversionPlugin : Plugin<Project> {
  * Configure Kotlin Multiplatform targets and source sets
  */
 private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: Project) {
-    // Android target
     androidTarget {
         compilations.all {
             compilerOptions.configure {
@@ -92,14 +67,12 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
         }
     }
 
-    // iOS targets
     val iosTargets = listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     )
 
-    // Define libs accessor for convenience within this scope
     val libs = project.libs
 
     // Configure iOS frameworks

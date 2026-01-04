@@ -15,15 +15,11 @@ compose {
 
 kotlin {
     sourceSets {
-        commonMain {
-            dependencies {
-                // Common modules
-                implementation(project(":common:core"))
-                implementation(project(":common:ui"))
-                implementation(project(":common:data"))
-                implementation(project(":common:domain"))
-                api(libs.androidx.navigation.compose)
-            }
+        commonMain.dependencies {
+            implementation(project(":common:core"))
+            implementation(project(":common:ui"))
+            implementation(project(":common:data"))
+            implementation(project(":common:domain"))
         }
     }
 }

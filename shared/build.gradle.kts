@@ -38,7 +38,7 @@ kotlin {
                 api(project(":feature:coinlist"))
                 api(project(":feature:priceupdate"))
                 implementation(libs.touchlab.skie.annotations)
-                api(libs.androidx.navigation.compose)
+                api(libs.compose.multiplatform.navigation)
             }
         }
     }

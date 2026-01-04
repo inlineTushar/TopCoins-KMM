@@ -21,7 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * Usage in module's build.gradle.kts:
  * ```
  * plugins {
- *     alias(libs.plugins.local.library.composeview)
+ *     alias(libs.plugins.convention.library.compose)
  * }
  * ```
  */
@@ -30,7 +30,6 @@ class ComposeConventionPlugin : Plugin<Project> {
         with(target) {
             // Always apply Compose compiler plugin
             apply(plugin = "org.jetbrains.kotlin.plugin.compose")
-
 
             // Check if this is a KMM module
             val isKmmModule = pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")
@@ -46,7 +45,6 @@ class ComposeConventionPlugin : Plugin<Project> {
                 if (!pluginManager.hasPlugin("android.multiplatform.conversion")) {
                     apply(plugin = "android.multiplatform.conversion")
                 }
-
                 configureComposeMultiplatform()
             } else {
                 // Android-only module: Use AndroidX Compose
@@ -56,7 +54,7 @@ class ComposeConventionPlugin : Plugin<Project> {
                 val isApplication = pluginManager.hasPlugin("com.android.application")
 
                 if (!isApplication) {
-                    // Only apply android.library if it's not an application
+                    // Only apply android library if it's not an application
                     apply(plugin = "android.library")
                 }
 
@@ -79,41 +77,22 @@ class ComposeConventionPlugin : Plugin<Project> {
 internal fun Project.configureComposeMultiplatform() {
     extensions.configure<KotlinMultiplatformExtension> {
         sourceSets.apply {
-            // Common Compose Multiplatform dependencies
             getByName("commonMain").dependencies {
-                // Compose Multiplatform dependencies (using dependency strings directly)
-                val composeVersion = "1.7.3"
-                implementation("org.jetbrains.compose.runtime:runtime:$composeVersion")
-                implementation("org.jetbrains.compose.foundation:foundation:$composeVersion")
-                implementation("org.jetbrains.compose.material3:material3:$composeVersion")
-                implementation("org.jetbrains.compose.ui:ui:$composeVersion")
-                implementation("org.jetbrains.compose.components:components-resources:$composeVersion")
-                implementation("org.jetbrains.compose.components:components-ui-tooling-preview:$composeVersion")
-
-                // Collections immutable for Compose performance
+                implementation(libs.findLibrary("compose-multiplatform-runtime").get())
+                implementation(libs.findLibrary("compose-multiplatform-foundation").get())
+                implementation(libs.findLibrary("compose-multiplatform-material3").get())
+                implementation(libs.findLibrary("compose-multiplatform-ui").get())
+                implementation(libs.findLibrary("compose-multiplatform-components-resources").get())
+                implementation(libs.findLibrary("compose-multiplatform-components-ui-tooling-preview").get())
                 implementation(libs.findLibrary("kotlinx-collections-immutable").get())
             }
 
-            // Android-specific Compose additions
             getByName("androidMain").dependencies {
-                // Preview and tooling
-                val composeVersion = "1.7.3"
-                implementation("org.jetbrains.compose.ui:ui-tooling-preview:$composeVersion")
-                implementation("org.jetbrains.compose.ui:ui-tooling:$composeVersion")
-
-                // Android Activity Compose
+                implementation(libs.findLibrary("compose-multiplatform-ui-tooling-preview").get())
+                implementation(libs.findLibrary("compose-multiplatform-ui-tooling").get())
                 implementation(libs.findLibrary("androidx-activity-compose").get())
                 implementation(libs.findLibrary("androidx-material-icons-extended").get())
-
-                // Navigation Compose is removed from here to prevent IrLinkageError on iOS due to
-                // transitive dependency conflicts. It should be added manually to the `androidMain`
-                // sourceSet of specific modules that require it.
-//                if (path.contains(":feature:") || path.contains(":common:ui")) {
-//                    implementation(libs.findLibrary("androidx-navigation-compose").get())
-//                }
             }
-
-            // iOS uses dependencies from commonMain - no additional dependencies needed
         }
     }
 }

@@ -10,48 +10,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 /**
  * Convention plugin for feature modules (Kotlin Multiplatform)
- *
  * This plugin provides a complete feature module setup with KMM support:
- *
- * Structure:
- * - Applies `local.multiplatform` for KMM structure (Android + iOS targets)
- * - Applies `local.library.composeview` for Compose Multiplatform
- * - Applies `local.library.koin` for dependency injection
- * - Applies `local.library.test` for testing configuration
- *
- * Dependencies (handled automatically):
- * - commonMain: :common:ui, :common:data, :common:domain, collections-immutable
- * - androidMain: :common:navigation, lifecycle-viewmodel-compose, koin-androidx-compose
- *
- * ProGuard:
- * - Automatically applies consumer-rules.pro and proguard-rules.pro if present
- *
- * Usage:
- * ```kotlin
- * plugins {
- *     alias(libs.plugins.local.library.feature)
- * }
- *
- * android {
- *     namespace = "com.yourcompany.feature.featurename"
- * }
- *
- * // Optional: Configure Compose resources
- * compose {
- *     resources {
- *         packageOfResClass = "com.yourcompany.feature.featurename.generated.resources"
- *         generateResClass = always
- *     }
- * }
- * ```
- */
+**/
+
 class FeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // Apply multiplatform structure
             apply(plugin = "android.multiplatform.conversion")
-
-            // Apply supporting plugins
             apply(plugin = "android.library.composeview")
             apply(plugin = "android.library.koin")
             apply(plugin = "android.library.test")
@@ -114,30 +79,16 @@ class FeatureConventionPlugin : Plugin<Project> {
      */
     private fun KotlinMultiplatformExtension.configureFeatureDependencies(project: Project) {
         sourceSets.apply {
-            // Common dependencies - shared across all platforms
             getByName("commonMain").dependencies {
-
-                // Collections for state management
                 implementation(project.libs.findLibrary("kotlinx-collections-immutable").get())
-
-                // ViewModel support in common code (KMP)
                 implementation(project.libs.findLibrary("androidx-lifecycle-viewmodel").get())
-
-                // Koin BOM for version management and Compose dependencies
-                implementation(
-                    project.dependencies.platform(
-                        project.libs.findLibrary("koin-bom").get()
-                    )
-                )
+                implementation(project.dependencies.platform(project.libs.findLibrary("koin-bom").get()))
                 implementation(project.libs.findLibrary("koin-compose").get())
                 implementation(project.libs.findLibrary("koin-compose-viewmodel").get())
                 api(project.project(":common:navigation"))
             }
 
-            // Android-specific dependencies
             getByName("androidMain").dependencies {
-
-                // Koin Compose for Android
                 implementation(project.libs.findLibrary("koin-androidx-compose").get())
             }
 
