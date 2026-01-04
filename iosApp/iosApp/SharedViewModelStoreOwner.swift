@@ -1,6 +1,6 @@
 import Foundation
 import Combine
-import shared
+import Shared
 
 class SharedViewModelStoreOwner<VM: ViewModel>: ObservableObject, ViewModelStoreOwner {
     var viewModelStore: ViewModelStore = ViewModelStore()

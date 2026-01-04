@@ -78,7 +78,7 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
     iosTargets.forEach { target ->
         target.binaries.framework {
             export(libs.findLibrary("androidx-lifecycle-viewmodel").get())
-            baseName = project.name
+            baseName = project.name.replaceFirstChar { it.uppercase() }
             isStatic = true
         }
     }
