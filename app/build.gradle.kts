@@ -46,34 +46,15 @@ android {
     }
 }
 
-compose {
-    resources {
-        packageOfResClass = "com.tushar.topcoins.resources"
-        generateResClass = always
-    }
-}
+dependencies {
+    // Common modules - shared across all platforms
+    implementation(project(":common:core"))
+    implementation(project(":common:ui"))
+    implementation(project(":common:data"))
+    implementation(project(":common:domain"))
+    implementation(project(":common:navigation"))
 
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                // Common modules - these are shared across all platforms
-                implementation(project(":common:core"))
-                implementation(project(":common:ui"))
-                implementation(project(":common:data"))
-                implementation(project(":common:domain"))
-
-                // Feature modules
-                implementation(project(":feature:coinlist"))
-                implementation(project(":feature:priceupdate"))
-            }
-        }
-
-        androidMain {
-            dependencies {
-                // Android-only common modules
-                implementation(project(":common:navigation"))
-            }
-        }
-    }
+    // Feature modules
+    implementation(project(":feature:coinlist"))
+    implementation(project(":feature:priceupdate"))
 }

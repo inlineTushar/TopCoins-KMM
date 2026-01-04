@@ -6,138 +6,41 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.gradle.kotlin.dsl.dependencies
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class ApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // Apply required plugins
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.multiplatform")
+                apply("org.jetbrains.kotlin.android")
                 apply("org.jetbrains.kotlin.plugin.serialization")
-                apply("org.jetbrains.kotlin.plugin.compose")  // Compose compiler
-                apply("org.jetbrains.compose")  // Compose Multiplatform
-                apply("android.lint")  // Apply lint to application module
+                apply("org.jetbrains.kotlin.plugin.compose")
+                apply("android.lint")
             }
 
-            // Configure Kotlin Multiplatform (includes source sets and dependencies)
-            extensions.configure<KotlinMultiplatformExtension> {
-                configureKotlinMultiplatform(target)
+            // Configure Kotlin Android
+            extensions.configure<KotlinAndroidProjectExtension> {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_11)
+                }
             }
 
             // Configure Android Application
             extensions.configure<ApplicationExtension> {
                 configureAppKotlinAndroid()
                 configureAppSpecifics()
+                configureBuildFeatures()
             }
 
-            logger.lifecycle("[${target.name}] ✓ Application module configured with Kotlin Multiplatform")
+            // Configure dependencies
+            configureDependencies()
+
+            logger.lifecycle("[${target.name}] ✓ Application module configured (Android-only)")
         }
     }
-}
-
-/**
- * Configure Kotlin Multiplatform targets and source sets for application
- */
-private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: Project) {
-    // Android target
-    androidTarget {
-        compilations.all {
-            compilerOptions.configure {
-                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-            }
-        }
-    }
-
-    // iOS targets (optional - can be enabled if needed)
-    val iosTargets = listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    )
-
-    // Configure iOS frameworks
-    iosTargets.forEach { target ->
-        target.binaries.framework {
-            baseName = project.name
-            isStatic = true
-        }
-    }
-
-    // Source sets configuration with dependencies
-    sourceSets.apply {
-        // Common source set with Compose and module dependencies
-        getByName("commonMain") {
-            dependencies {
-                // Compose Multiplatform core
-                val composeVersion = "1.7.3"
-                implementation("org.jetbrains.compose.runtime:runtime:$composeVersion")
-                implementation("org.jetbrains.compose.foundation:foundation:$composeVersion")
-                implementation("org.jetbrains.compose.material3:material3:$composeVersion")
-                implementation("org.jetbrains.compose.ui:ui:$composeVersion")
-                implementation("org.jetbrains.compose.components:components-resources:$composeVersion")
-                implementation("org.jetbrains.compose.components:components-ui-tooling-preview:$composeVersion")
-
-                // Koin BOM for version management
-                implementation(
-                    project.dependencies.platform(
-                        project.libs.findLibrary("koin.bom").get()
-                    )
-                )
-
-                // Koin Core
-                implementation(project.libs.findLibrary("koin.core").get())
-                implementation(project.libs.findLibrary("koin.compose").get())
-                implementation(project.libs.findLibrary("koin.compose.viewmodel").get())
-            }
-        }
-
-        getByName("commonTest") {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        // Android source set with Android-specific dependencies
-        getByName("androidMain") {
-            dependencies {
-                // Compose tooling
-                val composeVersion = "1.7.3"
-                implementation("org.jetbrains.compose.ui:ui-tooling-preview:$composeVersion")
-                implementation("org.jetbrains.compose.ui:ui-tooling:$composeVersion")
-
-                // Android Activity Compose
-                implementation(project.libs.findLibrary("androidx-activity-compose").get())
-                implementation(project.libs.findLibrary("androidx-material-icons-extended").get())
-                implementation(project.libs.findLibrary("androidx-navigation-compose").get())
-
-                // Koin Android
-                implementation(project.libs.findLibrary("koin.android").get())
-                implementation(project.libs.findLibrary("koin.androidx.compose").get())
-            }
-        }
-
-        // iOS source set (common for all iOS targets)
-        val iosMain = create("iosMain") {
-            dependsOn(getByName("commonMain"))
-        }
-
-        val iosTest = create("iosTest") {
-            dependsOn(getByName("commonTest"))
-        }
-
-        // Link iOS target-specific source sets to shared iOS source set
-        getByName("iosX64Main").dependsOn(iosMain)
-        getByName("iosArm64Main").dependsOn(iosMain)
-        getByName("iosSimulatorArm64Main").dependsOn(iosMain)
-
-        getByName("iosX64Test").dependsOn(iosTest)
-        getByName("iosArm64Test").dependsOn(iosTest)
-        getByName("iosSimulatorArm64Test").dependsOn(iosTest)
-    }
-
-    project.logger.lifecycle("[${project.name}] ✓ Multiplatform dependencies configured")
 }
 
 /**
@@ -147,8 +50,6 @@ private fun ApplicationExtension.configureAppKotlinAndroid() {
     compileSdk = 36
 
     defaultConfig {
-        // Use namespace as default applicationId if not already set
-        // This will be overridden if explicitly set in the app module's build.gradle.kts
         applicationId = namespace
         minSdk = 26
         targetSdk = 35
@@ -160,17 +61,22 @@ private fun ApplicationExtension.configureAppKotlinAndroid() {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // Enable build features
-    buildFeatures {
-        buildConfig = true
-    }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "/META-INF/LICENSE.md"
             excludes += "/META-INF/LICENSE-notice.md"
         }
+    }
+}
+
+/**
+ * Configure build features
+ */
+private fun ApplicationExtension.configureBuildFeatures() {
+    buildFeatures {
+        buildConfig = true
+        compose = true
     }
 }
 
@@ -199,4 +105,27 @@ private fun ApplicationExtension.configureAppSpecifics() {
     }
 }
 
+/**
+ * Configure dependencies for Android application
+ */
+private fun Project.configureDependencies() {
+    dependencies {
+        // AndroidX Compose BOM
+        add("implementation", platform(libs.findLibrary("androidx.compose.bom").get()))
+        add("implementation", libs.findLibrary("androidx.ui").get())
+        add("implementation", libs.findLibrary("androidx.ui.graphics").get())
+        add("implementation", libs.findLibrary("androidx.ui.tooling.preview").get())
+        add("implementation", libs.findLibrary("androidx.material3").get())
+        add("debugImplementation", libs.findLibrary("androidx.ui.tooling").get())
 
+        // Android Activity Compose
+        add("implementation", libs.findLibrary("androidx.activity.compose").get())
+        add("implementation", libs.findLibrary("androidx.material.icons.extended").get())
+
+        // Koin
+        add("implementation", platform(libs.findLibrary("koin.bom").get()))
+        add("implementation", libs.findLibrary("koin.core").get())
+        add("implementation", libs.findLibrary("koin.android").get())
+        add("implementation", libs.findLibrary("koin.androidx.compose").get())
+    }
+}
