@@ -79,7 +79,7 @@ private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: P
         target.binaries.framework {
             export(libs.findLibrary("androidx-lifecycle-viewmodel").get())
             baseName = project.name
-//            isStatic = true
+            isStatic = true
         }
     }
 
