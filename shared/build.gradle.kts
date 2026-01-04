@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.convention.multiplatform)
-    alias(libs.plugins.compose.multiplatform)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.convention.library.compose)
     alias(libs.plugins.touchlab.skie)
 }
 
@@ -18,25 +17,16 @@ compose {
 
 kotlin {
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.ui)
-                implementation(compose.components.resources)
-                implementation(compose.components.uiToolingPreview)
+        commonMain.dependencies {
+            implementation(libs.touchlab.skie.annotations)
+            api(project(":common:core"))
+            api(project(":common:ui"))
+            api(project(":common:data"))
+            api(project(":common:domain"))
+            api(project(":common:navigation"))
 
-                api(project(":common:core"))
-                api(project(":common:ui"))
-                api(project(":common:data"))
-                api(project(":common:domain"))
-
-                api(project(":feature:coinlist"))
-                api(project(":feature:priceupdate"))
-                implementation(libs.touchlab.skie.annotations)
-                api(libs.compose.multiplatform.navigation)
-            }
+            api(project(":feature:coinlist"))
+            api(project(":feature:priceupdate"))
         }
     }
 
@@ -54,13 +44,6 @@ kotlin {
     }
 
     task("testClasses")
-}
-
-android {
-    dependencies {
-        implementation(libs.androidx.core.ktx)
-        implementation(libs.koin.android)
-    }
 }
 
 tasks.withType<Test>().configureEach {
