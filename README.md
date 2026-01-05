@@ -1,16 +1,15 @@
 # Top Coins — Kotlin Multiplatform (KMM)
 
 **Top Coins** is a cross-platform (Android & iOS) crypto analytics app, refactored to KMM from an
-original Android-only
-architecture ([switch to Android-only](https://github.com/inlineTushar/TopCoins/tree/master)).
+original Android-only architecture ([switch to Android-only](https://github.com/inlineTushar/TopCoins/tree/master)).
 
 ---
 
 ## Preview
 
-| Android                                         | iOS                                     |
-|-------------------------------------------------|-----------------------------------------|
-| ![Android Preview](preview/preview_android.png) | ![iOS Preview](preview/preview_ios.png) |
+| Android | iOS |
+|---------|-----|
+|  |  |
 
 ---
 

@@ -3,6 +3,8 @@ import Shared
 
 struct CoinListScreenUi: View {
 
+    @Environment(\.dismiss) private var dismiss
+
     @ObservedObject
     var vm: SwiftCoinListViewModel = SwiftCoinListViewModel()
 
@@ -49,6 +51,11 @@ struct CoinListScreenUi: View {
         .navigationTitle(Bundle.main.appName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    Image(systemName: "chevron.left")
+                }
+            }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: { vm.onOptionPriceLiveClick() }) {
                     Image(systemName: "chart.line.uptrend.xyaxis")
