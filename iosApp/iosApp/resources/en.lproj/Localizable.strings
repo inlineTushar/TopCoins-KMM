@@ -1,0 +1,23 @@
+/*
+  Localizable.strings
+  iosApp
+
+  English localization strings
+*/
+
+// MARK: - Common
+"common_retry" = "Retry";
+"common_error_occurred" = "An error occurred";
+"common_app_fallback_name" = "App";
+
+// MARK: - Coin List
+"coin_list_updated_at %@" = "Updated at: %@";
+"coin_list_sort_best" = "Best";
+"coin_list_sort_worst" = "Worst";
+
+// MARK: - Accessibility Labels
+"accessibility_coin_name %@" = "Coin name: %@";
+"accessibility_coin_symbol %@" = "Symbol: %@";
+"accessibility_coin_change %@" = "Change in last 24 hours: %@";
+"accessibility_coin_price %@" = "Price: %@";
+"accessibility_coin_item %@ %@ %@ %@" = "Coin item: %1$@ (%2$@), price %3$@, change in last 24 hours %4$@";

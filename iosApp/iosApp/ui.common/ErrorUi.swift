@@ -5,7 +5,7 @@ struct ErrorUi: View {
     let onRetry: () -> Void
     let tag: String
 
-    init(errorText: String, onRetry: @escaping () -> Void, tag: String = "An error occurred") {
+    init(errorText: String, onRetry: @escaping () -> Void, tag: String = String(localized: "common_error_occurred")) {
         self.errorText = errorText
         self.onRetry = onRetry
         self.tag = tag
@@ -19,7 +19,7 @@ struct ErrorUi: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 16)
                 Button(action: onRetry) {
-                    Text("Retry")
+                    Text("common_retry")
                 }
             }
             .padding(16)

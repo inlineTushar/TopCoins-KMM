@@ -1,18 +1,6 @@
 import SwiftUI
 import Shared
 
-struct RefreshableModifier: ViewModifier {
-    let action: () -> Void
-
-    func body(content: Content) -> some View {
-        if #available(iOS 15.0, *) {
-            content.refreshable { action() }
-        } else {
-            content
-        }
-    }
-}
-
 struct CoinListScreenUi: View {
 
     @ObservedObject
@@ -53,7 +41,7 @@ struct CoinListScreenUi: View {
                             )
                         }
                     }
-                }.modifier(RefreshableModifier(action: vm.onReload))
+                }.refreshable { vm.onReload() }
             default:
                 EmptyView()
             }

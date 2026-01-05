@@ -9,6 +9,6 @@ extension Bundle {
         if let name = object(forInfoDictionaryKey: "CFBundleName") as? String {
             return name
         }
-        return "App"
+        return String(localized: "common_app_fallback_name")
     }
 }

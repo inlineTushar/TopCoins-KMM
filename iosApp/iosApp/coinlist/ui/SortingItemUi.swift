@@ -37,11 +37,10 @@ struct SortingItemUi: View {
         }
     }
     
-    // Helper to map the Kotlin sortType resource to a presentable string. Adjust as needed for localization.
     private func sortTypeTitle(for type: SortType) -> String {
         switch type {
-        case .bestPerform: return "Best"
-        case .worstPerform: return "Worst"
+        case .bestPerform: return String(localized: "coin_list_sort_best")
+        case .worstPerform: return String(localized: "coin_list_sort_worst")
         }
     }
 }

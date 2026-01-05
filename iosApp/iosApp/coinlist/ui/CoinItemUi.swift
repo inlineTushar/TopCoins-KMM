@@ -13,12 +13,12 @@ struct CoinItemUi: View {
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(Color.primary)
                     .lineLimit(1)
-                    .accessibilityLabel("Coin name: \(coinName)")
+                    .accessibilityLabel(String(localized: "accessibility_coin_name \(coinName)"))
                 Text(coinSymbol)
                     .font(.system(size: 14, weight: .medium, design: .monospaced))
                     .foregroundColor(Color.secondary)
                     .padding(.top, 4)
-                    .accessibilityLabel("Symbol: \(coinSymbol)")
+                    .accessibilityLabel(String(localized: "accessibility_coin_symbol \(coinSymbol)"))
             }
             .padding(.leading, 8)
             Spacer()
@@ -26,15 +26,15 @@ struct CoinItemUi: View {
                 Text(coinChange)
                     .font(.system(size: 16, weight: .light))
                     .foregroundColor(Color.primary)
-                    .accessibilityLabel("Change in last 24 hours: \(coinChange)")
+                    .accessibilityLabel(String(localized: "accessibility_coin_change \(coinChange)"))
                 Text(coinPrice)
                     .font(.system(size: 16, weight: .bold, design: .default))
                     .foregroundColor(Color.accentColor)
-                    .accessibilityLabel("Price: \(coinPrice)")
+                    .accessibilityLabel(String(localized: "accessibility_coin_price \(coinPrice)"))
             }
         }
         .padding(8)
         .frame(maxWidth: .infinity)
-        .accessibilityLabel("Coin item: \(coinName) (\(coinSymbol)), price \(coinPrice), change in last 24 hours \(coinChange)")
+        .accessibilityLabel(String(localized: "accessibility_coin_item \(coinName) \(coinSymbol) \(coinPrice) \(coinChange)"))
     }
 }
