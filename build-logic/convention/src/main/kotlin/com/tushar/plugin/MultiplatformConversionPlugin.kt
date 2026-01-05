@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  * - Shared source sets (commonMain, androidMain, iosMain, with proper linking)
  * - Proper Android library configuration
  * - iOS framework generation
- * - Minimal test dependencies (kotlin-test only)
  *
  * Usage in module's build.gradle.kts:
  * ```
