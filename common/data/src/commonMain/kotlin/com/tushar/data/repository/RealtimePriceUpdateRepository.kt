@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -45,6 +46,7 @@ class RealtimePriceUpdateRepositoryImpl(
     private fun startListeningUpdate() {
         realtimePriceUpdateService.priceUpdate()
             .onEach { _priceUpdate.emit(it.asRepoModel()) }
+            .catch { e -> print(e) }
             .launchIn(CoroutineScope(dispatcher))
     }
 
