@@ -1,14 +1,14 @@
 package com.tushar.coinlist.formatter
 
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class PercentageFormatterTest {
 
-    private lateinit var formatter: PercentageFormatter
+    private lateinit var formatter: PercentageFormatterContract
 
-    @Before
+    @BeforeTest
     fun setup() {
         formatter = PercentageFormatter()
     }

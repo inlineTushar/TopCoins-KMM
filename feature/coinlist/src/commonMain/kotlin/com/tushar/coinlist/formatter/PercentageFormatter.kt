@@ -1,12 +1,9 @@
 package com.tushar.coinlist.formatter
 
 /**
- * Platform-specific percentage formatter
- *
- * Android: Uses java.text.DecimalFormat
- * iOS: Uses NSNumberFormatter
+ * Interface for percentage formatting - can be mocked in tests
  */
-expect class PercentageFormatter() {
+interface PercentageFormatterContract {
     /**
      * Formats a Double value into a percentage string.
      *
@@ -15,4 +12,14 @@ expect class PercentageFormatter() {
      * @return Formatted percentage string (e.g., "+5.23")
      */
     fun format(percent: Double, fractionDigits: Int = 2): String
+}
+
+/**
+ * Platform-specific percentage formatter
+ *
+ * Android: Uses java.text.DecimalFormat
+ * iOS: Uses NSNumberFormatter
+ */
+expect class PercentageFormatter() : PercentageFormatterContract {
+    override fun format(percent: Double, fractionDigits: Int): String
 }

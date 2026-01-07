@@ -1,19 +1,21 @@
 package com.tushar.coinlist.formatter
 
 import kotlinx.datetime.Instant
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertTrue
+import kotlin.time.ExperimentalTime
 
 class TimeFormatterTest {
 
-    private lateinit var formatter: TimeFormatter
+    private lateinit var formatter: TimeFormatterContract
 
-    @Before
+    @BeforeTest
     fun setup() {
         formatter = TimeFormatter()
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
     fun `format timestamp with default pattern`() {
         // 2024-01-15 14:30:45 UTC

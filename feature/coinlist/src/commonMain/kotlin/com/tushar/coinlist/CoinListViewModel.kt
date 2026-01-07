@@ -3,9 +3,9 @@ package com.tushar.coinlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tushar.coinlist.CoinsUiState.Loading
-import com.tushar.coinlist.formatter.PercentageFormatter
-import com.tushar.coinlist.formatter.TimeFormatter
-import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.coinlist.formatter.PercentageFormatterContract
+import com.tushar.coinlist.formatter.TimeFormatterContract
+import com.tushar.core.formatter.CurrencyFormatterContract
 import com.tushar.domain.DomainError
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinsDomainModel
@@ -20,9 +20,9 @@ import kotlinx.coroutines.launch
 
 class CoinListViewModel(
     private val useCase: GetCoinUseCase,
-    private val currencyFormatter: CurrencyFormatter,
-    private val percentageFormatter: PercentageFormatter,
-    private val timeFormatter: TimeFormatter,
+    private val currencyFormatter: CurrencyFormatterContract,
+    private val percentageFormatter: PercentageFormatterContract,
+    private val timeFormatter: TimeFormatterContract,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CoinsUiState>(Loading)
     val uiState: StateFlow<CoinsUiState> = _uiState.asStateFlow()

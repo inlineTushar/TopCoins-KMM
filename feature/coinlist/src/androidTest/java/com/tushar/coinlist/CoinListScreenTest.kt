@@ -5,9 +5,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.tushar.coinlist.formatter.PercentageFormatter
-import com.tushar.coinlist.formatter.TimeFormatter
-import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.coinlist.formatter.PercentageFormatterContract
+import com.tushar.coinlist.formatter.TimeFormatterContract
+import com.tushar.core.formatter.CurrencyFormatterContract
 import com.tushar.core.model.BigDecimal
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinCurrency
@@ -34,9 +34,9 @@ class CoinListScreenTest {
     val composeTestRule = createComposeRule()
 
     private lateinit var mockUseCase: GetCoinUseCase
-    private lateinit var mockCurrencyFormatter: CurrencyFormatter
-    private lateinit var mockPercentFormatter: PercentageFormatter
-    private lateinit var mockTimeFormatter: TimeFormatter
+    private lateinit var mockCurrencyFormatter: CurrencyFormatterContract
+    private lateinit var mockPercentFormatter: PercentageFormatterContract
+    private lateinit var mockTimeFormatter: TimeFormatterContract
 
     private val testCoins = CoinsDomainModel(
         timestamp = Instant.fromEpochMilliseconds(1705329045000L),

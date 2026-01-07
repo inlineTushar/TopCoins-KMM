@@ -24,6 +24,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.compose.multiplatform.gradlePlugin)
+    compileOnly(libs.mokkery.gradlePlugin)
 }
 
 tasks {

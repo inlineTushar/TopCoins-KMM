@@ -1,7 +1,7 @@
 package com.tushar.domain.di
 
 import com.tushar.domain.GetCoinUseCase
-import org.koin.core.module.dsl.singleOf
+import com.tushar.domain.GetCoinUseCaseImpl
 import org.koin.dsl.module
 
 /**
@@ -11,5 +11,10 @@ import org.koin.dsl.module
  * - Use cases
  */
 val domainModule = module {
-    singleOf(::GetCoinUseCase)
+    single<GetCoinUseCase> {
+        GetCoinUseCaseImpl(
+            repository = get(),
+            dispatcher = get()
+        )
+    }
 }

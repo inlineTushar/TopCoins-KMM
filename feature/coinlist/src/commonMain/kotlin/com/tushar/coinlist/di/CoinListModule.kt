@@ -2,8 +2,9 @@ package com.tushar.coinlist.di
 
 import com.tushar.coinlist.CoinListViewModel
 import com.tushar.coinlist.formatter.PercentageFormatter
+import com.tushar.coinlist.formatter.PercentageFormatterContract
 import com.tushar.coinlist.formatter.TimeFormatter
-import org.koin.core.module.dsl.singleOf
+import com.tushar.coinlist.formatter.TimeFormatterContract
 import org.koin.dsl.module
 
 /**
@@ -15,9 +16,9 @@ import org.koin.dsl.module
  */
 val coinListModule = module {
 
-    // Formatters - platform-specific implementations
-    singleOf(::PercentageFormatter)
-    singleOf(::TimeFormatter)
+    // Formatters - platform-specific implementations bound to interfaces
+    single<PercentageFormatterContract> { PercentageFormatter() }
+    single<TimeFormatterContract> { TimeFormatter() }
 
     // ViewModel - using factory for KMP
     factory {

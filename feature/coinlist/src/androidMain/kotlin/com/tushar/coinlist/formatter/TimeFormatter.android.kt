@@ -8,8 +8,8 @@ import java.util.Locale
 /**
  * Android implementation of TimeFormatter using Java's SimpleDateFormat
  */
-actual class TimeFormatter {
-    actual fun format(instant: Instant, pattern: String): String {
+actual class TimeFormatter : TimeFormatterContract {
+    actual override fun format(instant: Instant, pattern: String): String {
         val formatter = SimpleDateFormat(pattern, Locale.getDefault())
         val date = Date(instant.toEpochMilliseconds())
         return formatter.format(date)

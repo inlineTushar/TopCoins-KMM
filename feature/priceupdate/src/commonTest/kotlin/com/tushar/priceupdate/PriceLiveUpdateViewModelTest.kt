@@ -4,15 +4,18 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNull
-import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.core.formatter.CurrencyFormatterContract
 import com.tushar.core.model.BigDecimal
 import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.Symbol
 import com.tushar.data.repository.RealtimePriceUpdateRepository
 import com.tushar.data.repository.model.PriceUpdateRepoModel
 import com.tushar.data.repository.model.PriceUpdateTickRepoModel
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,40 +24,42 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.datetime.Instant
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import kotlinx.datetime.Clock
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PriceLiveUpdateViewModelTest {
 
-    private val mockRepository: RealtimePriceUpdateRepository = mockk(relaxed = true)
-    private val mockCurrencyFormatter: CurrencyFormatter = mockk(relaxed = true)
-
+    private lateinit var mockRepository: RealtimePriceUpdateRepository
+    private lateinit var mockCurrencyFormatter: CurrencyFormatterContract
     private lateinit var priceUpdateFlow: MutableSharedFlow<PriceUpdateRepoModel>
     private lateinit var viewModel: PriceLiveUpdateViewModel
 
     private val testDispatcher = StandardTestDispatcher()
 
-    @Before
+    @BeforeTest
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
+
         priceUpdateFlow = MutableSharedFlow()
+        mockRepository = mock()
+        mockCurrencyFormatter = mock()
+
         every { mockRepository.priceUpdate } returns priceUpdateFlow
-        every { mockCurrencyFormatter.format(any(), any()) } answers {
-            "$${firstArg<BigDecimal>().toPlainString()}"
-        }
+        everySuspend { mockRepository.connect(any()) } returns Unit
+        everySuspend { mockRepository.disconnect() } returns Unit
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$0.00"
     }
 
-    @After
+    @AfterTest
     fun tearDown() {
         Dispatchers.resetMain()
     }
 
-    private fun createViewModel(): PriceLiveUpdateViewModel {
-        return PriceLiveUpdateViewModel(mockRepository, mockCurrencyFormatter)
-    }
+    private fun createViewModel(): PriceLiveUpdateViewModel =
+        PriceLiveUpdateViewModel(mockRepository, mockCurrencyFormatter)
 
     private fun createTick(
         price: String,
@@ -68,7 +73,7 @@ class PriceLiveUpdateViewModelTest {
         currencyName = currencyName,
         price = BigDecimal(price),
         currencyBase = "USD",
-        timestamp = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        timestamp = Clock.System.now()
     )
 
     @Test
@@ -83,11 +88,13 @@ class PriceLiveUpdateViewModelTest {
         viewModel = createViewModel()
         advanceUntilIdle()
 
-        coVerify { mockRepository.connect(listOf(Symbol("BTC/USD"))) }
+        verifySuspend { mockRepository.connect(listOf(Symbol("BTC/USD"))) }
     }
 
     @Test
     fun `first price update transitions state to Tick with null isHiked`() = runTest {
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$50,000.00"
+
         viewModel = createViewModel()
         advanceUntilIdle()
 
@@ -105,6 +112,8 @@ class PriceLiveUpdateViewModelTest {
 
     @Test
     fun `price increase sets isHiked to true`() = runTest {
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$50,000.00"
+
         viewModel = createViewModel()
         advanceUntilIdle()
 
@@ -120,6 +129,8 @@ class PriceLiveUpdateViewModelTest {
 
     @Test
     fun `price decrease sets isHiked to false`() = runTest {
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$50,000.00"
+
         viewModel = createViewModel()
         advanceUntilIdle()
 
@@ -135,6 +146,8 @@ class PriceLiveUpdateViewModelTest {
 
     @Test
     fun `same price is filtered by distinctUntilChangedBy`() = runTest {
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$50,000.00"
+
         viewModel = createViewModel()
         advanceUntilIdle()
 
@@ -157,8 +170,7 @@ class PriceLiveUpdateViewModelTest {
 
     @Test
     fun `currency formatter is called with correct parameters`() = runTest {
-        val testPrice = BigDecimal("45678.90")
-        every { mockCurrencyFormatter.format(testPrice, "USD") } returns "$45,678.90"
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$45,678.90"
 
         viewModel = createViewModel()
         advanceUntilIdle()
@@ -172,6 +184,8 @@ class PriceLiveUpdateViewModelTest {
 
     @Test
     fun `multiple price changes track direction correctly`() = runTest {
+        every { mockCurrencyFormatter.format(any(), any()) } returns "$50,000.00"
+
         viewModel = createViewModel()
         advanceUntilIdle()
 

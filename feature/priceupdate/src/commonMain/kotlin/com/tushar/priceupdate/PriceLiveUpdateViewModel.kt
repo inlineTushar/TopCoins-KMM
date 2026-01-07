@@ -2,7 +2,7 @@ package com.tushar.priceupdate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tushar.core.formatter.CurrencyFormatter
+import com.tushar.core.formatter.CurrencyFormatterContract
 import com.tushar.core.zipWithNext
 import com.tushar.data.datasource.remote.api.realtime.model.PriceUpdateRequest.Symbol
 import com.tushar.data.repository.RealtimePriceUpdateRepository
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class PriceLiveUpdateViewModel(
     private val realtimePriceUpdateService: RealtimePriceUpdateRepository,
-    private val currencyFormatter: CurrencyFormatter,
+    private val currencyFormatter: CurrencyFormatterContract,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PriceLiveUpdateUiState>(Loading)
@@ -53,7 +53,7 @@ class PriceLiveUpdateViewModel(
     }
 
     private fun PriceUpdateTickRepoModel.asUiState(
-        currencyFormatter: CurrencyFormatter,
+        currencyFormatter: CurrencyFormatterContract,
         isHiked: Boolean?
     ): PriceLiveUpdateUiState = Tick(
         symbol = symbol,

@@ -9,28 +9,45 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlin.coroutines.cancellation.CancellationException
 
-/**
- * Use case for retrieving and sorting cryptocurrency data.
- */
-class GetCoinUseCase(
-    private val repository: CoinRepository,
-    private val dispatcher: CoroutineDispatcher
-) {
-    /**
-     * Gets top coins sorted by best 24-hour price change (descending).
-     */
+interface GetCoinUseCase {
     suspend fun sortByBestPriceChange(
         refresh: Boolean = false,
         topCount: Int = TOP_COUNT,
+    ): Result<CoinsDomainModel>
+
+    suspend fun sortByWorstPriceChange(
+        refresh: Boolean = false,
+        topCount: Int = TOP_COUNT,
+    ): Result<CoinsDomainModel>
+
+    companion object {
+        private const val TOP_COUNT = 10
+    }
+}
+
+
+/**
+ * Use case for retrieving and sorting cryptocurrency data.
+ */
+class GetCoinUseCaseImpl(
+    private val repository: CoinRepository,
+    private val dispatcher: CoroutineDispatcher
+): GetCoinUseCase {
+    /**
+     * Gets top coins sorted by best 24-hour price change (descending).
+     */
+    override suspend fun sortByBestPriceChange(
+        refresh: Boolean,
+        topCount: Int,
     ): Result<CoinsDomainModel> =
         getSortedTopCoins(refresh, topCount, BEST_PERFORMANCE_COMPARATOR)
 
     /**
      * Gets top coins sorted by worst 24-hour price change (ascending).
      */
-    suspend fun sortByWorstPriceChange(
-        refresh: Boolean = false,
-        topCount: Int = TOP_COUNT,
+    override suspend fun sortByWorstPriceChange(
+        refresh: Boolean,
+        topCount: Int,
     ): Result<CoinsDomainModel> =
         getSortedTopCoins(refresh, topCount, WORST_PERFORMANCE_COMPARATOR)
 
@@ -60,7 +77,6 @@ class GetCoinUseCase(
     }
 
     companion object {
-        private const val TOP_COUNT = 10
         private const val DEFAULT_CURRENCY = "euro"
         private val BEST_PERFORMANCE_COMPARATOR =
             compareByDescending<CoinInUsdDomainModel> { it.changePercent24Hr }

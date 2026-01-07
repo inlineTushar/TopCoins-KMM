@@ -3,12 +3,9 @@ package com.tushar.coinlist.formatter
 import kotlinx.datetime.Instant
 
 /**
- * Platform-specific time formatter
- *
- * Android: Uses java.text.SimpleDateFormat
- * iOS: Uses NSDateFormatter
+ * Interface for time formatting - can be mocked in tests
  */
-expect class TimeFormatter() {
+interface TimeFormatterContract {
     /**
      * Formats an Instant into a time string.
      *
@@ -17,4 +14,14 @@ expect class TimeFormatter() {
      * @return Formatted time string (e.g., "14:30:45")
      */
     fun format(instant: Instant, pattern: String = "HH:mm:ss"): String
+}
+
+/**
+ * Platform-specific time formatter
+ *
+ * Android: Uses java.text.SimpleDateFormat
+ * iOS: Uses NSDateFormatter
+ */
+expect class TimeFormatter() : TimeFormatterContract {
+    override fun format(instant: Instant, pattern: String): String
 }

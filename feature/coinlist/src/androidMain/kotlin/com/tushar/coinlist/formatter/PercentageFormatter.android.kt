@@ -5,8 +5,8 @@ import java.text.DecimalFormat
 /**
  * Android implementation of PercentageFormatter using Java's DecimalFormat
  */
-actual class PercentageFormatter {
-    actual fun format(percent: Double, fractionDigits: Int): String {
+actual class PercentageFormatter : PercentageFormatterContract {
+    actual override fun format(percent: Double, fractionDigits: Int): String {
         val pattern = buildString {
             append("0.")
             repeat(fractionDigits) { append("0") }

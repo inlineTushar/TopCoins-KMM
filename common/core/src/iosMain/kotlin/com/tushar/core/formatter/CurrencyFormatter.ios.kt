@@ -5,21 +5,18 @@ import platform.Foundation.NSLocale
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterCurrencyStyle
-import platform.Foundation.currentLocale
 
 /**
  * iOS implementation of CurrencyFormatter using NSNumberFormatter
  */
-actual class CurrencyFormatter {
-    actual fun format(amount: BigDecimal, code: String): String {
+actual class CurrencyFormatter : CurrencyFormatterContract {
+    actual override fun format(amount: BigDecimal, code: String): String {
         val formatter = NSNumberFormatter().apply {
             numberStyle = NSNumberFormatterCurrencyStyle
             currencyCode = code
-            locale = NSLocale.currentLocale
+            locale = NSLocale("en_US")
             maximumFractionDigits = 2u
             minimumFractionDigits = 2u
-            positiveFormat = "¤#,##0.00"
-            negativeFormat = "-¤#,##0.00"
         }
 
         // Convert BigDecimal to Double for NSNumber

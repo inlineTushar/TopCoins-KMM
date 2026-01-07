@@ -12,13 +12,15 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
  *
  * This plugin is KMM-aware:
  * - For KMM modules: Adds test dependencies to commonTest source set
+ *   - Applies Mokkery plugin for multiplatform mocking
  *   - MockK is only added to Android tests (not available for iOS native)
  * - For Android-only modules: Adds test dependencies using testImplementation
  *
  * Provides:
  * - kotlin.test (multiplatform test framework)
  * - JUnit 4/5 (Android modules only)
- * - MockK (Android only for KMM)
+ * - Mokkery (multiplatform mocking for KMM)
+ * - MockK (Android only)
  * - Coroutines Test
  * - Turbine (for Flow testing)
  * - AssertK
@@ -30,6 +32,9 @@ class TestConventionPlugin : Plugin<Project> {
             val isKmmModule = pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")
 
             if (isKmmModule) {
+                // Apply Mokkery plugin for multiplatform mocking
+                pluginManager.apply("dev.mokkery")
+
                 // KMM module: Configure via Kotlin Multiplatform extension
                 extensions.configure<KotlinMultiplatformExtension> {
                     sourceSets.apply {
