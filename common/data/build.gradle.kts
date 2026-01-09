@@ -8,10 +8,6 @@ plugins {
     alias(libs.plugins.convention.library.test)
 }
 
-android {
-    namespace = "com.tushar.common.data"
-}
-
 buildkonfig {
     packageName = "com.tushar.common.data"
 
@@ -33,6 +29,14 @@ buildkonfig {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "com.tushar.common.data"
+
+        androidResources {
+            enable = true
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))

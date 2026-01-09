@@ -291,3 +291,4 @@ shared/build/bin/iosX64/
 shared/build/bin/iosArm64/
 shared/build/bin/iosSimulatorArm64/
 shared/build/xcode-frameworks/
+.config/builderio/data.json

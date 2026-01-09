@@ -4,9 +4,6 @@ plugins {
     alias(libs.plugins.touchlab.skie)
 }
 
-android {
-    namespace = "com.tushar.shared"
-}
 
 compose {
     resources {
@@ -16,6 +13,10 @@ compose {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "com.tushar.shared"
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.touchlab.skie.annotations)

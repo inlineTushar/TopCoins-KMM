@@ -4,10 +4,14 @@ plugins {
     alias(libs.plugins.convention.library.test)
 }
 
-android {
-    namespace = "com.tushar.common.core"
-}
+kotlin {
+    androidLibrary {
+        namespace = "com.tushar.common.core"
+    }
 
-dependencies {
-    api(libs.kotlinx.datetime)
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.kotlinx.datetime)
+        }
+    }
 }

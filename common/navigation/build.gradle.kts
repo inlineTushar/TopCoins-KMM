@@ -5,10 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-    namespace = "com.tushar.common.navigation"
-}
-
 compose {
     resources {
         packageOfResClass = "com.tushar.common.navigation.generated.resources"
@@ -17,6 +13,10 @@ compose {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "com.tushar.common.navigation"
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.serialization.json)

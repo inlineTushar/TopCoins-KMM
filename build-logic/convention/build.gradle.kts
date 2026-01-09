@@ -52,10 +52,6 @@ gradlePlugin {
             id = libs.plugins.convention.library.compose.get().pluginId
             implementationClass = "com.tushar.plugin.ComposeConventionPlugin"
         }
-        register("libraryHilt") {
-            id = libs.plugins.convention.library.hilt.get().pluginId
-            implementationClass = "com.tushar.plugin.HiltConventionPlugin"
-        }
         register("libraryKoin") {
             id = libs.plugins.convention.library.koin.get().pluginId
             implementationClass = "com.tushar.plugin.KoinConventionPlugin"

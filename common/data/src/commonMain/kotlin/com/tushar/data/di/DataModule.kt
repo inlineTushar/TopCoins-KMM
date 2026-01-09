@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.tushar.data.di
 
 import com.tushar.data.datasource.remote.api.http.CoinApiService
@@ -23,6 +25,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.ExperimentalTime
 
 private const val COIN_API = "https://rest.coincap.io/v3"
 private const val PRICE_UPDATE_LIVE_API = "wss://ws.twelvedata.com/v1/quotes/price"

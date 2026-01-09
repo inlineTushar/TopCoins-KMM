@@ -13,6 +13,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 class ApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            val libs = libs
+
+            // Get SDK versions from version catalog
+            val compileSdk = libs.findVersion("compileSdk").get().toString().toInt()
+            val minSdk = libs.findVersion("minSdk").get().toString().toInt()
+            val targetSdk = libs.findVersion("targetSdk").get().toString().toInt()
+
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
@@ -30,7 +37,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
 
             // Configure Android Application
             extensions.configure<ApplicationExtension> {
-                configureAppKotlinAndroid()
+                configureAppKotlinAndroid(compileSdk, minSdk, targetSdk)
                 configureAppSpecifics()
                 configureBuildFeatures()
             }
@@ -46,13 +53,17 @@ class ApplicationConventionPlugin : Plugin<Project> {
 /**
  * Configure Android application settings
  */
-private fun ApplicationExtension.configureAppKotlinAndroid() {
-    compileSdk = 36
+private fun ApplicationExtension.configureAppKotlinAndroid(
+    compile: Int,
+    min: Int,
+    target: Int
+) {
+    compileSdk = compile
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 26
-        targetSdk = 35
+        minSdk = min
+        targetSdk = target
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

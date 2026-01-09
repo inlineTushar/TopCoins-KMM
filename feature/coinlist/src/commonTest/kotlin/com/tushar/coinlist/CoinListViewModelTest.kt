@@ -8,7 +8,6 @@ import com.tushar.coinlist.formatter.PercentageFormatterContract
 import com.tushar.coinlist.formatter.TimeFormatterContract
 import com.tushar.core.formatter.CurrencyFormatterContract
 import com.tushar.core.model.BigDecimal
-import com.tushar.domain.DomainError
 import com.tushar.domain.DomainError.*
 import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinCurrency

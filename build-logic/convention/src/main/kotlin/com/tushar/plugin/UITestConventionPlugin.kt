@@ -13,36 +13,45 @@ import org.gradle.kotlin.dsl.dependencies
  * - AndroidX JUnit
  * - Espresso Core
  * - MockK Android
- * - Hilt Android Testing
  * - Compose UI Test dependencies (when applicable)
+ *
+ * Note: This plugin is skipped for modules using the new com.android.kotlin.multiplatform.library
+ * plugin, as it uses different test configurations.
  */
 class UITestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            dependencies {
-                // Compose BOM for UI tests (provides consistent Compose versions)
-                val composeBom = libs.findLibrary("androidx-compose-bom").get()
-                "androidTestImplementation"(platform(composeBom))
+            // Check if this is a KMP module with the new Android plugin
+            // The new plugin doesn't provide androidTestImplementation configuration
+            afterEvaluate {
+                val hasAndroidTestConfig = configurations.findByName("androidTestImplementation") != null
 
-                // AndroidX JUnit (Android test runner)
-                "androidTestImplementation"(libs.findLibrary("androidx.junit").get())
+                if (hasAndroidTestConfig) {
+                    dependencies {
+                        // Compose BOM for UI tests (provides consistent Compose versions)
+                        val composeBom = libs.findLibrary("androidx-compose-bom").get()
+                        "androidTestImplementation"(platform(composeBom))
 
-                // Espresso Core (UI testing framework)
-                "androidTestImplementation"(libs.findLibrary("androidx.espresso.core").get())
+                        // AndroidX JUnit (Android test runner)
+                        "androidTestImplementation"(libs.findLibrary("androidx.junit").get())
 
-                // MockK Android (Mocking for Android instrumented tests)
-                "androidTestImplementation"(libs.findLibrary("mockk.android").get())
+                        // Espresso Core (UI testing framework)
+                        "androidTestImplementation"(libs.findLibrary("androidx.espresso.core").get())
 
-                // Hilt Android Testing (DI for tests)
-                "androidTestImplementation"(libs.findLibrary("hilt.android.testing").get())
+                        // MockK Android (Mocking for Android instrumented tests)
+                        "androidTestImplementation"(libs.findLibrary("mockk.android").get())
 
-                // Compose UI Test JUnit4 (if Compose is used)
-                // Note: This will work even if Compose isn't used, it just won't be utilized
-                "androidTestImplementation"(libs.findLibrary("androidx.ui.test.junit4").get())
+                        // Compose UI Test JUnit4 (if Compose is used)
+                        // Note: This will work even if Compose isn't used, it just won't be utilized
+                        "androidTestImplementation"(libs.findLibrary("androidx.ui.test.junit4").get())
 
-                // Debug dependencies for UI tests
-                "debugImplementation"(libs.findLibrary("androidx.ui.tooling").get())
-                "debugImplementation"(libs.findLibrary("androidx.ui.test.manifest").get())
+                        // Debug dependencies for UI tests
+                        "debugImplementation"(libs.findLibrary("androidx.ui.tooling").get())
+                        "debugImplementation"(libs.findLibrary("androidx.ui.test.manifest").get())
+                    }
+                } else {
+                    logger.lifecycle("[${name}] Skipping UI test configuration (KMP module with new Android plugin)")
+                }
             }
         }
     }

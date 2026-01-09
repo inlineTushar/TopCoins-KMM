@@ -2,10 +2,6 @@ plugins {
     alias(libs.plugins.convention.library.feature)
 }
 
-android {
-    namespace = "com.tushar.feature.priceupdate"
-}
-
 compose {
     resources {
         packageOfResClass = "com.tushar.feature.priceupdate.generated.resources"
@@ -14,6 +10,14 @@ compose {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "com.tushar.feature.priceupdate"
+
+        androidResources {
+            enable = true
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))
