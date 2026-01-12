@@ -2,8 +2,8 @@ import SwiftUI
 import Shared
 
 struct PriceLiveUpdateScreenUi : View {
-    @ObservedObject
-    var vm: SwiftPriceLiveUpdateViewModel = SwiftPriceLiveUpdateViewModel()
+    @StateObject
+    var vm = SwiftPriceLiveUpdateViewModel()
 
     @ViewBuilder
     var body: some View {
@@ -20,6 +20,9 @@ struct PriceLiveUpdateScreenUi : View {
             default:
                 EmptyView()
             }
+        }
+        .onDisappear {
+            vm.deactivate()
         }
     }
 }

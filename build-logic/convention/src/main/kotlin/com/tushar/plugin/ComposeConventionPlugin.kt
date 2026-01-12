@@ -8,6 +8,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -76,6 +77,17 @@ class ComposeConventionPlugin : Plugin<Project> {
  */
 internal fun Project.configureComposeMultiplatform() {
     extensions.configure<KotlinMultiplatformExtension> {
+        (this as groovy.lang.GroovyObject).invokeMethod(
+            "androidLibrary",
+            closureOf<Any> {
+                (this as groovy.lang.GroovyObject).invokeMethod(
+                    "androidResources",
+                    closureOf<Any> {
+                        (this as groovy.lang.GroovyObject).setProperty("enable", true)
+                    }
+                )
+            }
+        )
         sourceSets.apply {
             getByName("commonMain").dependencies {
                 implementation(libs.findLibrary("compose-multiplatform-runtime").get())
@@ -91,11 +103,14 @@ internal fun Project.configureComposeMultiplatform() {
                 implementation(libs.findLibrary("compose-multiplatform-ui-tooling-preview").get())
                 implementation(libs.findLibrary("compose-multiplatform-ui-tooling").get())
                 implementation(libs.findLibrary("androidx-activity-compose").get())
-                implementation(libs.findLibrary("androidx-material-icons-extended").get())
             }
         }
     }
 }
+
+/**
+ * Helper function to create a Groovy closure from a Kotlin lambda.
+ */
 
 /**
  * Configure AndroidX Compose for Android-only modules

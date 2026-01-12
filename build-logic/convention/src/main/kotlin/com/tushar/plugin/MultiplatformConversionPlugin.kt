@@ -3,6 +3,7 @@ package com.tushar.plugin
 import com.tushar.ext.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
@@ -77,15 +78,6 @@ private fun KotlinMultiplatformExtension.configureAndroidLibrary(compileSdk: Int
         }
     )
 }
-
-/**
- * Helper function to create a Groovy closure from a Kotlin lambda.
- */
-private fun <T> Any.closureOf(action: T.() -> Unit): groovy.lang.Closure<Unit> =
-    object : groovy.lang.Closure<Unit>(this) {
-        @Suppress("UNCHECKED_CAST")
-        override fun call(): Unit = (delegate as T).action()
-    }
 
 /**
  * Configure Kotlin Multiplatform targets and source sets.

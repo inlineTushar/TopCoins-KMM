@@ -4,8 +4,9 @@ import Combine
 
 class SwiftCoinListViewModel: ObservableObject {
 
-    var viewModelStoreOwner = SharedViewModelStoreOwner<CoinListViewModel>()
     var viewModel: CoinListViewModel
+    private var uiStateTask: Task<Void, Never>?
+    private var navEventTask: Task<Void, Never>?
 
     @Published
     private(set) var uiState: CoinsUiState = CoinsUiState.Loading.shared
@@ -14,15 +15,23 @@ class SwiftCoinListViewModel: ObservableObject {
     private(set) var navEvent: NavEvent? = nil
 
     init() {
-        let viewModel = viewModelStoreOwner.instance
-        self.viewModel = viewModel
+        self.viewModel = KotlinDependencies.shared.getCoinListViewModel()
 
         // Start observing the UI state and nav events
-        Task {
+        uiStateTask = Task {
             await activateUiState()
         }
-        Task {
+        navEventTask = Task {
             await activateNavEvent()
+        }
+    }
+
+    private func startCollectorsIfNeeded() {
+        if uiStateTask == nil {
+            uiStateTask = Task { await activateUiState() }
+        }
+        if navEventTask == nil {
+            navEventTask = Task { await activateNavEvent() }
         }
     }
 
@@ -40,12 +49,19 @@ class SwiftCoinListViewModel: ObservableObject {
         }
     }
 
-    func consumeNavEvent() {
-        navEvent = nil
+    func deactivate() {
+        uiStateTask?.cancel()
+        navEventTask?.cancel()
+        uiStateTask = nil
+        navEventTask = nil
     }
 
-    func deactivate() {
-        viewModelStoreOwner.clearViewModel()
+    deinit {
+        deactivate()
+    }
+
+    func ensureCollectors() {
+        startCollectorsIfNeeded()
     }
 
     func onSort(_ type: SortType) {

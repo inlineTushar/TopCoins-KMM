@@ -20,7 +20,6 @@
 		CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */; };
 		CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */; };
 		CF823E062EF5729600E9467E /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF823E052EF5728F00E9467E /* Bundle.swift */; };
-		CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */; };
 		CFB2ED4C2F0BCBBE00BEAC48 /* CoinItemUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB2ED4A2F0BCBBE00BEAC48 /* CoinItemUi.swift */; };
 		CFB2ED742F0BCDCE00BEAC48 /* PriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB2ED732F0BCDCE00BEAC48 /* PriceView.swift */; };
 		CFB2ED762F0BCDFA00BEAC48 /* HikeIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB2ED752F0BCDF300BEAC48 /* HikeIndicator.swift */; };
@@ -43,7 +42,6 @@
 		CF823DFD2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdateTimeStampUi.swift; sourceTree = "<group>"; };
 		CF823DFE2EF2DBE100E9467E /* SortingItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingItemUi.swift; sourceTree = "<group>"; };
 		CF823E052EF5728F00E9467E /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
-		CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedViewModelStoreOwner.swift; sourceTree = "<group>"; };
 		CFB2ED4A2F0BCBBE00BEAC48 /* CoinItemUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinItemUi.swift; sourceTree = "<group>"; };
 		CFB2ED732F0BCDCE00BEAC48 /* PriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceView.swift; sourceTree = "<group>"; };
 		CFB2ED752F0BCDF300BEAC48 /* HikeIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikeIndicator.swift; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				CF823E052EF5728F00E9467E /* Bundle.swift */,
-				CF97EEC02EF243E10001CDE3 /* SharedViewModelStoreOwner.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -278,7 +275,6 @@
 				CFB2ED4C2F0BCBBE00BEAC48 /* CoinItemUi.swift in Sources */,
 				CF823E062EF5729600E9467E /* Bundle.swift in Sources */,
 				CF823DFA2EF2DA1000E9467E /* HeaderUi.swift in Sources */,
-				CF97EEC12EF243E10001CDE3 /* SharedViewModelStoreOwner.swift in Sources */,
 				CF77A7312F086F2600881F23 /* PriceLiveUpdateScreenUi.swift in Sources */,
 				CF823DFF2EF2DBE100E9467E /* LastUpdateTimeStampUi.swift in Sources */,
 				CF823E002EF2DBE100E9467E /* SortingItemUi.swift in Sources */,

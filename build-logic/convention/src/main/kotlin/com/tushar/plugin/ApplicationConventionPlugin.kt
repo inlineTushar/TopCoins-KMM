@@ -121,17 +121,17 @@ private fun ApplicationExtension.configureAppSpecifics() {
  */
 private fun Project.configureDependencies() {
     dependencies {
-        // AndroidX Compose BOM
-        add("implementation", platform(libs.findLibrary("androidx.compose.bom").get()))
-        add("implementation", libs.findLibrary("androidx.ui").get())
-        add("implementation", libs.findLibrary("androidx.ui.graphics").get())
-        add("implementation", libs.findLibrary("androidx.ui.tooling.preview").get())
-        add("implementation", libs.findLibrary("androidx.material3").get())
-        add("debugImplementation", libs.findLibrary("androidx.ui.tooling").get())
+        // Compose (align with Compose Multiplatform versions)
+        add("implementation", libs.findLibrary("compose-multiplatform-runtime").get())
+        add("implementation", libs.findLibrary("compose-multiplatform-foundation").get())
+        add("implementation", libs.findLibrary("compose-multiplatform-material3").get())
+        add("implementation", libs.findLibrary("compose-multiplatform-ui").get())
+        add("implementation", libs.findLibrary("compose-multiplatform-components-resources").get())
+        add("implementation", libs.findLibrary("compose-multiplatform-ui-tooling-preview").get())
+        add("debugImplementation", libs.findLibrary("compose-multiplatform-ui-tooling").get())
 
         // Android Activity Compose
         add("implementation", libs.findLibrary("androidx.activity.compose").get())
-        add("implementation", libs.findLibrary("androidx.material.icons.extended").get())
 
         // Koin
         add("implementation", platform(libs.findLibrary("koin.bom").get()))
