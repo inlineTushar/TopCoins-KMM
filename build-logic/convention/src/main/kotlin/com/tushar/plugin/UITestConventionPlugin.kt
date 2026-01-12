@@ -28,10 +28,6 @@ class UITestConventionPlugin : Plugin<Project> {
 
                 if (hasAndroidTestConfig) {
                     dependencies {
-                        // Compose BOM for UI tests (provides consistent Compose versions)
-                        val composeBom = libs.findLibrary("androidx-compose-bom").get()
-                        "androidTestImplementation"(platform(composeBom))
-
                         // AndroidX JUnit (Android test runner)
                         "androidTestImplementation"(libs.findLibrary("androidx.junit").get())
 

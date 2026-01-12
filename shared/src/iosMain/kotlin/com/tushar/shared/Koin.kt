@@ -7,6 +7,7 @@ import com.tushar.core.di.formatterModule
 import com.tushar.data.di.dataModule
 import com.tushar.data.di.platformDataModule
 import com.tushar.domain.di.domainModule
+import com.tushar.priceupdate.PriceLiveUpdateViewModel
 import com.tushar.priceupdate.di.priceUpdateModule
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ObjCClass
@@ -37,7 +38,15 @@ fun startKoin() {
 
 @Suppress("unused")
 object KotlinDependencies : KoinComponent {
-    fun getCoinListViewModel() = getKoin().get<CoinListViewModel>()
+    fun getCoinListViewModel(): CoinListViewModel =
+        getOrCreateViewModel("CoinListViewModel") { getKoin().get() }
+
+    fun getPriceLiveUpdateViewModel(): PriceLiveUpdateViewModel =
+        getOrCreateViewModel("PriceLiveUpdateViewModel") { getKoin().get() }
+
+    fun clearCoinListViewModel() = clearIosViewModel("CoinListViewModel")
+
+    fun clearPriceLiveUpdateViewModel() = clearIosViewModel("PriceLiveUpdateViewModel")
 }
 
 @BetaInteropApi

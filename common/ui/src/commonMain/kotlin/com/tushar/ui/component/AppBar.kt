@@ -1,8 +1,6 @@
 package com.tushar.ui.component
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,9 +42,10 @@ fun AppBar(
             },
             navigationIcon = {
                 IconButton(onClick = onBack) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(Res.string.common_ui_accessibility_back_button)
+                    Text(
+                        text = stringResource(Res.string.common_ui_accessibility_back_button),
+                        color = contentColor,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             },

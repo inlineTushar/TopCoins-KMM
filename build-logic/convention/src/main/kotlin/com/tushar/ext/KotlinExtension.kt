@@ -48,3 +48,12 @@ internal inline fun <reified T : KotlinTopLevelExtension> Project.configureKotli
             // This flag is for Kotlin 2.2+ and not needed/supported in Kotlin 2.0.21
         }
     }
+
+/**
+ * Helper function to create a Groovy closure from a Kotlin lambda.
+ */
+fun <T> Any.closureOf(action: T.() -> Unit): groovy.lang.Closure<Unit> =
+    object : groovy.lang.Closure<Unit>(this) {
+        @Suppress("UNCHECKED_CAST")
+        override fun call(): Unit = (delegate as T).action()
+    }

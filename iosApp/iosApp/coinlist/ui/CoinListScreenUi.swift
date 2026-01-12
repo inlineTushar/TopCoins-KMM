@@ -5,8 +5,8 @@ struct CoinListScreenUi: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject
-    var vm: SwiftCoinListViewModel = SwiftCoinListViewModel()
+    @StateObject
+    var vm = SwiftCoinListViewModel()
 
     @State private var navigateToPriceLiveUpdate = false
 
@@ -71,6 +71,12 @@ struct CoinListScreenUi: View {
         .onReceive(vm.$navEvent) { event in
             handleNavEvent(event)
         }
+        .onAppear {
+            vm.ensureCollectors()
+        }
+        .onDisappear {
+            vm.deactivate()
+        }
         .background(Color(UIColor.systemBackground))
     }
 
@@ -84,7 +90,6 @@ struct CoinListScreenUi: View {
             break
         }
 
-        vm.consumeNavEvent()
     }
 }
 

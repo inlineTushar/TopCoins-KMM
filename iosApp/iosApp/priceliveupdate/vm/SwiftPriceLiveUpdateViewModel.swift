@@ -4,16 +4,15 @@ import Combine
 
 class SwiftPriceLiveUpdateViewModel: ObservableObject {
     
-    var viewModelStoreOwner = SharedViewModelStoreOwner<PriceLiveUpdateViewModel>()
     var viewModel: PriceLiveUpdateViewModel
+    private var uiStateTask: Task<Void, Never>?
 
     @Published
     private(set) var uiState: PriceLiveUpdateUiState = PriceLiveUpdateUiState.Loading.shared
 
     init() {
-        let viewModel = viewModelStoreOwner.instance
-        self.viewModel = viewModel
-        Task {
+        self.viewModel = KotlinDependencies.shared.getPriceLiveUpdateViewModel()
+        uiStateTask = Task {
             await activate()
         }
     }
@@ -26,6 +25,11 @@ class SwiftPriceLiveUpdateViewModel: ObservableObject {
     }
 
     func deactivate() {
-        viewModelStoreOwner.clearViewModel()
+        uiStateTask?.cancel()
+        uiStateTask = nil
+    }
+
+    deinit {
+        deactivate()
     }
 }
