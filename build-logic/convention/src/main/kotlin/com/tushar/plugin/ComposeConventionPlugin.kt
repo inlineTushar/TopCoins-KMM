@@ -97,6 +97,7 @@ internal fun Project.configureComposeMultiplatform() {
                 implementation(libs.findLibrary("compose-multiplatform-components-resources").get())
                 implementation(libs.findLibrary("compose-multiplatform-components-ui-tooling-preview").get())
                 implementation(libs.findLibrary("kotlinx-collections-immutable").get())
+                implementation(libs.findLibrary("compose-multiplatform-icons-extended").get())
             }
 
             getByName("androidMain").dependencies {
