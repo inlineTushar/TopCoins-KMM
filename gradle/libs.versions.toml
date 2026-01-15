@@ -8,7 +8,7 @@ compileSdk = "36"
 minSdk = "26"
 targetSdk = "36"
 buildkonfig = "0.17.1"
-compose-multiplatform = "1.9.3"
+compose-multiplatform = "1.10.0"
 compose-material-icons = "1.7.3"
 skie = "0.10.9"
 
@@ -29,7 +29,7 @@ koin-androidx-compose = "4.1.1"
 
 # Navigation
 # Note: Keep aligned with Compose Multiplatform runtime compatibility.
-navigation = "2.9.1"
+navigation = "1.0.0-alpha06"
 navigation-fragment-ktx = "2.9.6"
 navigation-ui-ktx = "2.9.6"
 
@@ -84,7 +84,8 @@ compose-multiplatform-ui-tooling = { group = "org.jetbrains.compose.ui", name = 
 compose-multiplatform-ui-tooling-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "compose-multiplatform" }
 compose-multiplatform-components-resources = { group = "org.jetbrains.compose.components", name = "components-resources", version.ref = "compose-multiplatform" }
 compose-multiplatform-components-ui-tooling-preview = { group = "org.jetbrains.compose.components", name = "components-ui-tooling-preview", version.ref = "compose-multiplatform" }
-compose-multiplatform-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+compose-multiplatform-navigation = { group = "org.jetbrains.androidx.navigation3", name = "navigation3-ui", version.ref = "navigation" }
+compose-multiplatform-navigation-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "navigation" }
 compose-multiplatform-icons-extended = { group = "org.jetbrains.compose.material", name = "material-icons-extended", version.ref = "compose-material-icons" }
 
 # Compose (AndroidX)

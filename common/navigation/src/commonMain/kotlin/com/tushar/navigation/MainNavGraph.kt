@@ -1,26 +1,23 @@
 package com.tushar.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController,
-    startDestination: Route = Route.CoinList,
+    backStack: NavBackStack<Route>,
     coinListScreenComposable: @Composable () -> Unit,
     priceLiveUpdateScreenComposable: @Composable () -> Unit
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = startDestination.value,
-    ) {
-        composable(route = Route.CoinList.value) {
-            coinListScreenComposable()
-        }
-        composable(route = Route.PriceLiveUpdate.value) {
-            priceLiveUpdateScreenComposable()
-        }
-    }
+    NavDisplay(
+        backStack = backStack,
+        entryProvider = { key ->
+            when (key) {
+                Route.CoinList -> NavEntry(key) { coinListScreenComposable() }
+                Route.PriceLiveUpdate -> NavEntry(key) { priceLiveUpdateScreenComposable() }
+            }
+        },
+    )
 }

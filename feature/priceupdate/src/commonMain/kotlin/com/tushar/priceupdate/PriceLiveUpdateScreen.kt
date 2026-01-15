@@ -46,11 +46,12 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.random.Random
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavBackStack
+import com.tushar.navigation.Route
 
 @Composable
 fun PriceLiveUpdateScreen(
-    navController: NavHostController,
+    backStack: NavBackStack<Route>,
     modifier: Modifier = Modifier,
     vm: PriceLiveUpdateViewModel = koinViewModel()
 ) {
@@ -58,7 +59,11 @@ fun PriceLiveUpdateScreen(
 
     PriceUpdateComposable(
         state = state,
-        onBack = { navController.navigateUp() },
+        onBack = {
+            if (backStack.size > 1) {
+                backStack.removeLast()
+            }
+        },
         modifier = modifier
     )
 }

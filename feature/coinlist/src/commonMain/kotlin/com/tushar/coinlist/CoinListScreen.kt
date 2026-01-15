@@ -25,7 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
+import androidx.navigation3.runtime.NavBackStack
 import com.tushar.feature.coinlist.generated.resources.Res
 import com.tushar.feature.coinlist.generated.resources.feature_coinlist_title
 import com.tushar.feature.coinlist.generated.resources.ic_live_24
@@ -40,7 +40,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CoinListScreen(
-    navController: NavHostController,
+    backStack: NavBackStack<Route>,
     modifier: Modifier = Modifier,
     vm: CoinListViewModel = koinViewModel()
 ) {
@@ -50,7 +50,7 @@ fun CoinListScreen(
     LaunchedEffect(Unit) {
         vm.navEvent.collect { event ->
             when (event) {
-                NavEvent.ToPriceLiveUpdate -> navController.navigate(Route.PriceLiveUpdate.value)
+                NavEvent.ToPriceLiveUpdate -> backStack.add(Route.PriceLiveUpdate)
             }
         }
     }

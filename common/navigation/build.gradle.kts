@@ -21,6 +21,7 @@ kotlin {
         commonMain.dependencies {
             api(libs.kotlinx.serialization.json)
             api(libs.compose.multiplatform.navigation)
+            api(libs.compose.multiplatform.navigation.runtime)
         }
     }
 }
