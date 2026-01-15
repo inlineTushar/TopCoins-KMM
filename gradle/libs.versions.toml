@@ -8,18 +8,18 @@ compileSdk = "36"
 minSdk = "26"
 targetSdk = "36"
 buildkonfig = "0.17.1"
-compose-multiplatform = "1.9.0"
+compose-multiplatform = "1.9.3"
 compose-material-icons = "1.7.3"
 skie = "0.10.9"
 
 # AndroidX
 lifecycle-runtime-ktx = "2.10.0"
-lifecycle-mpp = "2.9.5"
+lifecycle-mpp = "2.9.6"
 material-version = "1.13.0"
 activity-compose = "1.12.2"
 compose-bom = "2026.01.00"
 compose-ui = "1.10.1"
-compose-material3 = "1.4.0"
+compose-material3 = "1.9.0"
 
 # Dependency Injection
 koin-bom = "4.1.1"
@@ -78,7 +78,7 @@ touchlab-skie-annotations = { module = "co.touchlab.skie:configuration-annotatio
 # Compose Multiplatform
 compose-multiplatform-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "compose-multiplatform" }
 compose-multiplatform-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "compose-multiplatform" }
-compose-multiplatform-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "compose-multiplatform" }
+compose-multiplatform-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "compose-material3" }
 compose-multiplatform-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose-multiplatform" }
 compose-multiplatform-ui-tooling = { group = "org.jetbrains.compose.ui", name = "ui-tooling", version.ref = "compose-multiplatform" }
 compose-multiplatform-ui-tooling-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-preview", version.ref = "compose-multiplatform" }

@@ -56,7 +56,6 @@ fun AppBar(
                 navigationIconContentColor = contentColor
             ),
             actions = { actionItemComposable() },
-            modifier = Modifier.semantics { testTag = label }
         )
     } else {
         TopAppBar(
