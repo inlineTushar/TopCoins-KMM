@@ -1,9 +1,11 @@
 package com.tushar.shared
 
+import androidx.compose.runtime.remember
 import androidx.compose.ui.window.ComposeUIViewController
-import androidx.navigation.compose.rememberNavController
 import com.tushar.coinlist.CoinListScreen
 import com.tushar.navigation.MainNavGraph
+import androidx.navigation3.runtime.NavBackStack
+import com.tushar.navigation.Route
 import com.tushar.priceupdate.PriceLiveUpdateScreen
 import com.tushar.ui.theme.AppTheme
 import platform.UIKit.UIViewController
@@ -16,12 +18,12 @@ import platform.UIKit.UIViewController
  */
 fun iOSEntryPointViewController(): UIViewController {
     return ComposeUIViewController {
-        val navController = rememberNavController()
+        val backStack = remember { NavBackStack<Route>(Route.CoinList) }
         AppTheme {
             MainNavGraph(
-                navController = navController,
-                coinListScreenComposable = { CoinListScreen(navController) },
-                priceLiveUpdateScreenComposable = { PriceLiveUpdateScreen(navController) }
+                backStack = backStack,
+                coinListScreenComposable = { CoinListScreen(backStack) },
+                priceLiveUpdateScreenComposable = { PriceLiveUpdateScreen(backStack) }
             )
         }
     }
