@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.register
 /**
  * Plugin to set up file encryption tasks for Android modules.
  * This plugin can be applied to both application and library modules,
- * including KMM modules using the new com.android.kotlin.multiplatform.library plugin.
+ * including KMM modules using the Kotlin Multiplatform plugin.
  */
 class EncryptionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -28,7 +28,7 @@ class EncryptionPlugin : Plugin<Project> {
             gradle.projectsEvaluated {
                 val appExtension = target.extensions.findByType(ApplicationExtension::class.java)
                 val libraryExtension = target.extensions.findByType(LibraryExtension::class.java)
-                val isKmpAndroidLibrary = target.plugins.hasPlugin("com.android.kotlin.multiplatform.library")
+                val isKmpModule = target.plugins.hasPlugin("org.jetbrains.kotlin.multiplatform")
 
                 when {
                     appExtension != null -> {
@@ -47,13 +47,8 @@ class EncryptionPlugin : Plugin<Project> {
                     }
 
                     libraryExtension != null -> {
-                        // For legacy library modules (com.android.library)
-                        configureForLibraryModule(target, encryptTask, isKmmModule = false)
-                    }
-
-                    isKmpAndroidLibrary -> {
-                        // For KMM modules using the new com.android.kotlin.multiplatform.library plugin
-                        configureForLibraryModule(target, encryptTask, isKmmModule = true)
+                        // For library modules (including KMM)
+                        configureForLibraryModule(target, encryptTask, isKmmModule = isKmpModule)
                     }
 
                     else -> {
@@ -78,7 +73,7 @@ class EncryptionPlugin : Plugin<Project> {
             }
 
             // For KMP Android library modules, hook into compile tasks after evaluation
-            pluginManager.withPlugin("com.android.kotlin.multiplatform.library") {
+            pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
                 afterEvaluate {
                     // Find any Android resource or compile task to depend on
                     val preBuildTask = tasks.findByName("preBuild")

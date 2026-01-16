@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavBackStack
 import com.tushar.feature.coinlist.generated.resources.Res
@@ -34,6 +35,7 @@ import com.tushar.ui.component.AppBar
 import com.tushar.ui.component.ErrorComposable
 import com.tushar.ui.component.HeaderComposable
 import com.tushar.ui.component.ProgressBarComposable
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -150,4 +152,68 @@ internal fun CoinListComposable(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CoinListComposableContentPreview() {
+    CoinListComposable(
+        viewState = CoinsUiState.Content(
+            type = SortType.BEST_PERFORM,
+            updatedAt = "12:34:56",
+            isRefreshing = false,
+            items = persistentListOf(
+                CoinUIModel(
+                    id = "1",
+                    name = "Bitcoin",
+                    symbol = "BTC",
+                    currencyCode = "EUR",
+                    price = "€6459.50",
+                    changePercent24Hr = "+4.44%"
+                ),
+                CoinUIModel(
+                    id = "2",
+                    name = "Ethereum",
+                    symbol = "ETH",
+                    currencyCode = "EUR",
+                    price = "€480.21",
+                    changePercent24Hr = "-1.22%"
+                )
+            )
+        ),
+        listState = LazyListState(),
+        onOptionPriceLiveClick = {},
+        onClickSort = {},
+        onRefresh = {},
+        onRetry = {},
+        modifier = Modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CoinListComposableLoadingPreview() {
+    CoinListComposable(
+        viewState = CoinsUiState.Loading,
+        listState = LazyListState(),
+        onClickSort = {},
+        onOptionPriceLiveClick = {},
+        onRefresh = {},
+        onRetry = {},
+        modifier = Modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CoinListComposableErrorPreview() {
+    CoinListComposable(
+        viewState = CoinsUiState.Error(error = "Something went wrong"),
+        listState = LazyListState(),
+        onClickSort = {},
+        onOptionPriceLiveClick = {},
+        onRefresh = {},
+        onRetry = {},
+        modifier = Modifier
+    )
 }

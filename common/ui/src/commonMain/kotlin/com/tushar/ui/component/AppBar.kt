@@ -17,9 +17,12 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.AndroidUiModes.UI_MODE_NIGHT_YES
+import androidx.compose.ui.tooling.preview.Preview
 import com.tushar.common.ui.resources.Res
 import com.tushar.common.ui.resources.common_ui_accessibility_back_button
 import com.tushar.common.ui.resources.common_ui_title_appbar
+import com.tushar.ui.theme.AppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,6 +75,23 @@ fun AppBar(
             ),
             actions = { actionItemComposable() },
             modifier = Modifier.semantics { testTag = label }
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Light Mode")
+@Preview(
+    showBackground = true,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "Dark Mode"
+)
+@Composable
+fun PreviewAppBar() {
+    AppTheme {
+        AppBar(
+            title = "Preview Title",
+            isBackVisible = true,
+            onBack = {}
         )
     }
 }

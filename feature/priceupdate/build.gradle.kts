@@ -9,15 +9,11 @@ compose {
     }
 }
 
+android {
+    namespace = "com.tushar.feature.priceupdate"
+}
+
 kotlin {
-    androidLibrary {
-        namespace = "com.tushar.feature.priceupdate"
-
-        androidResources {
-            enable = true
-        }
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))

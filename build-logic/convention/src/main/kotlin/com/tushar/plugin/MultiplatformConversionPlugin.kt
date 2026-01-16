@@ -1,11 +1,10 @@
 package com.tushar.plugin
 
+import com.android.build.gradle.LibraryExtension
 import com.tushar.ext.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
@@ -21,7 +20,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
  * - Shared source sets (commonMain, androidMain, iosMain, with proper linking)
  * - iOS framework generation
  *
- * Note: Each module must configure its own namespace via kotlin { androidLibrary { namespace = "..." } }
+ * Note: Each module must configure its own namespace via android { namespace = "..." }
  *
  * Usage in module's build.gradle.kts:
  * ```
@@ -29,11 +28,8 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
  *     alias(libs.plugins.convention.multiplatform)
  * }
  *
- * kotlin {
- *     androidLibrary {
- *         namespace = "com.example.module"
- *         // compileSdk and minSdk are configured by the convention plugin
- *     }
+ * android {
+ *     namespace = "com.example.module"
  * }
  * ```
  */
@@ -46,18 +42,21 @@ class MultiplatformConversionPlugin : Plugin<Project> {
             val minSdkVersion = libs.findVersion("minSdk").get().toString().toInt()
 
             with(pluginManager) {
-                apply("com.android.kotlin.multiplatform.library")
+                apply("com.android.library")
                 apply("org.jetbrains.kotlin.multiplatform")
                 apply("org.jetbrains.kotlin.plugin.serialization")
             }
 
-            // Configure Kotlin Multiplatform targets (iOS) and Android SDK defaults
+            // Configure Android SDK defaults
+            extensions.configure<LibraryExtension> {
+                compileSdk = compileSdkVersion
+                defaultConfig.minSdk = minSdkVersion
+            }
+
+            // Configure Kotlin Multiplatform targets (Android + iOS)
             plugins.withType<KotlinBasePlugin> {
                 extensions.configure<KotlinMultiplatformExtension> {
-                    // Configure Android SDK defaults using Groovy interop
-                    configureAndroidLibrary(compileSdkVersion, minSdkVersion)
-
-                    // Configure iOS targets and source sets
+                    // Configure targets and source sets
                     configureKotlinMultiplatform(target)
                 }
             }
@@ -66,24 +65,12 @@ class MultiplatformConversionPlugin : Plugin<Project> {
 }
 
 /**
- * Configure Android library defaults using Groovy interop.
- * The androidLibrary {} block is added dynamically by the KMP Android plugin.
- */
-private fun KotlinMultiplatformExtension.configureAndroidLibrary(compileSdk: Int, minSdk: Int) {
-    (this as groovy.lang.GroovyObject).invokeMethod(
-        "androidLibrary",
-        closureOf<Any> {
-            (this as groovy.lang.GroovyObject).setProperty("compileSdk", compileSdk)
-            (this as groovy.lang.GroovyObject).setProperty("minSdk", minSdk)
-        }
-    )
-}
-
-/**
  * Configure Kotlin Multiplatform targets and source sets.
  */
 private fun KotlinMultiplatformExtension.configureKotlinMultiplatform(project: Project) {
     val libs = project.libs
+
+    androidTarget()
 
     val iosTargets = listOf(
         iosX64(),

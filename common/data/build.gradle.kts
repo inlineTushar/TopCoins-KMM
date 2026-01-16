@@ -28,15 +28,11 @@ buildkonfig {
     }
 }
 
+android {
+    namespace = "com.tushar.common.data"
+}
+
 kotlin {
-    androidLibrary {
-        namespace = "com.tushar.common.data"
-
-        androidResources {
-            enable = true
-        }
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))

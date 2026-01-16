@@ -12,11 +12,11 @@ compose {
     }
 }
 
-kotlin {
-    androidLibrary {
-        namespace = "com.tushar.common.navigation"
-    }
+android {
+    namespace = "com.tushar.common.navigation"
+}
 
+kotlin {
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.serialization.json)

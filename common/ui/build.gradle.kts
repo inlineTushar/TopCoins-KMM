@@ -5,10 +5,8 @@ plugins {
     alias(libs.plugins.convention.library.test)
 }
 
-kotlin {
-    androidLibrary {
-        namespace = "com.tushar.common.ui"
-    }
+android {
+    namespace = "com.tushar.common.ui"
 }
 
 compose {

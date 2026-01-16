@@ -8,7 +8,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
@@ -77,23 +76,13 @@ class ComposeConventionPlugin : Plugin<Project> {
  */
 internal fun Project.configureComposeMultiplatform() {
     extensions.configure<KotlinMultiplatformExtension> {
-        (this as groovy.lang.GroovyObject).invokeMethod(
-            "androidLibrary",
-            closureOf<Any> {
-                (this as groovy.lang.GroovyObject).invokeMethod(
-                    "androidResources",
-                    closureOf<Any> {
-                        (this as groovy.lang.GroovyObject).setProperty("enable", true)
-                    }
-                )
-            }
-        )
         sourceSets.apply {
             getByName("commonMain").dependencies {
                 implementation(libs.findLibrary("compose-multiplatform-runtime").get())
                 implementation(libs.findLibrary("compose-multiplatform-foundation").get())
                 implementation(libs.findLibrary("compose-multiplatform-material3").get())
                 implementation(libs.findLibrary("compose-multiplatform-ui").get())
+                implementation(libs.findLibrary("compose-multiplatform-ui-tooling-preview").get())
                 implementation(libs.findLibrary("compose-multiplatform-components-resources").get())
                 implementation(libs.findLibrary("compose-multiplatform-components-ui-tooling-preview").get())
                 implementation(libs.findLibrary("kotlinx-collections-immutable").get())
