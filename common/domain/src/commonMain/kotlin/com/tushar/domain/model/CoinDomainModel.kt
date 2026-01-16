@@ -1,7 +1,7 @@
 package com.tushar.domain.model
 
 import com.tushar.core.model.BigDecimal
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 data class CoinsInUsdDomainModel(
     val timestamp: Instant,

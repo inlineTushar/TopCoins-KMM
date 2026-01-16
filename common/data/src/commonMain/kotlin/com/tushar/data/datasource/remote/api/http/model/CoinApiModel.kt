@@ -1,7 +1,7 @@
 package com.tushar.data.datasource.remote.api.http.model
 
 import com.tushar.core.model.BigDecimal
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName

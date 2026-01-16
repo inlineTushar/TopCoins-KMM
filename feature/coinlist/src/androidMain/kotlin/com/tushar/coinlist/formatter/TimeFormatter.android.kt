@@ -1,6 +1,6 @@
 package com.tushar.coinlist.formatter
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

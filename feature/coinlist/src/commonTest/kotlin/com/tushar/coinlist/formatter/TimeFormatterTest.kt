@@ -1,6 +1,6 @@
 package com.tushar.coinlist.formatter
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue

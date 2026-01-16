@@ -1,7 +1,7 @@
 package com.tushar.data.repository.model
 
 import com.tushar.core.model.BigDecimal
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 sealed interface PriceUpdateRepoModel {
     val event: String

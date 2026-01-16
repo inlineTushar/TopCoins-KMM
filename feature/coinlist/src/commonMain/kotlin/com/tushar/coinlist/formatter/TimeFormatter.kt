@@ -1,6 +1,6 @@
 package com.tushar.coinlist.formatter
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 /**
  * Interface for time formatting - can be mocked in tests
