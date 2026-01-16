@@ -14,6 +14,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -82,4 +83,15 @@ fun CoinItemComposable(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CoinItemPreview() {
+    CoinItemComposable(
+        coinName = "Bitcoin",
+        coinSymbol = "BTC",
+        coinPrice = "6459.34",
+        coinChange = "+4.44%"
+    )
 }

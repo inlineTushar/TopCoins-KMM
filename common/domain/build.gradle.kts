@@ -5,10 +5,11 @@ plugins {
     alias(libs.plugins.convention.library.test) // Test dependencies (KMM-aware)
 }
 
+android {
+    namespace = "com.tushar.common.domain"
+}
+
 kotlin {
-    androidLibrary {
-        namespace = "com.tushar.common.domain"
-    }
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))

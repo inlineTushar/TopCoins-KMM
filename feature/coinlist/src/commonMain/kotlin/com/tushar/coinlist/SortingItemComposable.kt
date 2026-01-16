@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -34,4 +35,13 @@ fun SortingItemComposable(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SortingItemComposablePreview() {
+    SortingItemComposable(
+        sortType = SortType.WORST_PERFORM,
+        onClickSort = {}
+    )
 }

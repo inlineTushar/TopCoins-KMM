@@ -9,15 +9,11 @@ compose {
     }
 }
 
+android {
+    namespace = "com.tushar.feature.coinlist"
+}
+
 kotlin {
-    androidLibrary {
-        namespace = "com.tushar.feature.coinlist"
-
-        androidResources {
-            enable = true
-        }
-    }
-
     sourceSets {
         commonMain.dependencies {
             implementation(project(":common:core"))

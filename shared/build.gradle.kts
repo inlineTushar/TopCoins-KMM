@@ -12,11 +12,11 @@ compose {
     }
 }
 
-kotlin {
-    androidLibrary {
-        namespace = "com.tushar.shared"
-    }
+android {
+    namespace = "com.tushar.shared"
+}
 
+kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.touchlab.skie.annotations)
