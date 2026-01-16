@@ -4,7 +4,7 @@ import com.tushar.data.datasource.remote.api.realtime.instrumentation.PriceUpdat
 import com.tushar.data.datasource.remote.instrumentation.EpochMillisInstantSerializer
 import com.tushar.data.datasource.remote.instrumentation.LongToBigDecimalSerializer
 import com.tushar.core.model.BigDecimal
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

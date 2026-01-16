@@ -1,6 +1,6 @@
 package com.tushar.coinlist.formatter
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSLocale

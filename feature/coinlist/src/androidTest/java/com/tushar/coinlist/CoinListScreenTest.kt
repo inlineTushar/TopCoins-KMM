@@ -16,7 +16,7 @@ import com.tushar.domain.model.CoinsDomainModel
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
