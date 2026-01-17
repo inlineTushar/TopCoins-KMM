@@ -6,22 +6,25 @@ import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isSuccess
 import com.tushar.core.model.BigDecimal
+import com.tushar.core.model.RoundingMode
+import com.tushar.core.model.divide
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
 import com.tushar.domain.model.ConversionRateDomainModel
-import com.tushar.core.model.RoundingMode
-import com.tushar.core.model.divide
 import com.tushar.domain.repository.CoinRepository
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.every
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlin.time.Instant
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetCoinUseCaseTest {
@@ -36,8 +39,8 @@ class GetCoinUseCaseTest {
 
     @BeforeTest
     fun setUp() {
-        repository = mockk()
-        useCase = GetCoinUseCase(repository, testDispatcher)
+        repository = mock()
+        useCase = GetCoinUseCaseImpl(repository, testDispatcher)
 
         testCoinsInUsdDomainModel = CoinsInUsdDomainModel(
             timestamp = Instant.fromEpochMilliseconds(1705329045000L),
@@ -153,8 +156,8 @@ class GetCoinUseCaseTest {
 
         val result = useCase.sortByBestPriceChange(refresh = true, topCount = 10)
 
-        coVerify { repository.getCoins(refresh = true) }
-        coVerify { repository.getRate(refresh = true, targetCurrency = "euro") }
+        verify { repository.getCoins(refresh = true) }
+        verify { repository.getRate(refresh = true, targetCurrency = "euro") }
         assertThat(result).isSuccess()
     }
 
@@ -165,8 +168,8 @@ class GetCoinUseCaseTest {
 
         val result = useCase.sortByBestPriceChange(refresh = false, topCount = 10)
 
-        coVerify { repository.getCoins(refresh = false) }
-        coVerify { repository.getRate(refresh = false, targetCurrency = "euro") }
+        verify { repository.getCoins(refresh = false) }
+        verify { repository.getRate(refresh = false, targetCurrency = "euro") }
         assertThat(result).isSuccess()
     }
 
