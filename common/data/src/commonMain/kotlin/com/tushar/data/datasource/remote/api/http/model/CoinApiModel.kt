@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.tushar.data.datasource.remote.api.http.model
 
 import com.tushar.core.model.BigDecimal
@@ -6,6 +8,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
 
 @OptIn(InternalSerializationApi::class)
 @Serializable

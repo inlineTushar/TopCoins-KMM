@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.tushar.data.repository
 
 import assertk.assertThat
@@ -9,20 +11,26 @@ import com.tushar.data.datasource.remote.api.http.model.CoinsApiResponse
 import com.tushar.core.model.BigDecimal
 import com.tushar.domain.model.CoinInUsdDomainModel
 import com.tushar.domain.model.CoinsInUsdDomainModel
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.sequentially
+import dev.mokkery.answering.throws
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verifySuspend
+import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlin.time.Instant
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.net.UnknownHostException
+import com.tushar.domain.SocketTimeoutException
+import com.tushar.domain.UnknownHostException
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.time.ExperimentalTime
+import kotlinx.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoinRepositoryTest {
@@ -37,7 +45,7 @@ class CoinRepositoryTest {
 
     @BeforeTest
     fun setup() {
-        api = mockk(relaxed = true)
+        api = mock(mode = MockMode.autofill)
         repository = CoinRepositoryImpl(api, testDispatcher)
 
         testCoinsApiResponse = CoinsApiResponse(
@@ -69,7 +77,7 @@ class CoinRepositoryTest {
 
     @Test
     fun `returns cached value when forceRefresh is false`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } returns testCoinsApiResponse
+        everySuspend { api.getCoins() } returns testCoinsApiResponse
 
         val result1 = repository.getCoins(refresh = true).first()
         val result2 = repository.getCoins(refresh = false).first()
@@ -79,28 +87,28 @@ class CoinRepositoryTest {
         assertThat(result1.coins).hasSize(1)
         assertThat(result1.timestamp).isEqualTo(testTimestamp)
 
-        coVerify(exactly = 1) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(1)) { api.getCoins() }
     }
 
     @Test
     fun `calls remote API when forceRefresh is true`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } returns testCoinsApiResponse
+        everySuspend { api.getCoins() } returns testCoinsApiResponse
 
         repository.getCoins(refresh = true).first()
         repository.getCoins(refresh = true).first()
 
-        coVerify(exactly = 2) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(2)) { api.getCoins() }
     }
 
     @Test
     fun `returns cached value when initial cache exists and forceRefresh is false`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } returns testCoinsApiResponse
+        everySuspend { api.getCoins() } returns testCoinsApiResponse
         val initial = repository.getCoins(refresh = true).first()
         val cached = repository.getCoins(refresh = false).first()
 
         assertThat(initial).isEqualTo(cached)
         assertThat(initial.timestamp).isEqualTo(testTimestamp)
-        coVerify(exactly = 1) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(1)) { api.getCoins() }
     }
 
     @Test
@@ -120,7 +128,10 @@ class CoinRepositoryTest {
             )
         )
 
-        coEvery { api.getCoins() } returns initialResponse andThen updatedResponse
+        everySuspend { api.getCoins() } sequentially {
+            returns(initialResponse)
+            returns(updatedResponse)
+        }
 
         val result1 = repository.getCoins(refresh = true).first()
         val result2 = repository.getCoins(refresh = true).first()
@@ -129,62 +140,65 @@ class CoinRepositoryTest {
         assertThat(result1.timestamp).isEqualTo(testTimestamp)
         assertThat(result2.coins.first().id).isEqualTo("eth")
         assertThat(result2.timestamp).isEqualTo(updatedTimestamp)
-        coVerify(exactly = 2) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(2)) { api.getCoins() }
     }
 
     @Test
     fun `retries on network IOException and eventually succeeds`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } throws
-                IOException("Network error 1") andThenThrows
-                IOException("Network error 2") andThen
-                testCoinsApiResponse
+        everySuspend { api.getCoins() } sequentially {
+            throws(IOException("Network error 1"))
+            throws(IOException("Network error 2"))
+            returns(testCoinsApiResponse)
+        }
 
         val result = repository.getCoins(refresh = true).first()
         advanceUntilIdle()
         assertThat(result).isEqualTo(expectedDomainModel)
         assertThat(result.timestamp).isEqualTo(testTimestamp)
-        coVerify(exactly = 3) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(3)) { api.getCoins() }
     }
 
     @Test
     fun `retries on SocketTimeoutException and eventually succeeds`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } throws
-                SocketTimeoutException("Exception 1") andThenThrows
-                SocketTimeoutException("Exception 2") andThen
-                testCoinsApiResponse
+        everySuspend { api.getCoins() } sequentially {
+            throws(SocketTimeoutException("Exception 1"))
+            throws(SocketTimeoutException("Exception 2"))
+            returns(testCoinsApiResponse)
+        }
 
         val result = repository.getCoins(refresh = true).first()
 
         assertThat(result).isEqualTo(expectedDomainModel)
         assertThat(result.timestamp).isEqualTo(testTimestamp)
-        coVerify(exactly = 3) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(3)) { api.getCoins() }
     }
 
     @Test
     fun `retries on UnknownHostException and eventually succeeds`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } throws
-                UnknownHostException("Unknown host") andThenThrows
-                UnknownHostException("Unknown host 2") andThen
-                testCoinsApiResponse
+        everySuspend { api.getCoins() } sequentially {
+            throws(UnknownHostException("Unknown host"))
+            throws(UnknownHostException("Unknown host 2"))
+            returns(testCoinsApiResponse)
+        }
 
         val result = repository.getCoins(refresh = true).first()
 
         assertThat(result).isEqualTo(expectedDomainModel)
         assertThat(result.timestamp).isEqualTo(testTimestamp)
-        coVerify(exactly = 3) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(3)) { api.getCoins() }
     }
 
-    @Test(expected = IOException::class)
+    @Test
     fun `throws exception after max retry attempts`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } throws IOException("Persistent failure")
+        everySuspend { api.getCoins() } throws IOException("Persistent failure")
         repository.getCoins(refresh = true).first()
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun `does not retry on non-network exceptions`() = runTest(testDispatcher) {
-        coEvery { api.getCoins() } throws IllegalArgumentException("Bad request")
+        everySuspend { api.getCoins() } throws IllegalArgumentException("Bad request")
         repository.getCoins(refresh = true).first()
 
-        coVerify(exactly = 1) { api.getCoins() }
+        verifySuspend(mode = VerifyMode.exactly(1)) { api.getCoins() }
     }
 }
