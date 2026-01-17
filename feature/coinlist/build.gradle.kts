@@ -11,6 +11,9 @@ compose {
 
 android {
     namespace = "com.tushar.feature.coinlist"
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 kotlin {

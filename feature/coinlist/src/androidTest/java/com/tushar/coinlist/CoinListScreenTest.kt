@@ -1,5 +1,6 @@
 package com.tushar.coinlist
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -13,7 +14,6 @@ import com.tushar.domain.GetCoinUseCase
 import com.tushar.domain.model.CoinCurrency
 import com.tushar.domain.model.CoinDomainModel
 import com.tushar.domain.model.CoinsDomainModel
-import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import kotlin.time.Instant
@@ -33,7 +33,6 @@ class CoinListScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private lateinit var mockUseCase: GetCoinUseCase
     private lateinit var mockCurrencyFormatter: CurrencyFormatterContract
     private lateinit var mockPercentFormatter: PercentageFormatterContract
     private lateinit var mockTimeFormatter: TimeFormatterContract
@@ -74,7 +73,6 @@ class CoinListScreenTest {
 
     @Before
     fun setUp() {
-        mockUseCase = mockk()
         mockCurrencyFormatter = mockk()
         mockPercentFormatter = mockk()
         mockTimeFormatter = mockk()
@@ -84,13 +82,6 @@ class CoinListScreenTest {
         every { mockPercentFormatter.format(any(), any()) } returns "+5.23%"
         every { mockTimeFormatter.format(any(), any()) } returns "12:00:00"
 
-        coEvery {
-            mockUseCase.sortByBestPriceChange(any(), any())
-        } returns Result.success(testCoins)
-
-        coEvery {
-            mockUseCase.sortByWorstPriceChange(any(), any())
-        } returns Result.success(testCoins)
     }
 
     @Test
@@ -108,14 +99,14 @@ class CoinListScreenTest {
 
         // When
         val viewModel = CoinListViewModel(
-            useCase = mockUseCase,
+            useCase = createUseCase(testCoins),
             currencyFormatter = mockCurrencyFormatter,
             percentageFormatter = mockPercentFormatter,
             timeFormatter = mockTimeFormatter
         )
 
         composeTestRule.setContent {
-            CoinListScreen(navController = mockk(), vm = viewModel)
+            CoinListScreen(backStack = mockk(), vm = viewModel)
         }
 
         // Wait for async initialization
@@ -145,14 +136,14 @@ class CoinListScreenTest {
 
         // When
         val viewModel = CoinListViewModel(
-            useCase = mockUseCase,
+            useCase = createUseCase(testCoins.copy(timestamp = testTimestamp)),
             currencyFormatter = mockCurrencyFormatter,
             percentageFormatter = mockPercentFormatter,
             timeFormatter = mockTimeFormatter
         )
 
         composeTestRule.setContent {
-            CoinListScreen(navController = mockk(), vm = viewModel)
+            CoinListScreen(backStack = mockk(), vm = viewModel)
         }
         composeTestRule.waitForIdle()
 
@@ -164,19 +155,19 @@ class CoinListScreenTest {
     @Test
     fun coinListScreen_appBar_displaysCoinListTitle() {
         // When
-        val viewModel = CoinListViewModel(
-            useCase = mockUseCase,
-            currencyFormatter = mockCurrencyFormatter,
-            percentageFormatter = mockPercentFormatter,
-            timeFormatter = mockTimeFormatter
-        )
-
         composeTestRule.setContent {
-            CoinListScreen(navController = mockk(), vm = viewModel)
+            CoinListComposable(
+                viewState = CoinsUiState.Loading,
+                listState = rememberLazyListState(),
+                onOptionPriceLiveClick = {},
+                onClickSort = {},
+                onRefresh = {},
+                onRetry = {}
+            )
         }
 
         // Then - Title should be visible immediately (app bar is always shown)
-        composeTestRule.onNodeWithText("Top Coin", substring = true, ignoreCase = true)
+        composeTestRule.onNodeWithText("Top Coins", substring = true, ignoreCase = true)
             .assertIsDisplayed()
     }
 
@@ -300,5 +291,19 @@ class CoinListScreenTest {
         // Then
         composeTestRule.onNodeWithText("€0.0001").assertIsDisplayed()
         composeTestRule.onNodeWithText("-50.00%").assertIsDisplayed()
+    }
+
+    private fun createUseCase(
+        coins: CoinsDomainModel
+    ): GetCoinUseCase = object : GetCoinUseCase {
+        override suspend fun sortByBestPriceChange(
+            refresh: Boolean,
+            topCount: Int
+        ): Result<CoinsDomainModel> = Result.success(coins)
+
+        override suspend fun sortByWorstPriceChange(
+            refresh: Boolean,
+            topCount: Int
+        ): Result<CoinsDomainModel> = Result.success(coins)
     }
 }
