@@ -47,7 +47,7 @@ class CoinItemComposableTest {
         }
 
         composeTestRule.onNodeWithContentDescription(
-            label = "Coin item: Ethereum (ETH), price €3,000.00, change in last 24 hours -2.15"
+            "Coin item: Ethereum (ETH), price €3,000.00, change in last 24 hours -2.15"
         ).assertIsDisplayed()
 
         composeTestRule.onNodeWithContentDescription("Coin name: Ethereum").assertIsDisplayed()
